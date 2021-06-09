@@ -1,0 +1,17 @@
+import { utils } from '../../src/utils';
+const enum TestEnum {
+  AAA = 'aaa',
+  BBB = 'bbb'
+}
+
+const test: string = 'aaa';
+const testAsEnumEl = test as TestEnum;
+switch (testAsEnumEl) {
+  case TestEnum.AAA:
+    break;
+  case TestEnum.BBB:
+    break;
+  default:
+    utils.throwNotManaged(`Unmanaged element`, testAsEnumEl);
+    break;
+}

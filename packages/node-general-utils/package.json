@@ -1,0 +1,75 @@
+{
+  "name": "@villedemontreal/general-utils",
+  "version": "5.15.0",
+  "description": "General utilities library",
+  "main": "dist/src/index.js",
+  "typings": "dist/src",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "start": "node run test",
+    "test": "node run test",
+    "compile": "node run compile",
+    "prepare": "node run compile",
+    "prepublishOnly": "node run test",
+    "lint": "node run lint",
+    "lint-fix": "node run lint-fix",
+    "tslint": "node run tslint",
+    "tslint-fix": "node run tslint-fix",
+    "prettier": "node run prettier",
+    "prettier-fix": "node run prettier-fix",
+    "watch": "node run watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/villedemontreal/node-general-utils.git"
+  },
+  "homepage": "https://github.com/villedemontreal/node-general-utils",
+  "keywords": [
+    "montreal",
+    "utils",
+    "utilities",
+    "library",
+    "general"
+  ],
+  "author": "Ville de Montréal",
+  "license": "MIT",
+  "dependencies": {
+    "@types/app-root-path": "1.2.4",
+    "@types/lodash": "4.14.156",
+    "@types/luxon": "1.25.0",
+    "@types/marked": "1.1.0",
+    "@types/rimraf": "3.0.0",
+    "app-root-path": "3.0.0",
+    "get-port": "5.1.1",
+    "globby": "11.0.1",
+    "http-status-codes": "1.4.0",
+    "lodash": "4.17.15",
+    "luxon": "1.25.0",
+    "marked": "1.1.0",
+    "moment": "2.27.0",
+    "rimraf": "3.0.2",
+    "tsconfig-extends": "1.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.2.11",
+    "@types/fs-extra": "9.0.1",
+    "@types/mocha": "7.0.2",
+    "@types/node": "10.17.26",
+    "@types/sinon": "9.0.4",
+    "@types/uuid": "8.0.0",
+    "@villedemontreal/scripting": "^1",
+    "@villedemontreal/lint-config": "1.7.0",
+    "chai": "4.2.0",
+    "fs-extra": "9.0.1",
+    "mocha": "8.0.1",
+    "mocha-jenkins-reporter": "0.4.3",
+    "sinon": "9.0.2",
+    "source-map-support": "0.5.19",
+    "tslint": "6.1.2",
+    "typescript": "3.9.5",
+    "uuid": "8.1.0"
+  }
+}
