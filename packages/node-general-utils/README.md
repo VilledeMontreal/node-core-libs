@@ -5,17 +5,13 @@ Ensemble d'utilitaires généraux.
 Fournie également des constantes globales, par exemple les noms d'environnements
 standardisés pour nos projets.
 
-## Availabililty
-
-https://bitbucket.org/villemontreal/core-utils-general-nodejs-lib
-
 ## Installation
 
 Install it:
 
 ```shell
-    npm install @villemontreal/core-utils-general-nodejs-lib
-    yarn add @villemontreal/core-utils-general-nodejs-lib
+    npm install @villedemontreal/general-utils
+    yarn add @villedemontreal/general-utils
 ```
 
 ## Usage
@@ -23,7 +19,7 @@ Install it:
 Exemple :
 
 ```typescript
-import { utils } from '@villemontreal/core-utils-general-nodejs-lib';
+import { utils } from '@villedemontreal/general-utils';
 ```
 
 # Builder le projet
@@ -64,10 +60,10 @@ Trois "_launch configurations_" sont founies pour déboguer le projet dans VSCod
 - "`Debug current tests file - fast`". Lance le fichier de tests _présentement ouvert_ dans VSCode en mode debug. Aucune compilation
   n'est effectuée au préalable. Cette launch configuration doit être utilisée lorsque la compilation incrémentale roule (voir la section "`Mode Watch`" plus haut)
 
-# Notes sur la dépendance "@villemontreal/core-utils-scripting-core-nodejs-lib"
+# Notes sur la dépendance "@villedemontreal/scripting"
 
 Pour éviter d'avoir une hiérarchie trop profonde dans `node_modules`, nous incluons la librarie de scripting
-"`@villemontreal/core-utils-scripting-core-nodejs-lib`" en spécifiant uniquement _sa version majeure_
+"`@villedemontreal/scripting`" en spécifiant uniquement _sa version majeure_
 (par exemple: "`^1`" ou "`^2`"). La raison est que cette librairie de scripting, ainsi que la librairie présente,
 s'utilisent chacune mutuellement. En spécifiant uniquement la version majeure de la librairie
 de scripting, seul _le plus récent artifact_ à cette version majeure sera ajouté ici au `node_modules`.
@@ -113,7 +109,5 @@ solution permettant de générer un artifact "`[votre prénom]-pre-build`" tempo
 vous désirez tester la librairie modifiée _dans un container Docker_.
 
 # Aide / Contributions
-
-Pour obtenir de l'aide avec ce gabarit, vous pouvez poster sur la salle Google Chat [dev-discussions](https://chat.google.com/room/AAAASmiQveI).
 
 Notez que les contributions sous forme de pull requests sont bienvenues.
