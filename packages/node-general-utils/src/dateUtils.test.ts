@@ -1,6 +1,5 @@
 import { assert } from 'chai';
 import * as _ from 'lodash';
-import { DateTime } from 'luxon';
 import * as moment from 'moment';
 import { getValueDescription, getValueDescriptionWithType, utils } from '.';
 import { getCartesianProduct } from './collectionUtils';
@@ -8,7 +7,6 @@ import {
   DateRangeDefinition,
   DEFAULT_DATE_FORMAT,
   endOfDay,
-  formatDate,
   formatUtcDate,
   getSafeDate,
   getSafeDateRange,
@@ -22,7 +20,6 @@ import {
 } from './dateUtils';
 
 const VALID_DATE_UTC_REPRESENTATION = '2018-07-31T12:34:56.789Z';
-const VALID_DATE_LOCAL_REPRESENTATION = moment(VALID_DATE_UTC_REPRESENTATION).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 const VALID_DATE = new Date(VALID_DATE_UTC_REPRESENTATION);
 
 // tslint:disable:max-func-body-length
@@ -186,7 +183,6 @@ describe('Date Utility', () => {
   describe('#formatDate', () => {
     it('should format dates properly', () => {
       assert.equal(formatUtcDate(VALID_DATE), VALID_DATE_UTC_REPRESENTATION);
-      assert.equal(formatDate(VALID_DATE), VALID_DATE_LOCAL_REPRESENTATION);
     });
   });
 
@@ -306,18 +302,6 @@ describe('Date Utility', () => {
       const testDate = new Date(`2017-11-02T02:07:11.123Z`);
       const result = endOfDay(testDate, 'UTC-4');
       assert.deepEqual(result.toISOString(), `2017-11-02T03:59:59.999Z`);
-
-      // ==========================================
-      // When you look at the generated end of day
-      // *as a local date*, you see the expected
-      // date: the end of day of "2017-11-01".
-      // ==========================================
-      assert.deepEqual(
-        DateTime.fromJSDate(result)
-          .toLocal()
-          .toISO({ includeOffset: false }),
-        `2017-11-01T23:59:59.999`
-      );
     });
 
     it('As a string', () => {
@@ -367,18 +351,6 @@ describe('Date Utility', () => {
       const testDate = new Date(`2017-11-02T02:07:11.123Z`);
       const result = startOfDay(testDate, 'UTC-4');
       assert.deepEqual(result.toISOString(), `2017-11-01T04:00:00.000Z`);
-
-      // ==========================================
-      // When you look at the generated start of day
-      // *as a local date*, you see the expected
-      // date: the start of "2017-11-01".
-      // ==========================================
-      assert.deepEqual(
-        DateTime.fromJSDate(result)
-          .toLocal()
-          .toISO({ includeOffset: false }),
-        `2017-11-01T00:00:00.000`
-      );
     });
 
     it('As a string', () => {
