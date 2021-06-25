@@ -1,4 +1,4 @@
-# @villemontreal/core-utils-general-nodejs-lib
+# @villedemontreal/general-utils
 
 Ensemble d'utilitaires généraux.
 
