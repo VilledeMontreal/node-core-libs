@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/general-utils",
-  "version": "5.16.0",
+  "version": "5.16.1",
   "description": "General utilities library",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -40,7 +40,6 @@
     "@types/app-root-path": "1.2.4",
     "@types/lodash": "4.14.171",
     "@types/luxon": "1.25.0",
-    "@types/marked": "1.1.0",
     "@types/rimraf": "3.0.0",
     "app-root-path": "3.0.0",
     "get-port": "5.1.1",
@@ -48,7 +47,6 @@
     "http-status-codes": "2.1.4",
     "lodash": "4.17.21",
     "luxon": "1.25.0",
-    "marked": "4.0.10",
     "moment": "2.27.0",
     "rimraf": "3.0.2",
     "tsconfig-extends": "1.0.1"
