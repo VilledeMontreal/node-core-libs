@@ -22,7 +22,7 @@ export class Constants {
 
   constructor() {
     // From the "dist/src/config" folder
-    this.libRoot = path.normalize(__dirname + '../../..');
+    this.libRoot = path.normalize(__dirname + '/../../..');
     this.appRoot = appRoot;
   }
 
