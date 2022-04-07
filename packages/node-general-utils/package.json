@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "start": "node run test",
-    "test": "mocha --require ts-node/register ./src/**/*.test.ts",
+    "test": "mocha --require ts-node/register src/**/*.test.ts",
     "compile": "tsc --build",
     "lint": "node run lint",
     "lint-fix": "node run lint-fix",
