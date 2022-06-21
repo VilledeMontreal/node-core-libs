@@ -942,7 +942,7 @@ describe("App's utilities functions", function() {
       const tsFilePath = filesPathPrefix + '.ts';
 
       const content = fs.readFileSync(constants.libRoot + '/tests-resources/throwNotManagedSuccess.txt', {
-        encoding: 'UTF-8'
+        encoding: 'utf-8'
       });
       fs.writeFileSync(tsFilePath, content);
 
@@ -967,7 +967,7 @@ describe("App's utilities functions", function() {
       const tsFilePath = filesPathPrefix + '.ts';
 
       const content = fs.readFileSync(constants.libRoot + '/tests-resources/throwNotManagedFail.txt', {
-        encoding: 'UTF-8'
+        encoding: 'utf-8'
       });
       fs.writeFileSync(tsFilePath, content);
 

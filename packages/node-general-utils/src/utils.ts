@@ -207,7 +207,7 @@ export class Utils {
       throw new Error("Unsafe file to delete. A file to delete can't be at the root.");
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       rimraf(filePath, () => {
         resolve();
       });
@@ -225,7 +225,7 @@ export class Utils {
       throw new Error("Unsafe dir to delete. A dir to delete can't be at the root.");
     }
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
       try {
         rimraf(dirPath, () => {
           resolve();
@@ -236,7 +236,7 @@ export class Utils {
         // fail in infrequent situations...
         // ==========================================
         await this.clearDir(dirPath);
-        await new Promise((resolve2, reject2) => {
+        await new Promise<void>((resolve2, reject2) => {
           rimraf(dirPath, () => {
             resolve2();
           });
@@ -257,7 +257,7 @@ export class Utils {
     }
     // NOTE: I had to replace the globby module with fs.readdir, because globby was not
     // listing the folders any more!
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       fs.readdir(dirPath, async (err, paths: string[]) => {
         if (err) {
           reject(err);
