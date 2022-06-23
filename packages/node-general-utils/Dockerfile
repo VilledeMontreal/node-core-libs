@@ -1,4 +1,4 @@
-FROM node:14.15.4-alpine
+FROM node:lts-alpine
 
 LABEL maintainer="Ville De Montreal"
 ARG ENV=unknown
@@ -13,8 +13,7 @@ WORKDIR /mtl/app
 # Copies the project files
 COPY . /mtl/app
 
-RUN chmod +x ./run && \
-  apk add --update bash tzdata && \
+RUN apk add --update bash tzdata && \
   rm -rf /var/cache/apk/* && \
   rm /bin/sh && ln -s /bin/bash /bin/sh && \
   cp /usr/share/zoneinfo/America/Montreal /etc/localtime && \
@@ -23,6 +22,6 @@ RUN chmod +x ./run && \
   npm install --only=production --no-cache && \
   cp -a /mtl/app/node_modules /tmp/node_modules && \
   npm install --no-cache && \
-  ./run compile && \
-  rm -rf /mtl/app/node_modules && \
-  mv /tmp/node_modules /mtl/app/node_modules
+  npm run compile
+  # rm -rf /mtl/app/node_modules && \
+  # mv /tmp/node_modules /mtl/app/node_modules
