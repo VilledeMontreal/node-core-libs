@@ -48,7 +48,7 @@ export function init(
  * Is the library properly initialized?
  *
  * This function MUST be named "isInited()"!
- * Code using this library may loop over all its "@villemontreal"
+ * Code using this library may loop over all its "@villedemontreal"
  * dependencies and, if one of those exports a "isInited" fonction,
  * it will enforce that the lib has been properly initialized before
  * starting...
