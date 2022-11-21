@@ -23,7 +23,7 @@ Un code utilisant cette librarie doit premièrement la configurer en appellant l
 ```typescript
 import { init as initJwtValidationLib } from '@villedemontreal/jwt-validator';
 import { createLogger } from './utils/logger';
-import { correlationIdService, init as initCidUtils } from '@villemontreal/core-correlation-id-nodejs-lib';
+import { correlationIdService, init as initCidUtils } from '@villedemontreal/correlation-id';
 
 // ...
 
