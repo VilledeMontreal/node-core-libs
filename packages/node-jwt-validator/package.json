@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/jwt-validator",
-  "version": "5.7.7",
+  "version": "5.7.8",
   "description": "Module to validate JWT (JSON Web Tokens)",
   "main": "dist/src/index.js",
   "typings": "dist/src",
