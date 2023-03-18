@@ -38,6 +38,9 @@ export interface IJWTPayload {
   mtlIdentityId?: string;
   // available only for employees
   employeeNumber?: string;
+  department?: string;
+  phoneNumber?: string;
+  phoneMobileNumber?: string;
   customData?: any;
 }
 
