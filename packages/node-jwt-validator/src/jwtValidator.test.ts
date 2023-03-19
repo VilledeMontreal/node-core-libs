@@ -435,7 +435,7 @@ it('isRequestWithJwt', async () => {
   const req: express.Request = httpMocks.createRequest({ method: 'GET', url: '/' });
   assert.isFalse(isRequestWithJwt(req));
 
-  req[constants.requestExtraVariables.JWT] = 'Bonjour la police';
+  (req as any)[constants.requestExtraVariables.JWT] = 'Bonjour la police';
   assert.isTrue(isRequestWithJwt(req));
 });
 

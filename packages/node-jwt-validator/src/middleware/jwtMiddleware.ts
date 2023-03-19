@@ -21,9 +21,8 @@ export const jwtValidationMiddleware: (
     try {
       const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
       if (mandatoryValidation || authHeader) {
-        req[constants.requestExtraVariables.JWT] = await jwtValidator.verifyAuthorizationHeader(
-          authHeader
-        );
+        (req as any)[constants.requestExtraVariables.JWT] =
+          await jwtValidator.verifyAuthorizationHeader(authHeader);
       }
       next();
     } catch (err) {
