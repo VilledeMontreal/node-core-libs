@@ -10,21 +10,25 @@ import { jwtValidator } from '../jwtValidator';
  */
 export const jwtValidationMiddleware: (
   mandatoryValidation?: boolean
-) => (req: express.Request, res: express.Response, next: express.NextFunction) => Promise<void> = (
+) => (req: express.Request, res: express.Response, next: express.NextFunction) => void = (
   mandatoryValidation = true
 ) => {
-  return async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ): Promise<void> => {
+  return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
     try {
       const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
       if (mandatoryValidation || authHeader) {
-        (req as any)[constants.requestExtraVariables.JWT] =
-          await jwtValidator.verifyAuthorizationHeader(authHeader);
+        jwtValidator
+          .verifyAuthorizationHeader(authHeader)
+          .then((jwt) => {
+            (req as any)[constants.requestExtraVariables.JWT] = jwt;
+            next();
+          })
+          .catch((err) => {
+            next(err);
+          });
+      } else {
+        next();
       }
-      next();
     } catch (err) {
       next(err);
     }
