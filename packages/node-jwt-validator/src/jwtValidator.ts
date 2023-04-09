@@ -61,7 +61,7 @@ class JwtValidator implements IJwtValidator {
     this.validateJwtCreationTimestamp(payload, key);
     this.validateJwtExpirationTimestamp(payload, key);
 
-    return this.verifyJwt(token, key.publicKey);
+    return this.verifyJwt(token, key);
   }
 
   private parseJwt(token: string): IJWTPayload {
@@ -76,10 +76,10 @@ class JwtValidator implements IJwtValidator {
     return payload;
   }
 
-  private verifyJwt(token: string, publicKey: string): IJWTPayload {
+  private verifyJwt(token: string, publicKey: IPublicKey): IJWTPayload {
     let payload: any;
     try {
-      payload = jwt.verify(token, publicKey);
+      payload = jwt.verify(token, publicKey.parsedPublicKey ?? publicKey.publicKey);
     } catch (err) {
       throw createInvalidJwtError({
         code: constants.errors.codes.INVALID_VALUE,

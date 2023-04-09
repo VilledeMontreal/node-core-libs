@@ -1,3 +1,5 @@
+import * as crypto from 'crypto';
+
 /**
  * The content of public key
  */
@@ -5,6 +7,7 @@ export interface IPublicKey {
   id: number;
   algorithm: string;
   publicKey: string;
+  parsedPublicKey?: crypto.KeyObject;
   state: PublicKeyState;
   createdAt?: string;
   expiresAt?: string;
