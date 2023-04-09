@@ -1,4 +1,5 @@
 import { httpUtils } from '@villedemontreal/http-request';
+import * as crypto from 'crypto';
 import { isArray, keyBy } from 'lodash';
 import * as superagent from 'superagent';
 
@@ -37,12 +38,16 @@ class PublicKeyRepository implements IPublicKeyRepository {
 
     const response = await httpUtils.send(request);
     if (!response.ok) {
-      throw new Error(`An error occured calling ${url} : ${response.error}`);
+      throw new Error(`An error occurred calling ${url} : ${response.error}`);
     }
 
     const data: IPaginatedResult<IPublicKey> = response.body;
     if (data && data.items && isArray(data.items)) {
-      const newKeys: IPublicKeys = keyBy(data.items, (item) => item.id);
+      const items: IPublicKey[] = data.items.map((key) => ({
+        ...key,
+        parsedPublicKey: crypto.createPublicKey(key.publicKey),
+      }));
+      const newKeys: IPublicKeys = keyBy(items, (item) => item.id);
       return newKeys;
     }
     return null;
@@ -63,12 +68,15 @@ class PublicKeyRepository implements IPublicKeyRepository {
 
       throw createError(
         constants.errors.codes.UNABLE_TO_GET_PUBLIC_KEY,
-        `An error occured calling ${url} : ${response.error}`
+        `An error occurred calling ${url} : ${response.error}`
       )
         .httpStatus(response.status)
         .build();
     }
-    return response.body;
+    return {
+      ...response.body,
+      parsedPublicKey: crypto.createPublicKey(response.body.publicKey),
+    };
   }
 }
 
