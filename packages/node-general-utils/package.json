@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/general-utils",
-  "version": "5.16.7",
+  "version": "5.16.8",
   "description": "General utilities library",
   "main": "dist/src/index.js",
   "engines": {
