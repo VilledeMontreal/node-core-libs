@@ -47,7 +47,7 @@
     "globby": "13.1.2",
     "http-status-codes": "2.2.0",
     "lodash": "4.17.21",
-    "luxon": "2.4.0",
+    "luxon": "2.5.2",
     "moment": "2.29.4",
     "rimraf": "3.0.2",
     "tsconfig-extends": "1.0.1"
