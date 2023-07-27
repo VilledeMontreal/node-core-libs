@@ -155,6 +155,30 @@ let jwt: string = '...';
 let jwtPayload: IJWTPayload = await jwtValidator.verifyToken(jwt);
 ```
 
+### Token transformation middleware
+
+When working locally, you do not have all the infrastructure required to simulate the translation between an access token and a JWT (ex: Kong).
+
+Prior to usage of the `jwtValidationMiddleware`, you can use the `token transformation middleware` which do an API call to exchange your access token for an extended jwt and update the authorization header.
+
+```typescript
+export async function createApp(apiRoutes: IHandlerRoute[]): Promise<express.Express> {
+  // ...
+
+  if (configs.security.jwt.enable) {
+    if (configs.environment.isLocal) {
+      // Required prior to the jwtValidationMiddleware
+      app.use(tokenTransformationMiddleware(config));
+    }
+
+    // ...
+    app.use(jwtValidationMiddleware())
+  }
+
+  // ...
+}
+```
+
 ## Usage For Tests
 
 This library provides a mock tool to generate your own JWT with a signature which it will be correcly validated.
