@@ -3,7 +3,7 @@ import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import { constants } from '../config/constants';
 import { ITokenTtransformationMiddlewareConfig } from '../config/tokenTransformationMiddlewareConfig';
-import { createInvalidAuthHeaderError } from '../models/customError';
+import { createInvalidAuthHeaderError, createInvalidJwtError } from '../models/customError';
 import { createLogger } from '../utils/logger';
 import superagent = require('superagent');
 
@@ -50,13 +50,29 @@ export const tokenTransformationMiddleware: (
         .post(config.service.uri)
         .send({ accessToken, extensions: config.extensions })
         .then((response) => {
-          const extendedJwt = response.body.jwts.extended;
-          logger.debug(extendedJwt, 'Got extended jwt');
-          // Warning: Headers are all in lowercase. To be sure to replace
-          // the authorization header instead of duplicate it, must use lower case property name.
-          req.headers[httpHeaderFieldsTyped.AUTHORIZATION.toLowerCase()] = `Bearer ${extendedJwt}`;
-          logger.debug(req.headers, 'Request headers');
-          next();
+          const extendedJwt = response.body.jwts?.extended;
+          logger.debug(extendedJwt, 'Extended jwt content.');
+
+          const basicJwt = response.body.jwts?.basic;
+          logger.debug(basicJwt, 'Basic jwt content.');
+
+          // Get the extended jwt. If not available, fallback to basic jwt.
+          const jwt = extendedJwt ?? basicJwt;
+
+          if (jwt) {
+            // Warning: Headers are all in lowercase. To be sure to replace
+            // the authorization header instead of duplicate it, must use lower case property name.
+            req.headers[httpHeaderFieldsTyped.AUTHORIZATION.toLowerCase()] = `Bearer ${jwt}`;
+            logger.debug(req.headers, 'Request headers');
+            next();
+          } else {
+            const err = createInvalidJwtError({
+              code: constants.errors.codes.NULL_VALUE,
+              target: 'jwt',
+              message: 'could not get a valid jwt from token translation service',
+            });
+            next(err);
+          }
         })
         .catch((err) => next(err));
     } catch (err) {
