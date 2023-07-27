@@ -7,6 +7,7 @@ export * from './config/constants';
 export * from './config/init';
 export * from './jwtValidator';
 export * from './middleware/jwtMiddleware';
+export * from './middleware/tokenTransformationMiddleware';
 export * from './models/expressRequest';
 export * from './models/gluuUserType';
 export * from './models/jwtPayload';
