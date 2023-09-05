@@ -12,6 +12,7 @@
  * Log levels enum
  */
 export enum LogLevel {
+  TRACE,
   DEBUG,
   INFO,
   WARNING,
