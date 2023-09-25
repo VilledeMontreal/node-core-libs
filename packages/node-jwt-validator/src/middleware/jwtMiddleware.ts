@@ -1,26 +1,27 @@
 import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
-import { constants } from '../config/constants';
 import { jwtValidator } from '../jwtValidator';
+import { IRequestWithJwt } from '../models/expressRequest';
 
 /**
  * JWT validation Middleware
  *
  * @param {boolean} mandatoryValidation Defines if the JWT is mandatory. Defaults to true.
  */
-export const jwtValidationMiddleware: (
-  mandatoryValidation?: boolean
-) => (req: express.Request, res: express.Response, next: express.NextFunction) => void = (
-  mandatoryValidation = true
-) => {
-  return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+export const jwtValidationMiddleware =
+  (mandatoryValidation = true) =>
+  async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ): Promise<void> => {
     try {
       const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
       if (mandatoryValidation || authHeader) {
-        jwtValidator
+        return jwtValidator
           .verifyAuthorizationHeader(authHeader)
           .then((jwt) => {
-            (req as any)[constants.requestExtraVariables.JWT] = jwt;
+            (req as IRequestWithJwt).jwt = jwt;
             next();
           })
           .catch((err) => {
@@ -33,4 +34,3 @@ export const jwtValidationMiddleware: (
       next(err);
     }
   };
-};
