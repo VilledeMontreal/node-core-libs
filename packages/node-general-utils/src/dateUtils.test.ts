@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import * as _ from 'lodash';
-import * as moment from 'moment';
+import _ from 'lodash';
+import moment from 'moment';
 import { getValueDescription, getValueDescriptionWithType, utils } from '.';
 import { getCartesianProduct } from './collectionUtils';
 import {
