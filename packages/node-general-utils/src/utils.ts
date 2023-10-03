@@ -1,9 +1,9 @@
 import { spawn, StdioOptions } from 'child_process';
 import * as fs from 'fs';
-import * as getPort from 'get-port';
-import * as _ from 'lodash';
+import getPort from 'get-port';
+import _ from 'lodash';
 import * as pathUtils from 'path';
-import * as rimraf from 'rimraf';
+import { rimraf } from 'rimraf';
 import * as tsconfig from 'tsconfig-extends';
 import { constants } from './config/constants';
 
@@ -202,16 +202,12 @@ export class Utils {
    *
    * You can't delete a root file using this function.
    */
-  public async deleteFile(filePath: string) {
+  public deleteFile(filePath: string) {
     if (!this.isSafeToDelete(filePath)) {
       throw new Error("Unsafe file to delete. A file to delete can't be at the root.");
     }
 
-    return new Promise<void>((resolve, reject) => {
-      rimraf(filePath, () => {
-        resolve();
-      });
-    });
+    return rimraf(filePath);
   }
 
   /**
@@ -225,24 +221,16 @@ export class Utils {
       throw new Error("Unsafe dir to delete. A dir to delete can't be at the root.");
     }
 
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        rimraf(dirPath, () => {
-          resolve();
-        });
-      } catch (err) {
-        // ==========================================
-        // Try recursively as rimraf may sometimes
-        // fail in infrequent situations...
-        // ==========================================
-        await this.clearDir(dirPath);
-        await new Promise<void>((resolve2, reject2) => {
-          rimraf(dirPath, () => {
-            resolve2();
-          });
-        });
-      }
-    });
+    try {
+      return rimraf(dirPath);
+    } catch (err) {
+      // ==========================================
+      // Try recursively as rimraf may sometimes
+      // fail in infrequent situations...
+      // ==========================================
+      await this.clearDir(dirPath);
+      return rimraf(dirPath);
+    }
   }
 
   /**

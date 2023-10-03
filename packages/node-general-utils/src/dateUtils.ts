@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { DateTime, Zone } from 'luxon';
-import * as moment from 'moment';
+import moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
 import { getValueDescription, utils } from '.';
