@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/general-utils",
-  "version": "5.17.1",
+  "version": "5.17.2",
   "description": "General utilities library",
   "main": "dist/src/index.js",
   "engines": {
@@ -41,7 +41,6 @@
     "@types/app-root-path": "1.2.6",
     "@types/lodash": "4.14.199",
     "@types/luxon": "3.3.2",
-    "@types/rimraf": "4.0.5",
     "app-root-path": "3.1.0",
     "get-port": "5.1.1",
     "globby": "13.2.2",
