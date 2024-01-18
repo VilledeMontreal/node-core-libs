@@ -12,5 +12,5 @@ require(`${__dirname}/node_modules/@villedemontreal/scripting/dist/src/run`).run
   caporal,
   projectRoot: __dirname,
   scriptsIndexModule: `./scripts/index`,
-  testsLocations: [`./dist/src/**/*.test.js`]
+  testsLocations: [`./dist/src/**/*.test.js`],
 });

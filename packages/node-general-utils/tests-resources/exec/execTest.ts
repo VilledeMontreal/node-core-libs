@@ -16,7 +16,7 @@
   if (action === 'error') {
     throw new Error(`Some error`);
   }
-})().catch(err => {
+})().catch((err) => {
   console.error(err.message);
   process.exit(1);
 });

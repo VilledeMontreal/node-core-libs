@@ -33,7 +33,8 @@ export const getCartesianProduct = (...vectors: any[]): any[] =>
 // Rationale: Lodash's `#isEmpty` only deals with collections...
 export function isEmpty(value: any) {
   // Easy cases:
-  let result: boolean | undefined = value === undefined || value === null || value === '' || undefined;
+  let result: boolean | undefined =
+    value === undefined || value === null || value === '' || undefined;
 
   const valueType = typeof value;
 
@@ -78,7 +79,7 @@ export function isCollection(value: any) {
  * @see #isEmpty
  */
 export function removeEmptyValues<C extends any | any[]>(collection: C): C {
-  return filter(collection, value => !isEmpty(value));
+  return filter(collection, (value) => !isEmpty(value));
 }
 
 /**
@@ -90,7 +91,7 @@ export function removeEmptyValues<C extends any | any[]>(collection: C): C {
  * @param collection Collection from which to remove the missing values.
  */
 export function removeMissingValues<C extends any | any[]>(collection: C): C {
-  return filter(collection, value => !_.isNil(value));
+  return filter(collection, (value) => !_.isNil(value));
 }
 
 /**
@@ -98,7 +99,10 @@ export function removeMissingValues<C extends any | any[]>(collection: C): C {
  *
  * @param collection Collection from which to filter the values.
  */
-export function filter<C extends any | any[]>(collection: C, predicate: (value: any) => boolean): C {
+export function filter<C extends any | any[]>(
+  collection: C,
+  predicate: (value: any) => boolean,
+): C {
   let result: any = collection;
 
   if (!_.isNil(predicate)) {
@@ -120,7 +124,7 @@ export function filter<C extends any | any[]>(collection: C, predicate: (value: 
  */
 export function toDictionary<T, C extends T[]>(
   collection: C,
-  mapper: (value: T, index: number) => string = (value: T, index: number) => String(index)
+  mapper: (value: T, index: number) => string = (value: T, index: number) => String(index),
 ): { [key: string]: T } {
   return _.reduce(
     collection,
@@ -129,7 +133,7 @@ export function toDictionary<T, C extends T[]>(
       accumulator[key] = value;
       return accumulator;
     },
-    {}
+    {},
   );
 }
 
@@ -175,7 +179,7 @@ export function isCompatible(model: any, expectedModel: any, keyFilter?: string[
   const _expectedModel: any = {};
   const compatibilityRules: CompatibilityRuleSet = {};
 
-  let isCompatibleRulesEmpty: boolean = true;
+  let isCompatibleRulesEmpty = true;
   _.forEach(expectedModel, (value, key) => {
     if (isEmpty(keyFilter) || (keyFilter && keyFilter.indexOf(key) > -1)) {
       if (typeof value !== 'function') {

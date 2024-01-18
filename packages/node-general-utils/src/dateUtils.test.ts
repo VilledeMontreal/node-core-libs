@@ -16,7 +16,7 @@ import {
   ISO_DATE_PATTERN,
   isValidIso8601Date,
   parseDate,
-  startOfDay
+  startOfDay,
 } from './dateUtils';
 
 const VALID_DATE_UTC_REPRESENTATION = '2018-07-31T12:34:56.789Z';
@@ -40,10 +40,10 @@ describe('Date Utility', () => {
   });
 
   describe('#isDateCompatible', () => {
-    const dateRepr: string = '2018-09-12T21:45:12.243Z';
+    const dateRepr = '2018-09-12T21:45:12.243Z';
     const dateValues = [dateRepr, new Date(dateRepr), moment(dateRepr)];
 
-    getCartesianProduct(dateValues, dateValues).forEach(dateParameters => {
+    getCartesianProduct(dateValues, dateValues).forEach((dateParameters) => {
       const parameter1 = dateParameters[0];
       const parameter2 = dateParameters[1];
       const parameter1TypeName = parameter1.constructor.name;
@@ -59,13 +59,13 @@ describe('Date Utility', () => {
     const date2Repr = '2018-09-12T21:45:12.243Z';
     const date2Values = [date2Repr, new Date(date2Repr), moment(date2Repr)];
 
-    getCartesianProduct(date1Values, date2Values).forEach(dateRangeParameter => {
+    getCartesianProduct(date1Values, date2Values).forEach((dateRangeParameter) => {
       const dateRangeLowBoundary = dateRangeParameter[0];
       const dateRangeHighBoundary = dateRangeParameter[1];
       const dateRangeLowBoundaryTypeName = dateRangeLowBoundary.constructor.name;
       const dateRangeHighBoundaryTypeName = dateRangeHighBoundary.constructor.name;
 
-      dateValues.forEach(dateValue => {
+      dateValues.forEach((dateValue) => {
         const dateValueParameterType = dateValue.constructor.name;
 
         it(`should support \`${dateValueParameterType}\` & [\`${dateRangeLowBoundaryTypeName}\`:\`${dateRangeHighBoundaryTypeName}\`] parameters`, () => {
@@ -75,18 +75,33 @@ describe('Date Utility', () => {
     });
   });
 
-  const INVALID_DATE_VALUES = [undefined, null, true, false, 123, NaN, 'pouet', _.noop, /^$/, {}, []];
-  const VALID_DATE_VALUES = [new Date(2018, 7, 31, 23, 59, 59, 999), new Date(2019, 0, 1, 0, 0, 0, 0)];
+  const INVALID_DATE_VALUES = [
+    undefined,
+    null,
+    true,
+    false,
+    123,
+    NaN,
+    'pouet',
+    _.noop,
+    /^$/,
+    {},
+    [],
+  ];
+  const VALID_DATE_VALUES = [
+    new Date(2018, 7, 31, 23, 59, 59, 999),
+    new Date(2019, 0, 1, 0, 0, 0, 0),
+  ];
 
   describe('#isDate', () => {
-    INVALID_DATE_VALUES.forEach(value => {
+    INVALID_DATE_VALUES.forEach((value) => {
       const valueDescription = getValueDescriptionWithType(value);
       it(`should return \`false\` for ${valueDescription}`, () => {
         assert.isFalse(utils.isValidDate(value));
       });
     });
 
-    VALID_DATE_VALUES.forEach(value => {
+    VALID_DATE_VALUES.forEach((value) => {
       const valueDescription = getValueDescription(value);
       it(`should return \`true\` for ${valueDescription}`, () => {
         assert.isTrue(utils.isValidDate(value));
@@ -97,22 +112,24 @@ describe('Date Utility', () => {
   const INVALID_DATE_RANGE_VALUES = getCartesianProduct(INVALID_DATE_VALUES, INVALID_DATE_VALUES);
   const VALID_DATE_RANGE_VALUES = getCartesianProduct(VALID_DATE_VALUES, VALID_DATE_VALUES);
   // Append open ranges in valid date range values:
-  VALID_DATE_VALUES.forEach(date => {
+  VALID_DATE_VALUES.forEach((date) => {
     VALID_DATE_RANGE_VALUES.push([date, null]);
     VALID_DATE_RANGE_VALUES.push([null, date]);
   });
   // Append 3-value items into the invalid date range values:
-  VALID_DATE_RANGE_VALUES.forEach(dateRange => INVALID_DATE_RANGE_VALUES.push(dateRange.concat(null)));
+  VALID_DATE_RANGE_VALUES.forEach((dateRange) =>
+    INVALID_DATE_RANGE_VALUES.push(dateRange.concat(null)),
+  );
 
   describe('#isDateRange', () => {
     INVALID_DATE_RANGE_VALUES.forEach((value: any[]) => {
-      const valueDescription = value.map(item => getValueDescriptionWithType(item));
+      const valueDescription = value.map((item) => getValueDescriptionWithType(item));
       it(`should return \`false\` for [${valueDescription}]`, () => {
         assert.isFalse(isDateRange(value));
       });
     });
 
-    VALID_DATE_RANGE_VALUES.forEach(value => {
+    VALID_DATE_RANGE_VALUES.forEach((value) => {
       const valueDescription = getValueDescription(value);
       it(`should return \`true\` for ${valueDescription}`, () => {
         assert.isTrue(isDateRange(value));
@@ -125,7 +142,7 @@ describe('Date Utility', () => {
     const expectations = {
       '2018-12-07T12:34:56.789': new Date(Date.UTC(2018, 11, 7, 12, 34, 56, 789)),
       '20181207T123456.789': new Date(Date.UTC(2018, 11, 7, 12, 34, 56, 789)),
-      '2018-12-07': new Date(Date.UTC(2018, 11, 7, 0, 0, 0, 0))
+      '2018-12-07': new Date(Date.UTC(2018, 11, 7, 0, 0, 0, 0)),
     };
     _.forEach(expectations, (expectedResult, value) => {
       const valueDescription = getValueDescription(value);
@@ -135,10 +152,10 @@ describe('Date Utility', () => {
     });
 
     const expectedlyFailingValues = [null, undefined, 'true', 'false', '???'];
-    expectedlyFailingValues.forEach(value => {
+    expectedlyFailingValues.forEach((value) => {
       const valueDescription = getValueDescription(value);
       it(`should fail with ${valueDescription}`, () => {
-        let failed: boolean = false;
+        let failed = false;
         try {
           getSafeDate(value);
         } catch (error) {
@@ -170,7 +187,10 @@ describe('Date Utility', () => {
   describe('#parseDate', () => {
     it('should parse date representations properly', () => {
       assert.deepStrictEqual(parseDate(VALID_DATE_UTC_REPRESENTATION), VALID_DATE);
-      assert.deepStrictEqual(parseDate(VALID_DATE_UTC_REPRESENTATION, DEFAULT_DATE_FORMAT), VALID_DATE);
+      assert.deepStrictEqual(
+        parseDate(VALID_DATE_UTC_REPRESENTATION, DEFAULT_DATE_FORMAT),
+        VALID_DATE,
+      );
 
       const FUNKY_FORMAT = 'YYYY/MM/DD@HH:mm:ss.SSS';
       let result: Date = parseDate('2018/07/31@12:34:56.789', [FUNKY_FORMAT]);
@@ -199,7 +219,7 @@ describe('Date Utility', () => {
       '20180731 123456,789-1011': ['20180731', '', '123456', '', '789', '-1011'],
       '20180731T123456,789+10:11': ['20180731', '', '123456', '', '789', '+10:11'],
       '20180731 12:34:56,789-1011': ['20180731', '', '12:34:56', ':', '789', '-1011'],
-      '2018-07-31 12:34:56.789Z': ['2018-07-31', '-', '12:34:56', ':', '789', 'Z']
+      '2018-07-31 12:34:56.789Z': ['2018-07-31', '-', '12:34:56', ':', '789', 'Z'],
     };
     _.forEach(expectations, (expectation, value) => {
       it(`should match « ${value} »`, () => {
@@ -229,9 +249,9 @@ describe('Date Utility', () => {
       '20180731T123456.7891011', // missing time-offset separator
       '2018-07-31 01:23:45.678+1', // bad offset format
       '2018-07-31 12:34:56.789+1011Z', // bad offset format
-      '2018-07-31 01:23:45.678+2400' // offset overflow
+      '2018-07-31 01:23:45.678+2400', // offset overflow
     ];
-    invalidDateValues.forEach(value => {
+    invalidDateValues.forEach((value) => {
       it(`should *NOT* match « ${value} »`, () => {
         assert.isNull(ISO_DATE_PATTERN.exec(value));
         assert.isFalse(isValidIso8601Date(value));

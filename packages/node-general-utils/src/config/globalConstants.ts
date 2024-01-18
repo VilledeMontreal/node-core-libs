@@ -13,7 +13,7 @@ export class GlobalConstants {
     return {
       API: '/api',
       DOCUMENTATION: '/documentation',
-      DIAGNOSTICS: '/diagnostics'
+      DIAGNOSTICS: '/diagnostics',
     };
   }
 
@@ -35,7 +35,7 @@ export class GlobalConstants {
       /**
        * "production" seems to be the standard Node label, not "prod".
        */
-      PROD: 'production'
+      PROD: 'production',
     };
   }
 
@@ -57,9 +57,9 @@ export class GlobalConstants {
           NOT_IMPLEMENTED: 'notImplemented',
           UNAUTHORIZED: 'unauthorized',
           UNPROCESSABLE_ENTITY: 'unprocessableEntity',
-          FORBIDDEN: 'forbidden'
-        }
-      }
+          FORBIDDEN: 'forbidden',
+        },
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class GlobalConstants {
        */
       ENV_TYPE: 'NODE_ENV',
 
-      NODE_APP_INSTANCE: 'NODE_APP_INSTANCE'
+      NODE_APP_INSTANCE: 'NODE_APP_INSTANCE',
     };
   }
 
@@ -90,7 +90,7 @@ export class GlobalConstants {
        * in an API.
        * This allows local configs to be picked.
        */
-      TESTS: 'tests'
+      TESTS: 'tests',
     };
   }
 
@@ -102,4 +102,4 @@ export class GlobalConstants {
   }
 }
 
-export let globalConstants: GlobalConstants = new GlobalConstants();
+export const globalConstants: GlobalConstants = new GlobalConstants();

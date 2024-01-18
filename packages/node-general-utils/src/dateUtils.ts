@@ -16,7 +16,7 @@ export function isDateEqual(value: DateDefinition, expectedDate: DateDefinition)
 export function isDateBetween(
   value: DateDefinition,
   expectedDate: DateRangeDefinition,
-  inclusivity: '()' | '[)' | '(]' | '[]' = '[]'
+  inclusivity: '()' | '[)' | '(]' | '[]' = '[]',
 ) {
   const _moment: Moment = moment(value);
   const from = expectedDate[0];
@@ -53,8 +53,8 @@ export function isDateRange(value: any[]): boolean {
   let result: boolean = !!value && value.length === 2;
 
   if (result) {
-    let dateItemCount: number = 0;
-    let otherItemCount: number = 0;
+    let dateItemCount = 0;
+    let otherItemCount = 0;
 
     for (const item of value) {
       if (utils.isValidDate(item)) {
@@ -97,8 +97,12 @@ export function getSafeDate(dateDefinition: DateDefinition): Date {
  * @see `#getSafeDate`
  */
 export function getSafeDateRange(dateRangeDefinition: DateRangeDefinition): [Date, Date] {
-  const lowBoundary = dateRangeDefinition[0] ? getSafeDate(dateRangeDefinition[0]) : (dateRangeDefinition[0] as any);
-  const highBoundary = dateRangeDefinition[1] ? getSafeDate(dateRangeDefinition[1]) : (dateRangeDefinition[1] as any);
+  const lowBoundary = dateRangeDefinition[0]
+    ? getSafeDate(dateRangeDefinition[0])
+    : (dateRangeDefinition[0] as any);
+  const highBoundary = dateRangeDefinition[1]
+    ? getSafeDate(dateRangeDefinition[1])
+    : (dateRangeDefinition[1] as any);
 
   return [lowBoundary, highBoundary];
 }
@@ -127,7 +131,7 @@ export type TimeUnitSymbol = 'ms' | 's' | 'm' | 'h' | 'd' | 'w';
 export function getDateRangeAround(
   value: DateDefinition,
   marginValue: number,
-  marginUnit: TimeUnitSymbol
+  marginUnit: TimeUnitSymbol,
 ): DateRangeDefinition {
   const _moment = moment(value);
   return [_moment.subtract(marginValue, marginUnit), _moment.add(marginValue, marginUnit)];
@@ -137,7 +141,8 @@ export function getDateRangeAround(
  * Pattern matching most ISO 8601 date representations (including time), and which can be used for any kind of validation.
  * @example `2018-07-31T12:34:56.789+10:11`
  */
-export const ISO_DATE_PATTERN: RegExp = /^(\d{4}(-?)(?:0\d|1[0-2])\2?(?:[0-2]\d|3[0-1]))(?:[T ]([0-2][0-3](:?)[0-5]\d\4[0-5]\d)(?:[.,](\d{3}))?([+-](?:[01]\d(?::?[0-5]\d)?)|Z)?)?$/;
+export const ISO_DATE_PATTERN =
+  /^(\d{4}(-?)(?:0\d|1[0-2])\2?(?:[0-2]\d|3[0-1]))(?:[T ]([0-2][0-3](:?)[0-5]\d\4[0-5]\d)(?:[.,](\d{3}))?([+-](?:[01]\d(?::?[0-5]\d)?)|Z)?)?$/;
 
 /**
  * Tells whether the provided date representation is valid as per ISO 8601.
@@ -145,7 +150,7 @@ export const ISO_DATE_PATTERN: RegExp = /^(\d{4}(-?)(?:0\d|1[0-2])\2?(?:[0-2]\d|
  * @see `ISO_DATE_PATTERN`
  */
 export function isValidIso8601Date(representation: string): boolean {
-  let valid: boolean = false;
+  let valid = false;
 
   if (representation !== undefined && representation !== null) {
     valid = ISO_DATE_PATTERN.test(representation);
@@ -167,7 +172,10 @@ export const DEFAULT_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
  * Parses the given date representation using the provided format (or the default ISO format).
  * @see `#formatDate`
  */
-export function parseDate(representation: string, format: string | string[] = DEFAULT_DATE_FORMAT): Date {
+export function parseDate(
+  representation: string,
+  format: string | string[] = DEFAULT_DATE_FORMAT,
+): Date {
   const formats: string[] = format instanceof Array ? format : [format];
   return moment.utc(representation, formats).toDate();
 }
@@ -219,7 +227,10 @@ export function formatUtcDate(date: DateDefinition, format: string = DEFAULT_DAT
  * on how the server is configured. This is why a timezone must be
  * specified here.
  */
-export function startOfDay(isoDate: Date | string, timezone: string | Zone = 'America/Montreal'): Date {
+export function startOfDay(
+  isoDate: Date | string,
+  timezone: string | Zone = 'America/Montreal',
+): Date {
   if (_.isNil(isoDate)) {
     return isoDate;
   }
@@ -247,7 +258,10 @@ export function startOfDay(isoDate: Date | string, timezone: string | Zone = 'Am
  * information.
  *
  */
-export function endOfDay(isoDate: Date | string, timezone: string | Zone = 'America/Montreal'): Date {
+export function endOfDay(
+  isoDate: Date | string,
+  timezone: string | Zone = 'America/Montreal',
+): Date {
   if (_.isNil(isoDate)) {
     return isoDate;
   }

@@ -16,15 +16,15 @@ describe('pagination object', () => {
       { name: 'seven', value: 7 },
       { name: 'eight', value: 8 },
       { name: 'nine', value: 9 },
-      { name: 'ten', value: 10 }
+      { name: 'ten', value: 10 },
     ];
     const result: IPaginatedResult<any> = {
       items: numberlist.slice(0, 3),
       paging: {
         limit: 3,
         offset: 0,
-        totalCount: numberlist.length
-      }
+        totalCount: numberlist.length,
+      },
     };
 
     assert.isOk(result);
