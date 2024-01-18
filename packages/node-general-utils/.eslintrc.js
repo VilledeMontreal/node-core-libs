@@ -48,6 +48,9 @@ module.exports = {
         "extendDefaults": true
       }
     ],
-    "no-async-promise-executor": "off"
+    "no-async-promise-executor": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/restrict-plus-operands" : "off",
+    "no-sparse-arrays": "off"
   }
 }
