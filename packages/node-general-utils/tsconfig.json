@@ -1,15 +1,23 @@
 {
-  "extends": "./node_modules/@villedemontreal/lint-config/rules/tsconfig-base.json",
   "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
     "sourceMap": true,
-    "ignoreDeprecations": "5.0",
     "pretty": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
+    "newLine": "LF",
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "outDir": "dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "downlevelIteration": true
   },
-  "include": ["src", "tests-resources"]
+  "include": ["src", "scripts", "configs", "tests-resources"],
+  "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
 }

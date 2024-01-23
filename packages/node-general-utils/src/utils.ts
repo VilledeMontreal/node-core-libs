@@ -84,7 +84,7 @@ export class Utils {
    * to "clean" it, e.g., getting rid of unmeaningful
    * decimal zeros or whitespaces.
    */
-  public isIntegerValue(value: any, positiveOnly: boolean = false, includeZero: boolean = true): boolean {
+  public isIntegerValue(value: any, positiveOnly = false, includeZero = true): boolean {
     if (this.isNaNSafe(value)) {
       return false;
     }
@@ -305,7 +305,7 @@ export class Utils {
       return;
     }
 
-    const cmd: string = 'node';
+    const cmd = 'node';
     const args = [constants.libRoot + '/node_modules/typescript/lib/tsc.js']
       .concat(this.tscCompilerOptions)
       .concat(files);
@@ -319,7 +319,7 @@ export class Utils {
    * Both "start" and "end" are inclusive.
    */
   public range = (start: number, end: number): number[] => {
-    return [...Array(1 + end - start).keys()].map(v => start + v);
+    return [...Array(1 + end - start).keys()].map((v) => start + v);
   };
 
   /**
@@ -435,12 +435,12 @@ export class Utils {
     command: string,
     args: string[],
     dataHandler: (stdoutData: string, stderrData: string) => void = null,
-    useShellOption: boolean = false
+    useShellOption = false,
   ): Promise<void> {
     return this.exec(command, args, {
       outputHandler: dataHandler,
       useShellOption,
-      disableConsoleOutputs: !dataHandler
+      disableConsoleOutputs: !dataHandler,
     }).then((_val: number) => {
       // nothing, returns void
     });
@@ -494,7 +494,7 @@ export class Utils {
       disableConsoleOutputs?: boolean;
       stdio?: StdioOptions;
       useShellOption?: boolean;
-    }
+    },
   ): Promise<number> {
     const optionsClean = options ?? {};
     optionsClean.useShellOption = optionsClean.useShellOption ?? true;
@@ -515,7 +515,7 @@ export class Utils {
         detached: false,
         stdio: optionsClean.stdio,
         shell: optionsClean.useShellOption,
-        windowsVerbatimArguments: false
+        windowsVerbatimArguments: false,
       });
 
       spawnedProcess.on('close', (code: number) => {
@@ -524,8 +524,8 @@ export class Utils {
           reject(
             new ExecError(
               `Expected success codes were "${successExitCodes.toString()}", but the process exited with "${code}".`,
-              code
-            )
+              code,
+            ),
           );
         } else {
           resolve(code);
@@ -562,7 +562,10 @@ export class Utils {
  */
 // tslint:disable-next-line: max-classes-per-file
 export class ExecError extends Error {
-  constructor(message: string, public exitCode: number) {
+  constructor(
+    message: string,
+    public exitCode: number,
+  ) {
     super(message);
   }
 }
@@ -576,4 +579,4 @@ export function getValueDescriptionWithType(value: any): string {
   return getValueDescription(value) + ` (${valueType})`;
 }
 
-export let utils: Utils = new Utils();
+export const utils: Utils = new Utils();

@@ -42,7 +42,7 @@ export class Timer {
    * documentation to see how to define a custom format :
    * https://momentjs.com/docs/#/displaying/format/
    */
-  public toString(format: string = 'HH:mm:ss.SSS'): string {
+  public toString(format = 'HH:mm:ss.SSS'): string {
     const millisecs = this.getMillisecondsElapsed();
     return moment.utc(millisecs).format(format);
   }

@@ -34,4 +34,4 @@ export class Constants {
   }
 }
 
-export let constants: Constants = new Constants();
+export const constants: Constants = new Constants();

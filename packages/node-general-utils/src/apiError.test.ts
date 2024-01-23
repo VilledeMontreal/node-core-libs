@@ -10,7 +10,7 @@ import {
   createNotImplementedError,
   createServerError,
   createUnauthorizedError,
-  createUnprocessableEntityError
+  createUnprocessableEntityError,
 } from './apiErrorBuilder';
 import { globalConstants } from './config/globalConstants';
 import { LogLevel } from './logLevel';
@@ -29,7 +29,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.ERROR);
       assert.strictEqual(error.logMessage, 'myLogMessage');
       assert.strictEqual(error.logStackTrace, true);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.GENERIC_ERROR);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.GENERIC_ERROR,
+      );
       assert.strictEqual(error.error.message, 'Server error');
     });
 
@@ -39,7 +42,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.ERROR);
       assert.strictEqual(error.logMessage, 'myLogMessage');
       assert.strictEqual(error.logStackTrace, true);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.GENERIC_ERROR);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.GENERIC_ERROR,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
     });
 
@@ -69,7 +75,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.DEBUG);
       assert.strictEqual(error.logMessage, 'myPublicMessage');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.INVALID_PARAMETER);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.INVALID_PARAMETER,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
       assert.isTrue(error.error.details === undefined || error.error.details.length === 0);
     });
@@ -78,12 +87,12 @@ describe('API errors', () => {
       const details: IApiError[] = [
         {
           code: 'myDetailCode1',
-          message: 'myDetailMessage1'
+          message: 'myDetailMessage1',
         },
         {
           code: 'myDetailCode2',
-          message: 'myDetailMessage2'
-        }
+          message: 'myDetailMessage2',
+        },
       ];
 
       const error = createInvalidParameterError('myPublicMessage', details, LogLevel.INFO, true);
@@ -91,7 +100,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'myPublicMessage');
       assert.strictEqual(error.logStackTrace, true);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.INVALID_PARAMETER);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.INVALID_PARAMETER,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
       assert.strictEqual(error.error.details.length, 2);
       assert.strictEqual(error.error.details[0].code, 'myDetailCode1');
@@ -106,7 +118,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.DEBUG);
       assert.strictEqual(error.logMessage, 'myPublicMessage');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
       assert.isTrue(error.error.details === undefined || error.error.details.length === 0);
     });
@@ -116,12 +131,12 @@ describe('API errors', () => {
         {
           code: 'myDetailCode1',
           message: 'myDetailMessage1',
-          target: 'aJsonPath'
+          target: 'aJsonPath',
         },
         {
           code: 'myDetailCode2',
-          message: 'myDetailMessage2'
-        }
+          message: 'myDetailMessage2',
+        },
       ];
 
       const error = createUnprocessableEntityError('myPublicMessage', details, LogLevel.INFO, true);
@@ -129,7 +144,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'myPublicMessage');
       assert.strictEqual(error.logStackTrace, true);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
       assert.strictEqual(error.error.details.length, 2);
       assert.strictEqual(error.error.details[0].code, 'myDetailCode1');
@@ -144,7 +162,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'Not implemented');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.NOT_IMPLEMENTED);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.NOT_IMPLEMENTED,
+      );
       assert.strictEqual(error.error.message, 'Not implemented yet');
     });
 
@@ -154,7 +175,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'myLogMessage');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.NOT_IMPLEMENTED);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.NOT_IMPLEMENTED,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
     });
 
@@ -164,7 +188,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'Unauthorized');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.UNAUTHORIZED);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.UNAUTHORIZED,
+      );
       assert.strictEqual(error.error.message, 'Please authenticate yourself first.');
     });
 
@@ -174,7 +201,10 @@ describe('API errors', () => {
       assert.strictEqual(error.logLevel, LogLevel.INFO);
       assert.strictEqual(error.logMessage, 'myLogMessage');
       assert.strictEqual(error.logStackTrace, false);
-      assert.strictEqual(error.error.code, globalConstants.errors.apiGeneralErrors.codes.UNAUTHORIZED);
+      assert.strictEqual(
+        error.error.code,
+        globalConstants.errors.apiGeneralErrors.codes.UNAUTHORIZED,
+      );
       assert.strictEqual(error.error.message, 'myPublicMessage');
     });
 
@@ -207,18 +237,18 @@ describe('API errors', () => {
       for (const value of [
         {
           code: 'some code',
-          message: 'some message'
+          message: 'some message',
         },
         {
           code: 'some code',
           message: 'some message',
-          details: []
+          details: [],
         },
         {
           code: 'some code',
           message: 'some message',
-          target: 'target'
-        }
+          target: 'target',
+        },
       ] as any) {
         assert.isTrue(isApiError(value));
       }
@@ -227,15 +257,15 @@ describe('API errors', () => {
     it('is not an ApiError', async () => {
       for (const value of [
         {
-          code: 'some code'
+          code: 'some code',
         },
         {
-          message: 'some message'
+          message: 'some message',
         },
         {
           code: 'some code',
           message: 'some message',
-          nope: 'nope'
+          nope: 'nope',
         },
         {
           code: 'some code',
@@ -243,10 +273,10 @@ describe('API errors', () => {
           target: 'target',
           details: [],
           innererror: {
-            code: 'some code'
+            code: 'some code',
           },
-          nope: 123
-        }
+          nope: 123,
+        },
       ] as any) {
         assert.isFalse(isApiError(value));
       }

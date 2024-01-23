@@ -14,7 +14,7 @@ export interface IPaginatedResult<T> {
 /**
  * IPaginatedResult Type Guard
  */
-export let isPaginatedResult = (obj: any): obj is IPaginatedResult<any> => {
+export const isPaginatedResult = (obj: any): obj is IPaginatedResult<any> => {
   return (
     obj &&
     'paging' in obj &&

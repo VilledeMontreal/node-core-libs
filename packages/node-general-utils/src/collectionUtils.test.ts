@@ -10,7 +10,7 @@ import {
   isMatching,
   removeEmptyValues,
   removeMissingValues,
-  toDictionary
+  toDictionary,
 } from './collectionUtils';
 
 export const EMPTY_STRING = '';
@@ -29,7 +29,15 @@ Object.freeze(EMPTY_MAP);
 const EMPTY_SET = new Set<any>();
 Object.freeze(EMPTY_SET);
 
-export const EMPTY_VALUES = [undefined, null, EMPTY_STRING, EMPTY_ARRAY, EMPTY_OBJECT, EMPTY_MAP, EMPTY_SET];
+export const EMPTY_VALUES = [
+  undefined,
+  null,
+  EMPTY_STRING,
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
+  EMPTY_MAP,
+  EMPTY_SET,
+];
 Object.freeze(EMPTY_VALUES);
 
 const EMPTY_VALUES_MAP = toDictionary(EMPTY_VALUES, getValueDescriptionWithType);
@@ -58,7 +66,7 @@ export const NOT_EMPTY_VALUES = [
   new Error(),
   Number(123),
   NOT_EMPTY_MAP,
-  NOT_EMPTY_SET
+  NOT_EMPTY_SET,
 ];
 Object.freeze(NOT_EMPTY_VALUES);
 
@@ -73,12 +81,12 @@ Object.freeze(NOT_MISSING_VALUES_MAP);
 
 describe('Collection Utility', () => {
   describe('#isEmpty', () => {
-    EMPTY_VALUES.forEach(value => {
+    EMPTY_VALUES.forEach((value) => {
       it(`should return \`true\` for ${getValueDescriptionWithType(value)}`, () => {
         assert.isTrue(isEmpty(value));
       });
     });
-    NOT_EMPTY_VALUES.forEach(value => {
+    NOT_EMPTY_VALUES.forEach((value) => {
       it(`should return \`false\` for ${getValueDescriptionWithType(value)}`, () => {
         assert.isFalse(isEmpty(value));
       });

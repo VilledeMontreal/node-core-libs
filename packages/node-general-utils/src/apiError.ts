@@ -32,7 +32,7 @@ export interface IErrorResponse {
 /**
  * Error Reponse Type Guard
  */
-export let isErrorResponse = (obj: any): obj is IErrorResponse => {
+export const isErrorResponse = (obj: any): obj is IErrorResponse => {
   return obj && utils.isObjectStrict(obj) && 'error' in obj && isApiError(obj.error);
 };
 
@@ -70,7 +70,7 @@ export interface IApiError {
 /**
  * Error Type Guard
  */
-export let isApiError = (obj: any): obj is IApiError => {
+export const isApiError = (obj: any): obj is IApiError => {
   if (!obj || !utils.isObjectStrict(obj) || !('code' in obj) || !('message' in obj)) {
     return false;
   }
@@ -147,7 +147,7 @@ export interface IApiErrorAndInfo {
 /**
  * IApiErrorAndInfo Type Guard
  */
-export let isApiErrorAndInfo = (obj: any): obj is IApiErrorAndInfo => {
+export const isApiErrorAndInfo = (obj: any): obj is IApiErrorAndInfo => {
   return (
     obj &&
     utils.isObjectStrict(obj) &&
@@ -171,7 +171,7 @@ export class ApiErrorAndInfo extends Error implements IApiErrorAndInfo {
     public logMessage: any,
     public httpStatus: number,
     public logLevel: LogLevel,
-    public logStackTrace: boolean
+    public logStackTrace: boolean,
   ) {
     super(
       ((): string => {
@@ -180,7 +180,7 @@ export class ApiErrorAndInfo extends Error implements IApiErrorAndInfo {
         }
 
         return (logMessage as any).msg || (logMessage as any).message || '';
-      })()
+      })(),
     );
   }
 }

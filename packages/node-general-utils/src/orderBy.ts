@@ -34,5 +34,5 @@ export const isOrderByArray = (objs: any): objs is IOrderBy[] => {
 
 export enum OrderByDirection {
   ASC = 'ASC',
-  DESC = 'DESC'
+  DESC = 'DESC',
 }

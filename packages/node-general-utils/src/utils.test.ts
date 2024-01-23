@@ -15,12 +15,12 @@ import { ExecError, utils, Utils } from './utils';
 // A regular "function" is required here for the call to "this.timeout(...)"
 // @see https://github.com/mochajs/mocha/issues/2018
 // tslint:disable-next-line:only-arrow-functions ter-prefer-arrow-callback
-describe("App's utilities functions", function() {
+describe("App's utilities functions", function () {
   // ==========================================
   // tsc()
   // ==========================================
   describe('tsc', () => {
-    it("Compiles a TypeScript file using the 'tsc()' utility", async function() {
+    it("Compiles a TypeScript file using the 'tsc()' utility", async function () {
       if (!fs.existsSync(constants.testDataDirPath)) {
         fs.mkdirSync(constants.testDataDirPath);
       }
@@ -37,7 +37,10 @@ describe("App's utilities functions", function() {
       const fileName = uuid();
       const filesPathPrefix = tmpRepPath + '/' + fileName;
       const tsFilePath = filesPathPrefix + '.ts';
-      fs.writeFileSync(tsFilePath, `import * as path from 'path';\nlet t = 'a';\nt = t + path.sep;`);
+      fs.writeFileSync(
+        tsFilePath,
+        `import * as path from 'path';\nlet t = 'a';\nt = t + path.sep;`,
+      );
 
       const distRepPath = constants.libRoot + '/dist';
 
@@ -281,10 +284,18 @@ describe("App's utilities functions", function() {
       result = utils.isIntegerValue(['string', 2, false]);
       assert.isFalse(result);
 
-      result = utils.isIntegerValue({ firstStringValue: 'a', secondStringValue: 'b', thirdStringValue: 'c' });
+      result = utils.isIntegerValue({
+        firstStringValue: 'a',
+        secondStringValue: 'b',
+        thirdStringValue: 'c',
+      });
       assert.isFalse(result);
 
-      result = utils.isIntegerValue({ firstNumberValue: 1, secondNumberValue: 2, thirdNumberValue: 3 });
+      result = utils.isIntegerValue({
+        firstNumberValue: 1,
+        secondNumberValue: 2,
+        thirdNumberValue: 3,
+      });
       assert.isFalse(result);
 
       result = utils.isIntegerValue({ stringValue: 'string', numberValue: 2, booleanValue: false });
@@ -933,7 +944,7 @@ describe("App's utilities functions", function() {
       fs.removeSync(constants.testDataDirPath);
     });
 
-    it('compile', async function() {
+    it('compile', async function () {
       // May take some time to compile...
       this.timeout(7000);
 
@@ -941,9 +952,12 @@ describe("App's utilities functions", function() {
       const filesPathPrefix = tmpRepPath + '/' + fileName;
       const tsFilePath = filesPathPrefix + '.ts';
 
-      const content = fs.readFileSync(constants.libRoot + '/tests-resources/throwNotManagedSuccess.txt', {
-        encoding: 'utf-8'
-      });
+      const content = fs.readFileSync(
+        constants.libRoot + '/tests-resources/throwNotManagedSuccess.txt',
+        {
+          encoding: 'utf-8',
+        },
+      );
       fs.writeFileSync(tsFilePath, content);
 
       await utils.tsc([tsFilePath]);
@@ -953,7 +967,7 @@ describe("App's utilities functions", function() {
       fs.removeSync(distRepPath);
     });
 
-    it("doesn't compile", async function() {
+    it("doesn't compile", async function () {
       // May take some time to compile...
       this.timeout(7000);
 
@@ -966,9 +980,12 @@ describe("App's utilities functions", function() {
       const filesPathPrefix = tmpRepPath + '/' + fileName;
       const tsFilePath = filesPathPrefix + '.ts';
 
-      const content = fs.readFileSync(constants.libRoot + '/tests-resources/throwNotManagedFail.txt', {
-        encoding: 'utf-8'
-      });
+      const content = fs.readFileSync(
+        constants.libRoot + '/tests-resources/throwNotManagedFail.txt',
+        {
+          encoding: 'utf-8',
+        },
+      );
       fs.writeFileSync(tsFilePath, content);
 
       try {
@@ -1003,7 +1020,7 @@ describe("App's utilities functions", function() {
         [],
         [123],
         // tslint:disable-next-line:prefer-array-literal
-        new Array(),
+        [],
         null,
         undefined,
         '',
@@ -1013,7 +1030,7 @@ describe("App's utilities functions", function() {
         new Date(),
         () => {
           /* ok */
-        }
+        },
       ] as any) {
         assert.isFalse(utils.isObjectStrict(value));
       }
@@ -1028,8 +1045,8 @@ describe("App's utilities functions", function() {
       const array = [
         {
           aaa: 123,
-          myKey: 'myValue'
-        }
+          myKey: 'myValue',
+        },
       ];
       assert.isTrue(utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', 'myValue'));
     });
@@ -1038,8 +1055,8 @@ describe("App's utilities functions", function() {
       const array = [
         {
           aaa: 123,
-          myKey: 12345
-        }
+          myKey: 12345,
+        },
       ];
       assert.isTrue(utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', 12345));
     });
@@ -1049,8 +1066,8 @@ describe("App's utilities functions", function() {
       const array = [
         {
           aaa: 123,
-          myKey: someDate
-        }
+          myKey: someDate,
+        },
       ];
       assert.isTrue(utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', someDate));
     });
@@ -1066,17 +1083,17 @@ describe("App's utilities functions", function() {
           '',
           null,
           {
-            juju: 123.45
-          }
+            juju: 123.45,
+          },
         ],
-        tata: undefined as number
+        tata: undefined as number,
       };
 
       const array = [
         {
           aaa: 123,
-          myKey: obj
-        }
+          myKey: obj,
+        },
       ];
       assert.isTrue(utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', obj));
     });
@@ -1092,17 +1109,17 @@ describe("App's utilities functions", function() {
           '',
           null,
           {
-            juju: 123.45
-          }
+            juju: 123.45,
+          },
         ],
-        tata: undefined as number
+        tata: undefined as number,
       };
 
       const array = [
         {
           aaa: 123,
-          nope: obj
-        }
+          nope: obj,
+        },
       ];
       assert.isFalse(utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', obj));
     });
@@ -1118,17 +1135,17 @@ describe("App's utilities functions", function() {
           '',
           null,
           {
-            juju: 123.45
-          }
+            juju: 123.45,
+          },
         ],
-        tata: undefined as number
+        tata: undefined as number,
       };
 
       const array = [
         {
           aaa: 123,
-          myKey: obj
-        }
+          myKey: obj,
+        },
       ];
       assert.isFalse(
         utils.arrayContainsObjectWithKeyEqualsTo(array, 'myKey', {
@@ -1139,11 +1156,11 @@ describe("App's utilities functions", function() {
             '',
             null,
             {
-              juju: 123.45
-            }
+              juju: 123.45,
+            },
           ],
-          tata: undefined as number
-        })
+          tata: undefined as number,
+        }),
       );
     });
 
@@ -1274,26 +1291,26 @@ describe("App's utilities functions", function() {
 
     it('custom exit code - success', async () => {
       const exitCode = await utils.exec(`node`, [dummyJs, `customExitCode`, `123`], {
-        successExitCodes: 123
+        successExitCodes: 123,
       });
       assert.deepEqual(exitCode, 123);
     });
 
     it('custom exit code - multiple', async () => {
       let exitCode = await utils.exec(`node`, [dummyJs, `customExitCode`, `123`], {
-        successExitCodes: [0, 123]
+        successExitCodes: [0, 123],
       });
       assert.deepEqual(exitCode, 123);
 
       exitCode = await utils.exec(`node`, [dummyJs, `success`], {
-        successExitCodes: [0, 123]
+        successExitCodes: [0, 123],
       });
       assert.deepEqual(exitCode, 0);
 
       let error;
       try {
         await utils.exec(`node`, [dummyJs, `customExitCode`, `1`], {
-          successExitCodes: [0, 123]
+          successExitCodes: [0, 123],
         });
       } catch (err) {
         error = err;
@@ -1331,7 +1348,7 @@ describe("App's utilities functions", function() {
           outputHandler: (stdoutOutput: string, stderrOutput: string): void => {
             execOut += stdoutOutput ? stdoutOutput : '';
             execErr += stderrOutput ? stderrOutput : '';
-          }
+          },
         });
 
         assert.isTrue(execOut.includes(`in dummy - info`));
@@ -1374,7 +1391,7 @@ describe("App's utilities functions", function() {
             execOut += stdoutOutput ? stdoutOutput : '';
             execErr += stderrOutput ? stderrOutput : '';
           },
-          disableConsoleOutputs: true
+          disableConsoleOutputs: true,
         });
 
         assert.isTrue(execOut.includes(`in dummy - info`));
@@ -1400,7 +1417,7 @@ describe("App's utilities functions", function() {
         (stdoutOutput: string, stderrOutput: string): void => {
           execOut += stdoutOutput ? stdoutOutput : '';
           execErr += stderrOutput ? stderrOutput : '';
-        }
+        },
       );
       assert.isUndefined(exitCode); // no exit code
 

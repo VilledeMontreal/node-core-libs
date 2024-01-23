@@ -89,7 +89,7 @@ export class ErrorBuilder {
   public build = (): ApiErrorAndInfo => {
     const error: IApiError = {
       code: this._code,
-      message: this._publicMessage || 'An error occured'
+      message: this._publicMessage || 'An error occured',
     };
 
     if (this._target !== undefined) {
@@ -109,7 +109,7 @@ export class ErrorBuilder {
       this._logMessage,
       this._httpStatus || HttpStatusCodes.INTERNAL_SERVER_ERROR,
       this._logLevel !== undefined ? this._logLevel : LogLevel.ERROR,
-      this._logStackTrace !== undefined ? this._logStackTrace : true
+      this._logStackTrace !== undefined ? this._logStackTrace : true,
     );
 
     return errorAndInfo;
@@ -119,7 +119,7 @@ export class ErrorBuilder {
 /**
  * ErrorBuilder Type Guard
  */
-export let isErrorBuilder = (obj: any): obj is ErrorBuilder => {
+export const isErrorBuilder = (obj: any): obj is ErrorBuilder => {
   return obj && obj.addDetail !== undefined && obj.build !== undefined;
 };
 
@@ -136,7 +136,10 @@ export function createError(code: string, logMessage: any): ErrorBuilder {
  *
  * The log message is mandatory.
  */
-export function createServerError(logMessage: any, publicMessage: string = 'Server error'): ApiErrorAndInfo {
+export function createServerError(
+  logMessage: any,
+  publicMessage = 'Server error',
+): ApiErrorAndInfo {
   return createError(globalConstants.errors.apiGeneralErrors.codes.GENERIC_ERROR, logMessage)
     .httpStatus(HttpStatusCodes.INTERNAL_SERVER_ERROR)
     .publicMessage(publicMessage)
@@ -155,9 +158,9 @@ export function createServerError(logMessage: any, publicMessage: string = 'Serv
  */
 export function createNotFoundError(
   logMessage: any,
-  publicMessage: string = 'Not Found',
+  publicMessage = 'Not Found',
   logLevel: LogLevel = LogLevel.DEBUG,
-  logStackTrace: boolean = false
+  logStackTrace = false,
 ): ApiErrorAndInfo {
   return createError(globalConstants.errors.apiGeneralErrors.codes.NOT_FOUND, logMessage)
     .httpStatus(HttpStatusCodes.NOT_FOUND)
@@ -179,7 +182,7 @@ export function createInvalidParameterError(
   publicMessage: string,
   details: IApiError[] = [],
   logLevel: LogLevel = LogLevel.DEBUG,
-  logStackTrace: boolean = false
+  logStackTrace = false,
 ): ApiErrorAndInfo {
   return createError(globalConstants.errors.apiGeneralErrors.codes.INVALID_PARAMETER, publicMessage)
     .httpStatus(HttpStatusCodes.BAD_REQUEST)
@@ -202,9 +205,12 @@ export function createUnprocessableEntityError(
   publicMessage: string,
   details: IApiError[] = [],
   logLevel: LogLevel = LogLevel.DEBUG,
-  logStackTrace: boolean = false
+  logStackTrace = false,
 ): ApiErrorAndInfo {
-  return createError(globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY, publicMessage)
+  return createError(
+    globalConstants.errors.apiGeneralErrors.codes.UNPROCESSABLE_ENTITY,
+    publicMessage,
+  )
     .httpStatus(HttpStatusCodes.UNPROCESSABLE_ENTITY)
     .publicMessage(publicMessage)
     .details(details)
@@ -218,7 +224,7 @@ export function createUnprocessableEntityError(
  */
 export function createNotImplementedError(
   logMessage: any = 'Not implemented',
-  publicMessage: string = 'Not implemented yet'
+  publicMessage = 'Not implemented yet',
 ) {
   return createError(globalConstants.errors.apiGeneralErrors.codes.NOT_IMPLEMENTED, logMessage)
     .publicMessage(publicMessage)
@@ -234,7 +240,7 @@ export function createNotImplementedError(
  */
 export function createUnauthorizedError(
   logMessage: any = 'Unauthorized',
-  publicMessage: string = 'Please authenticate yourself first.'
+  publicMessage = 'Please authenticate yourself first.',
 ) {
   return createError(globalConstants.errors.apiGeneralErrors.codes.UNAUTHORIZED, logMessage)
     .publicMessage(publicMessage)
@@ -249,7 +255,10 @@ export function createUnauthorizedError(
  * the user is authenticated but doesn't have sufficient
  * rights to access the requested resource.
  */
-export function createForbiddenError(logMessage: any = 'Forbidden', publicMessage: string = 'Access denied.') {
+export function createForbiddenError(
+  logMessage: any = 'Forbidden',
+  publicMessage = 'Access denied.',
+) {
   return createError(globalConstants.errors.apiGeneralErrors.codes.FORBIDDEN, logMessage)
     .publicMessage(publicMessage)
     .httpStatus(HttpStatusCodes.FORBIDDEN)

@@ -6,7 +6,7 @@ import { utils } from './utils';
 // Timer object tests
 // ==========================================
 describe('Timer object', () => {
-  it('Milliseconds', async function() {
+  it('Milliseconds', async function () {
     this.timeout(4000);
 
     const timer = new Timer();
@@ -27,7 +27,7 @@ describe('Timer object', () => {
     assert.isTrue(milliSecs > 2000, `was "${milliSecs}"`);
   });
 
-  it('Default format', async function() {
+  it('Default format', async function () {
     this.timeout(4000);
 
     const timer = new Timer();
@@ -43,7 +43,7 @@ describe('Timer object', () => {
     assert.isTrue(elapsed.startsWith('00:00:02.'), `was "${elapsed}"`);
   });
 
-  it('Custom format', async function() {
+  it('Custom format', async function () {
     this.timeout(4000);
 
     const timer = new Timer();

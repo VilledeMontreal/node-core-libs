@@ -67,9 +67,14 @@ export function deDuplicateChars(
   value: string,
   continuousCharsToReplace: string,
   replacement: string,
-  trimStartEnd: boolean = false
+  trimStartEnd = false,
 ): string {
-  if (_.isNil(value) || _.isNil(continuousCharsToReplace) || continuousCharsToReplace === '' || _.isNil(replacement)) {
+  if (
+    _.isNil(value) ||
+    _.isNil(continuousCharsToReplace) ||
+    continuousCharsToReplace === '' ||
+    _.isNil(replacement)
+  ) {
     return value;
   }
 

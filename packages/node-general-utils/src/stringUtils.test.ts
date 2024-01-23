@@ -39,16 +39,24 @@ describe('String Utility', () => {
       assert.strictEqual(deDuplicateChars('a      b', ' ', '_'), 'a_b');
       assert.strictEqual(
         deDuplicateChars(' \r\n   \t   a \r\n   \t  \n \t   b   \r\n   \t   ', ' \t\r\n', ' '),
-        ' a b '
+        ' a b ',
       );
-      assert.strictEqual(deDuplicateChars(' \r\n   \t   a \r\n   \t  \n \t   b   \r\n   \t   ', ' \t\r\n', ''), 'ab');
+      assert.strictEqual(
+        deDuplicateChars(' \r\n   \t   a \r\n   \t  \n \t   b   \r\n   \t   ', ' \t\r\n', ''),
+        'ab',
+      );
     });
 
     it('With trim', () => {
       assert.strictEqual(deDuplicateChars('  a      b  ', ' ', ' ', true), 'a b');
       assert.strictEqual(
-        deDuplicateChars(' \r\n   \t   a \r\n   \t  \n \t   b   \r\n   \t   ', ' \t\r\n', ' ', true),
-        'a b'
+        deDuplicateChars(
+          ' \r\n   \t   a \r\n   \t  \n \t   b   \r\n   \t   ',
+          ' \t\r\n',
+          ' ',
+          true,
+        ),
+        'a b',
       );
     });
   });
@@ -62,8 +70,10 @@ describe('String Utility', () => {
       assert.strictEqual(trimAll('     '), '');
       assert.strictEqual(trimAll('   \r\n \r    \t \n   \r\t \t'), '');
       assert.strictEqual(
-        trimAll('   \r\n \r    \t \n   \r\t \t  a    \r\n \r    \t \n   \r\t \tb   \r\n \r    \t \n   \r\t \t'),
-        'a b'
+        trimAll(
+          '   \r\n \r    \t \n   \r\t \t  a    \r\n \r    \t \n   \r\t \tb   \r\n \r    \t \n   \r\t \t',
+        ),
+        'a b',
       );
     });
   });
