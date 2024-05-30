@@ -7,8 +7,6 @@ import { createInvalidAuthHeaderError, createInvalidJwtError } from '../models/c
 import { createLogger } from '../utils/logger';
 import superagent = require('superagent');
 
-const _regexAccessToken = /([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})/;
-
 const logger = createLogger('Token transformation middleware');
 
 /**
@@ -35,14 +33,7 @@ export const tokenTransformationMiddleware: (
       }
 
       // Extract the access token value from the authorization header
-      const accessTokenRegExpArray = _regexAccessToken.exec(authHeader);
-      if (accessTokenRegExpArray.length <= 1) {
-        throw createInvalidAuthHeaderError({
-          code: constants.errors.codes.INVALID_VALUE,
-          target: 'access_token',
-          message: 'could not find a valid access token from the authorization header',
-        });
-      }
+      const accessTokenRegExpArray = authHeader.split(' ');
       const accessToken = accessTokenRegExpArray[1];
 
       // Call the service endpoint to exchange the access token for a extended jwt
