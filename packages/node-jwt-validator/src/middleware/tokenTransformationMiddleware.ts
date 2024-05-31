@@ -33,8 +33,8 @@ export const tokenTransformationMiddleware: (
       }
 
       // Extract the access token value from the authorization header
-      const accessTokenRegExpArray = authHeader.split(' ');
-      const accessToken = accessTokenRegExpArray[1];
+      const accessTokenSegments = authHeader.split(' ');
+      const accessToken = accessTokenSegments[1];
 
       // Call the service endpoint to exchange the access token for a extended jwt
       superagent
