@@ -1,13 +1,43 @@
 import { utils } from '@villedemontreal/general-utils';
 import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
+import * as _ from 'lodash';
 import { constants } from '../config/constants';
 import { ITokenTtransformationMiddlewareConfig } from '../config/tokenTransformationMiddlewareConfig';
-import { createInvalidAuthHeaderError, createInvalidJwtError } from '../models/customError';
+import { createInvalidJwtError } from '../models/customError';
 import { createLogger } from '../utils/logger';
 import superagent = require('superagent');
 
 const logger = createLogger('Token transformation middleware');
+
+/** Regex to test the UUID format of the Authorization header */
+const _regexUuidAccessToken = /([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})/;
+/** Regex to test the JWT format of the Authorization header */
+const _regexJwtAccessToken = /([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-+/=]+)$/;
+
+/**
+ * Validate the access_token format from authorization header and return it.
+ *
+ * @param {string} authHeader
+ * @return {*}  {string}
+ */
+const getAccessTokenFromHeader = (authHeader: string): string | null => {
+  if (authHeader.split(' ')[0] !== 'Bearer') {
+    logger.warning('The authorization header is not "Bearer" type.');
+    return null;
+  }
+  const accessTokenUuidRegExpArray = _regexUuidAccessToken.exec(authHeader);
+  const accessTokenJwtRegExpArray = _regexJwtAccessToken.exec(authHeader);
+  if (_.isNil(accessTokenUuidRegExpArray) && _.isNil(accessTokenJwtRegExpArray)) {
+    logger.warning('Could not find a valid access token from the authorization header');
+    return null;
+  }
+  if (!_.isNil(accessTokenJwtRegExpArray)) {
+    return accessTokenJwtRegExpArray[0];
+  } else {
+    return accessTokenUuidRegExpArray[0];
+  }
+};
 
 /**
  * Token transformation Middleware. It will generate extended jwt
@@ -23,18 +53,19 @@ export const tokenTransformationMiddleware: (
   return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
     try {
       // Validate the authorization header
-      const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
+      const authHeader = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
       if (utils.isBlank(authHeader)) {
-        throw createInvalidAuthHeaderError({
-          code: constants.errors.codes.INVALID_VALUE,
-          target: 'authorization_header',
-          message: 'authorization header is empty',
-        });
+        logger.warning('The authorization header is empty.');
+        next();
+        return;
       }
 
       // Extract the access token value from the authorization header
-      const accessTokenSegments = authHeader.split(' ');
-      const accessToken = accessTokenSegments[1];
+      const accessToken = getAccessTokenFromHeader(authHeader);
+      if (_.isNil(accessToken)) {
+        next();
+        return;
+      }
 
       // Call the service endpoint to exchange the access token for a extended jwt
       superagent
