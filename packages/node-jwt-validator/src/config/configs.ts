@@ -26,6 +26,11 @@ export class Configs {
    */
   private _cacheDuration: number = constants.default.cacheDuration;
 
+  private readonly _sourceProjectName = (): string => {
+    const sourcePackageJson = require(`${constants.appRoot}/package.json`);
+    return sourcePackageJson?.name ? sourcePackageJson.name : '';
+  };
+
   private _loggerCreator: (name: string) => ILogger;
   private _correlationIdProvider: () => string;
 
@@ -127,6 +132,10 @@ export class Configs {
    */
   public setCorrelationIdProvider(correlationIdProvider: () => string) {
     this._correlationIdProvider = correlationIdProvider;
+  }
+
+  public getSourceProjectName() {
+    return this._sourceProjectName();
   }
 
   /**

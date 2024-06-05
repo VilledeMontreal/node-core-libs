@@ -2,6 +2,7 @@ import { utils } from '@villedemontreal/general-utils';
 import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as _ from 'lodash';
+import { configs } from '../config/configs';
 import { constants } from '../config/constants';
 import { ITokenTtransformationMiddlewareConfig } from '../config/tokenTransformationMiddlewareConfig';
 import { IInputAccessToken, IInputAccessTokenSource } from '../models/accessToken';
@@ -69,9 +70,9 @@ export const tokenTransformationMiddleware: (
       }
 
       const source: IInputAccessTokenSource = {
-        url: `${req.headers?.host}${req.url}`,
+        url: `${req.protocol}://${req?.headers.host}${req.url}`,
         method: req.method,
-        serviceName: 'localAPI',
+        serviceName: configs.getSourceProjectName(),
         clientIp: '10.0.0.1',
       };
 
