@@ -26,12 +26,23 @@ export class Configs {
    */
   private _cacheDuration: number = constants.default.cacheDuration;
 
+  /**
+   * When this library is used as a dependency in a project, the source project name will be the property name in the package.json of this project
+   *
+   * @private
+   * @type {string}
+   * @memberof Configs
+   */
+  private readonly _sourceProjectName: string;
+
   private _loggerCreator: (name: string) => ILogger;
   private _correlationIdProvider: () => string;
 
   constructor() {
     this.libRoot = path.normalize(__dirname + '/../../..');
     this.isWindows = os.platform() === 'win32';
+    const sourcePackageJson = require(`${constants.appRoot}/package.json`);
+    this._sourceProjectName = sourcePackageJson?.name ? sourcePackageJson.name : '';
   }
 
   /**
@@ -127,6 +138,16 @@ export class Configs {
    */
   public setCorrelationIdProvider(correlationIdProvider: () => string) {
     this._correlationIdProvider = correlationIdProvider;
+  }
+
+  /**
+   * Get the source project name where this library is imported
+   *
+   * @return {*}  {string}
+   * @memberof Configs
+   */
+  public getSourceProjectName(): string {
+    return this._sourceProjectName;
   }
 
   /**

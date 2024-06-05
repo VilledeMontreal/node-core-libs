@@ -2,8 +2,10 @@ import { utils } from '@villedemontreal/general-utils';
 import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as _ from 'lodash';
+import { configs } from '../config/configs';
 import { constants } from '../config/constants';
 import { ITokenTtransformationMiddlewareConfig } from '../config/tokenTransformationMiddlewareConfig';
+import { IInputAccessToken, IInputAccessTokenSource } from '../models/accessToken';
 import { createInvalidJwtError } from '../models/customError';
 import { createLogger } from '../utils/logger';
 import superagent = require('superagent');
@@ -67,10 +69,23 @@ export const tokenTransformationMiddleware: (
         return;
       }
 
+      const source: IInputAccessTokenSource = {
+        url: `${req.protocol}://${req?.headers.host}${req.url}`,
+        method: req.method,
+        serviceName: configs.getSourceProjectName(),
+        clientIp: '10.0.0.1',
+      };
+
+      const inputAccessToken: IInputAccessToken = {
+        accessToken,
+        source,
+        extensions: config.extensions,
+      };
+
       // Call the service endpoint to exchange the access token for a extended jwt
       superagent
         .post(config.service.uri)
-        .send({ accessToken, extensions: config.extensions })
+        .send(inputAccessToken)
         .then((response) => {
           const extendedJwt = response.body.jwts?.extended;
           logger.debug(extendedJwt, 'Extended jwt content.');
