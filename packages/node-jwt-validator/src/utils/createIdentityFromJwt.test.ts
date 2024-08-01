@@ -31,24 +31,27 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
     );
     expect(`${identity}`).to.equal(
-      'employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'employee',
+      type: 'user',
       id: 'udoejo3',
       displayName: 'John DOE',
-      email: 'john.doe@montreal.ca',
-      username: 'udoejo3',
-      registrationNumber: '100674051',
-      department: '421408000000',
-      firstName: 'John',
-      lastName: 'DOE',
-      accountProfile: 'vdm',
+      attributes: {
+        type: 'employee',
+        email: 'john.doe@montreal.ca',
+        username: 'udoejo3',
+        registrationNumber: '100674051',
+        department: '421408000000',
+        firstName: 'John',
+        lastName: 'DOE',
+        accountProfile: 'vdm',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -60,7 +63,7 @@ describe('createIdentityFromJwt', () => {
       },
     });
     expect(JSON.stringify(identity)).to.eql(
-      `{"type":"employee","id":"udoejo3","displayName":"John DOE","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm","source":{"issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
+      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm"},"source":{"issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
     );
   });
 
@@ -90,20 +93,23 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'external-user:xdoejo3:John DOE:john.doe@montreal.ca::vdm'
+      'user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'external-user',
+      type: 'user',
       id: 'xdoejo3',
       displayName: 'John DOE',
-      email: 'john.doe@montreal.ca',
-      username: 'xdoejo3',
-      department: undefined,
-      firstName: 'John',
-      lastName: 'DOE',
-      accountProfile: 'vdm',
+      attributes: {
+        type: 'external',
+        email: 'john.doe@montreal.ca',
+        username: 'xdoejo3',
+        department: undefined,
+        firstName: 'John',
+        lastName: 'DOE',
+        accountProfile: 'vdm',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -142,19 +148,23 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'generic-user:cgdsecdev2:C.Generique dsec developpeur2:4211:vdm'
+      'user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'generic-user',
+      type: 'user',
       id: 'cgdsecdev2',
       displayName: 'C.Generique dsec developpeur2',
-      username: 'cgdsecdev2',
-      department: '4211',
-      firstName: 'C.Generique',
-      lastName: 'dsec developpeur2',
-      accountProfile: 'vdm',
+      attributes: {
+        type: 'generic',
+        username: 'cgdsecdev2',
+        email: undefined,
+        department: '4211',
+        firstName: 'C.Generique',
+        lastName: 'dsec developpeur2',
+        accountProfile: 'vdm',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -190,16 +200,23 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'guest-user:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca'
+      'user:guest:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'guest-user',
+      type: 'user',
       id: 'doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com',
       displayName: 'doe.daniel@hydro.qc.ca',
-      email: 'doe.daniel@hydro.qc.ca',
-      username: 'doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com',
+      attributes: {
+        type: 'guest',
+        email: 'doe.daniel@hydro.qc.ca',
+        username: 'doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com',
+        department: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        accountProfile: 'vdm',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -241,7 +258,10 @@ describe('createIdentityFromJwt', () => {
       type: 'anonymous',
       id: 'srvAccAnonymous',
       displayName: 'srvAcc Anonymous',
-      username: 'srvAccAnonymous',
+      attributes: {
+        type: 'anonymous',
+        username: 'srvAccAnonymous',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer: 'security-identity-anonymous-token-api',
@@ -253,7 +273,7 @@ describe('createIdentityFromJwt', () => {
     });
   });
 
-  it('should recognize a service account', () => {
+  it('should recognize a client service account', () => {
     const jwt: any = {
       iss: 'security-identity-token-api',
       exp: 1721782408,
@@ -273,7 +293,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'service-account:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev'
+      'service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev'
     );
 
     delete identity.toString;
@@ -281,6 +301,9 @@ describe('createIdentityFromJwt', () => {
       type: 'service-account',
       id: 'e5dd632b-cb97-48d7-a310-cde5147be717',
       displayName: 'infra-auth-auth-playground-dev',
+      attributes: {
+        type: 'client',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -293,7 +316,7 @@ describe('createIdentityFromJwt', () => {
     });
   });
 
-  it('should recognize a legacy service account', () => {
+  it('should recognize a user service account', () => {
     const jwt: any = {
       iss: 'security-identity-token-api',
       exp: 1722375517,
@@ -316,15 +339,18 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'legacy-service-account:srvAccDiagCanary:srvAcc Diagnostics Canary'
+      'service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'legacy-service-account',
+      type: 'service-account',
       id: 'srvAccDiagCanary',
       displayName: 'srvAcc Diagnostics Canary',
-      username: 'srvAccDiagCanary',
+      attributes: {
+        type: 'user',
+        username: 'srvAccDiagCanary',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer: 'https://auth.dev.interne.montreal.ca',
@@ -359,20 +385,23 @@ describe('createIdentityFromJwt', () => {
       email: 'john.doe@mailinator.com',
     };
     const identity = createIdentityFromJwt(jwt);
-    console.log(identity);
+    // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com'
+      'user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com'
     );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'citizen',
+      type: 'user',
       id: '@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D',
       displayName: 'John Doe',
-      email: 'john.doe@mailinator.com',
-      firstName: 'John',
-      lastName: 'Doe',
+      attributes: {
+        type: 'citizen',
+        email: 'john.doe@mailinator.com',
+        firstName: 'John',
+        lastName: 'Doe',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -385,7 +414,7 @@ describe('createIdentityFromJwt', () => {
     });
   });
 
-  it('should default to unknown identity', () => {
+  it('should default to unknown user identity', () => {
     const jwt: any = {
       iss: 'security-identity-token-api',
       exp: 1722377562,
@@ -406,15 +435,26 @@ describe('createIdentityFromJwt', () => {
       email: 'john.doe@mailinator.com',
     };
     const identity = createIdentityFromJwt(jwt);
-    console.log(identity);
+    // console.log(identity);
 
-    expect(identity.toString()).to.equal('unknown:john.doe:John Doe');
+    expect(identity.toString()).to.equal(
+      'user:unknown:john.doe:John Doe:john.doe@mailinator.com::vdm'
+    );
 
     delete identity.toString;
     expect(identity).to.eql({
-      type: 'unknown',
+      type: 'user',
       id: 'john.doe',
       displayName: 'John Doe',
+      attributes: {
+        type: 'unknown',
+        email: 'john.doe@mailinator.com',
+        username: 'john.doe',
+        department: undefined,
+        firstName: 'John',
+        lastName: 'Doe',
+        accountProfile: 'vdm',
+      },
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
@@ -422,6 +462,47 @@ describe('createIdentityFromJwt', () => {
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
+        internalId: '12345',
+      },
+    });
+  });
+
+  it('should default to unknown identity', () => {
+    const jwt: any = {
+      iss: 'security-identity-token-api',
+      exp: 1722377562,
+      iat: 1722373962,
+      keyId: 6,
+      displayName: 'infra-auth-auth-playground',
+      aud: 'a496befa-db7d-45a6-ac7a-11471816b8f1',
+      name: 'John Doe',
+      sub: '12345',
+      userType: 'SomeUnknownType',
+      realm: 'employees',
+      env: 'dev',
+      accessTokenIssuer:
+        'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+    };
+    const identity = createIdentityFromJwt(jwt);
+    // console.log(identity);
+
+    expect(identity.toString()).to.equal('unknown:12345:John Doe');
+
+    delete identity.toString;
+    expect(identity).to.eql({
+      type: 'unknown',
+      id: '12345',
+      displayName: 'John Doe',
+      attributes: {
+        type: 'unknown',
+      },
+      source: {
+        issuer: 'security-identity-token-api',
+        accessTokenIssuer:
+          'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        env: 'dev',
+        realm: 'employees',
+        claim: 'sub',
         internalId: '12345',
       },
     });

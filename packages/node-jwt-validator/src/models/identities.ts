@@ -1,8 +1,353 @@
+/* Type summary:
+
+  Identity
+    |_ UnknownIdentity <-> UnknownAttributes
+    |
+    |_ AnonymousIdentity <-> AnonymousAttributes
+    |
+    |_ ServiceAccountIdentity <-> ServiceAccountAttributes
+    |     |_ ClientServiceAccountIdentity <-> ClientServiceAccountAttributes
+    |     |_ UserServiceAccountIdentityvv <-> UserServiceAccountAttributes
+    |
+    |_ UserIdentity <-> UserAttributes
+          |_ CitizenIdentity      <-> CitizenAttributes
+          |_ EmployeeIdentity     <-> EmployeeAttributes
+          |_ ExternalUserIdentity <-> ExternalUserAttributes
+          |_ GenericUserIdentity  <-> GenericUserAttributes
+          |_ GuestUserIdentity    <-> GuestUserAttributes
+          |_ UnknownUserIdentity  <-> UnknownUserAttributes
+
+*/
+
+/************************************************************************************************
+ * User attributes
+ * ---------------
+ * All user attributes extend the CommonUserAttributes type, which defines a couple of common but optional attributes.
+ *
+ * We have identified the following types of user:
+ *   - CitizenAttributes
+ *   - EmployeeAttributes
+ *   - ExternalUserAttributes
+ *   - GenericUserAttributes
+ *   - GuestUserAttributes
+ *
+ * If the subtype of user is not recognized, it will default to UnknownUserAttributes.
+ *
+ * The UserAttributes type is a union of all those types. It provides access to the
+ * common optional attributes through the CommonUserAttributes type,
+ * but it is better to test the 'type' of the attributes to access the strongly types attributes
+ * with additional guarantees.
+ *
+ ************************************************************************************************/
+
+/**
+ * The type of profile selected by the user at login time, when a user has multiple identities
+ * such as a VDM employee with a SPVM email.
+ * 'vdm-admin' whould be selected when the authenticated user is a sysadmin who selected his superadmin profile,
+ * instead of the regular one.
+ * Usually defaults to 'vdm'.
+ */
+export type AccountProfile = 'vdm' | 'vdm-admin' | 'spvm';
+
+/**
+ * Common attributes optionally shared by all types of users.
+ * You should test the 'type' attribute in order to strongly type the allowed attributes.
+ */
+export type CommonUserAttributes = {
+  /**
+   * The type of user that will specify which attributes are allowed.
+   */
+  type: string;
+  /**
+   * The username of the user, which could be an email, a UPN or a short code depending on the 'type'.
+   */
+  username?: string;
+  /**
+   * The email of the user.
+   */
+  email?: string;
+  /**
+   * The first name of the user.
+   */
+  firstName?: string;
+  /**
+   * The last name of the user.
+   */
+  lastName?: string;
+  /**
+   * The department of the user.
+   */
+  department?: string;
+  /**
+   * The account profile that was selected upon logon.
+   */
+  accountProfile?: AccountProfile;
+};
+
+/**
+ * The attributes of a citizen: a user consuming Montreal digital services.
+ * There are regular citizen accounts for families as well as citizens acting on behalf of their organization.
+ *
+ * The ID of the citizen is managed by the DCI (Dossier Citoyen Intégré) and is known as mtlIdentityId.
+ */
+export type CitizenAttributes = CommonUserAttributes & {
+  /**
+   * The type of user that will specify which attributes are allowed.
+   */
+  type: 'citizen';
+  /**
+   * The email of the citizen.
+   * This is his own mail used for registering to Montreal digital services.
+   */
+  email: string;
+  /**
+   * The first name of the citizen.
+   * For instance: John
+   */
+  firstName: string;
+  /**
+   * The last name of the citizen.
+   * For instance: DOE
+   */
+  lastName: string;
+};
+
+/**
+ * The attributes of an employee: a user on the payroll of the city of Montreal.
+ *
+ * The ID is mapped to the username.
+ */
+export type EmployeeAttributes = CommonUserAttributes & {
+  /**
+   * The type of user that will specify which attributes are allowed.
+   */
+  type: 'employee';
+  /**
+   * The username of the employee which should be a short code starting with the letter 'u'.
+   * For instance: uzartw1
+   */
+  username: string;
+  /**
+   * The email of the employee.
+   * There are multiple domains such as montreal.ca or spvm.qc.ca
+   */
+  email: string;
+  /**
+   * The first name of the employee.
+   * For instance: John
+   */
+  firstName: string;
+  /**
+   * The last name of the employee.
+   * For instance: DOE
+   */
+  lastName: string;
+  /**
+   * The registration number of the employee as part of the HR process.
+   * For instance: 100375065
+   */
+  registrationNumber: string;
+  /**
+   * The department of the employee.
+   * For instance: 421408000000
+   */
+  department: string;
+  /**
+   * The account profile that was selected upon logon.
+   */
+  accountProfile: AccountProfile;
+};
+
+/**
+ * The attributes of an external user: a user that is not on the payroll of the city of Montreal but actively collaborates 
+ * with the city and has his own internal email and short code (starting with the letter x).
+
+* The ID is mapped to the username.
+ */
+export type ExternalUserAttributes = CommonUserAttributes & {
+  type: 'external';
+  /**
+   * The username of the external user which should be a short code starting with the letter 'x'.
+   * For instance: xzartw1
+   */
+  username: string;
+  /**
+   * The email of the external user.
+   * The name part of the email should end with ".ext", like john.doe.ext@montreal.ca
+   */
+  email?: string;
+  /**
+   * The first name of the user.
+   * For instance: John
+   */
+  firstName: string;
+  /**
+   * The last name of the user.
+   * For instance: DOE
+   */
+  lastName: string;
+  /**
+   * The account profile that was selected upon logon.
+   */
+  accountProfile: AccountProfile;
+};
+
+/**
+ * The attributes of a generic user: a fake user used for testing only, that has the right profile or role to perform specific tasks.
+
+* The ID is mapped to the username.
+ */
+export type GenericUserAttributes = CommonUserAttributes & {
+  type: 'generic';
+  /**
+   * The username of the user which should be a short code starting with the letters 'cg'.
+   * For instance: cgdsecdev2
+   */
+  username: string;
+  /**
+   * The first name of the user.
+   * For instance: John
+   */
+  firstName: string;
+  /**
+   * The last name of the user.
+   * For instance: DOE
+   */
+  lastName: string;
+  /**
+   * The account profile that was selected upon logon.
+   */
+  accountProfile: AccountProfile;
+};
+
+/**
+ * The attributes of a guest: a user who is invited in the city of Montreal tenant in order to collaborate with some specific services.
+
+* The ID is mapped to the username.
+ */
+export type GuestUserAttributes = CommonUserAttributes & {
+  type: 'guest';
+  /**
+   * The username of the guest user which should contain the '#EXT#' suffix and belong to the "lavilledemontreal.onmicrosoft.com" domain.
+   * For instance: john.doe_hydro.qc.ca#EXT#@lavilledemontreal.onmicrosoft.com
+   */
+  username: string;
+  /**
+   * The email of the guest user.
+   * The domain of the email should not belong to the City of Montreal, such as montreal.ca or spvm.qc.ca.
+   * For instance: john.doe@hydro.qc.ca
+   */
+  email: string;
+};
+
+/**
+ * An unknown user has no guaranteed attributes and defaults to optional common user attributes.
+
+* The ID is mapped to the username or the email.
+ */
+export type UnknownUserAttributes = CommonUserAttributes & {
+  type: 'unknown';
+};
+
+/**
+ * The different sets of user attributes based on the user subtype.
+ */
+export type UserAttributes =
+  | CitizenAttributes
+  | EmployeeAttributes
+  | ExternalUserAttributes
+  | GenericUserAttributes
+  | GuestUserAttributes
+  | UnknownUserAttributes;
+
+/************************************************************************************************
+ * Anonymous attributes
+ * --------------------
+ * There is a single type of attributes for the anonymous identity.
+ *
+ ************************************************************************************************/
+
+/**
+ * The specific attributes for an anonymous identity.
+ */
+export type AnonymousAttributes = {
+  type: 'anonymous';
+  /**
+   * The username of the anonymous user.
+   * For instance: srvAccAnonymous
+   */
+  username: string;
+};
+
+/************************************************************************************************
+ * Service account attributes
+ * --------------------------
+ * There are 2 types of service accounts:
+ *   - client: this is a non-interactive client that used the OAuth2 client_credentials flow.
+ *     This is the only flow for Azure AD B2C and Entra ID.
+ *   - user: this is a specific user that used the OAuth2 password flow.
+ *     This flow is deprecated.
+ *
+ ************************************************************************************************/
+
+/**
+ * The specific attributes for a service account of subtype 'client'.
+ * Note that 'client' means that the service authenticated using the OAuth2 client_credentials flow.
+ */
+export type ClientServiceAccountAttributes = {
+  type: 'client';
+};
+
+/**
+ * The specific attributes for a service account of subtype 'user'.
+ * Note that 'user' means that the service authenticated using the OAuth2 password flow. (Deprecated)
+ */
+export type UserServiceAccountAttributes = {
+  type: 'user';
+  /**
+   * The username of the user service account.
+   * For instance: SrvAccDiagCanary
+   */
+  username: string;
+};
+
+/**
+ * The different sets of service account attributes based on the account subtype.
+ */
+export type ServiceAccountAttributes =
+  | ClientServiceAccountAttributes
+  | UserServiceAccountAttributes;
+
+/***********************************************************************************************************************
+ * Identities:
+ * -----------
+ * Each type of identity has some required properties, such as:
+ *   - the ID
+ *   - the display name
+ *   - the source of this identity
+ *   - the attributes specific to the subtype of identity
+ *   - a toString() helper method that can format the identity for auditing or logging
+ *
+ * We have 3 types of identity:
+ *   - user (employee, citizen, external user, generic user, guest user, unknown user...)
+ *   - service account (client, user)
+ *   - anonymous
+ *
+ * If we don't recognize one of those types of identity, we will default to UnknownIdentity.
+ *
+ * You'll have to test the type of identity before accessing the attributes, then you'll have to test the type of attributes.
+ *
+ * Note that a UserIdentity will default to the CommonUserAttributes type for its attributes, in order to provide
+ * a quick access to some common user attributes. But those attributes will be optional and should be checked,
+ * whereas the typed attributes will provide strong guarantees.
+ *
+ ***********************************************************************************************************************/
+
 /**
  * Contains some common attributes that provide some traceability for understanding which claim we have selected for the ID of the identity,
  * where does the token come from and which was the internal ID of the user in the IDP.
  */
-export interface IdentitySource {
+export type IdentitySource = {
   /**
    * Which service issued the JWT that we parsed into an identity.
    * Usually, this would be 'security-identity-token-api'.
@@ -37,12 +382,14 @@ export interface IdentitySource {
    * This could be:  lab, dev, accept, prod
    */
   env?: string;
-}
+};
 
 /**
  * A BaseIdentity contains attributes shared by all types of Identity.
+ * They also have a strongly typed 'attributes' property that is specific
+ * to each kind of identity and its variants.
  */
-export interface BaseIdentity {
+export type BaseIdentity<TAttributes> = {
   /**
    * A stable unique ID for the authenticated user.
    * An ID can be mapped to a username, email, appId according to the type of user.
@@ -59,142 +406,49 @@ export interface BaseIdentity {
    */
   source: IdentitySource;
   /**
+   * The attributes specific to the subtype of identity.
+   */
+  attributes: TAttributes;
+  /**
    * A helper function for formatting the Identity in order to log it or audit it.
    * This is for diagnostics only.
    */
   toString(): string;
-}
+};
 
 /**
- * The type of profile selected by the user at login time, when a user has multiple identities
- * such as a VDM employee with a SPVM email.
- * 'vdm-admin' whould be selected when the authenticated user is a sysadmin who selected his superadmin profile,
- * instead of the regular one.
+ * This is a user that can interact with the systems of the city of Montreal.
+ * The attributes will vary according to the type of user (citizen, employee, external user...)
  */
-export type AccountProfile = 'vdm' | 'vdm-admin' | 'spvm';
+export type UserIdentity<TAttributes extends UserAttributes = UserAttributes> =
+  BaseIdentity<TAttributes> & {
+    /** The type of identity
+     */
+    type: 'user';
+  };
 
 /**
  * This is an employee, on the payroll of the city of Montreal.
  *
- * The id is mapped to the username.
+ * The ID is mapped to the username.
  */
-export interface EmployeeIdentity extends BaseIdentity {
-  /** The type of identity
-   */
-  type: 'employee';
-  /**
-   * The email of the employee.
-   * There are multiple domains such as montreal.ca or spvm.qc.ca
-   */
-  email: string;
-  /**
-   * The username of the employee which should be a short code starting with the letter 'u'.
-   * For instance: uzartw1
-   */
-  username: string;
-  /**
-   * The registration number of the employee as part of the HR process.
-   * For instance: 100375065
-   */
-  registrationNumber: string;
-  /**
-   * The department of the employee.
-   * For instance: 421408000000
-   */
-  department: string;
-  /**
-   * The first name of the employee.
-   * For instance: John
-   */
-  firstName: string;
-  /**
-   * The last name of the employee.
-   * For instance: DOE
-   */
-  lastName: string;
-  /**
-   * The account profile that was selected upon logon.
-   */
-  accountProfile: AccountProfile;
-}
+export type EmployeeIdentity = UserIdentity<EmployeeAttributes>;
 
 /**
- * This is an external user: an external collaborator or consultant that is not on the payroll of the city of Montreal.
+ * This is an external user: an external collaborator or consultant that is not on the payroll of the city of Montreal,
+ * but can access all internal services and has an email in the domain of Montreal (or SPVM).
  *
- * The id is mapped to the username.
+ * The ID is mapped to the username.
  */
-export interface ExternalUserIdentity extends BaseIdentity {
-  /**
-   * The type of identity
-   */
-  type: 'external-user';
-  /**
-   * The email of the external user.
-   * The name part of the email should end with ".ext", like john.doe.ext@montreal.ca
-   */
-  email?: string; // TODO: validate if this is really optional
-  /**
-   * The username of the external user which should be a short code starting with the letter 'x'.
-   * For instance: xzartw1
-   */
-  username: string;
-  /**
-   * The department of the user. This is optional at the moment.
-   * For instance: 421408000000
-   */
-  department?: string;
-  /**
-   * The first name of the user.
-   * For instance: John
-   */
-  firstName: string;
-  /**
-   * The last name of the user.
-   * For instance: DOE
-   */
-  lastName: string;
-  /**
-   * The account profile that was selected upon logon.
-   */
-  accountProfile: AccountProfile;
-}
+export type ExternalUserIdentity = UserIdentity<ExternalUserAttributes>;
 
 /**
  * This is a generic user: a user shared by employees or external users in order to perform QA tests in a non production environment.
  * Each generic user would have its own role or profile in the tested application, allowing one to perform the tasks required by the test.
  *
- * The id is mapped to the username.
+ * The ID is mapped to the username.
  */
-export interface GenericUserIdentity extends BaseIdentity {
-  /**
-   * The type of identity
-   */
-  type: 'generic-user';
-  /**
-   * The username of the user which should be a short code starting with the letters 'cg'.
-   * For instance: cgdsecdev2
-   */
-  username: string;
-  /**
-   * The department of the user. This is optional at the moment.
-   * For instance: 421408000000
-   */
-  department?: string;
-  /**
-   * The first name of the user.
-   * For instance: John
-   */
-  firstName: string;
-  /**
-   * The last name of the user.
-   * For instance: DOE
-   */
-  lastName: string;
-  /**
-   * The account profile that was selected upon logon.
-   */
-  accountProfile: AccountProfile;
-}
+export type GenericUserIdentity = UserIdentity<GenericUserAttributes>;
 
 /**
  * This is a guest user: a user who doesn't work for the city of Montreal but needs to colloborate with a set of limited and specific services.
@@ -202,25 +456,9 @@ export interface GenericUserIdentity extends BaseIdentity {
  * we should only have tokens from the 'employees' realm.
  * Note that this kind of user might not have a firstName and lastName.
  *
- * The id is mapped to the username.
+ * The ID is mapped to the username.
  */
-export interface GuestUserIdentity extends BaseIdentity {
-  /**
-   * The type of identity
-   */
-  type: 'guest-user';
-  /**
-   * The username of the guest user which should contain the '#EXT#' suffix and belong to the "lavilledemontreal.onmicrosoft.com" domain.
-   * For instance: john.doe_hydro.qc.ca#EXT#@lavilledemontreal.onmicrosoft.com
-   */
-  username: string;
-  /**
-   * The email of the guest user.
-   * The domain of the email should not belong to the City of Montreal, such as montreal.ca or spvm.qc.ca.
-   * For instance: john.doe@hydro.qc.ca
-   */
-  email: string;
-}
+export type GuestUserIdentity = UserIdentity<GuestUserAttributes>;
 
 /**
  * This is a citizen: a user consuming Montreal digital services.
@@ -228,43 +466,52 @@ export interface GuestUserIdentity extends BaseIdentity {
  *
  * The ID of the citizen is managed by the DCI (Dossier Citoyen Intégré) and is known as mtlIdentityId.
  */
-export interface CitizenIdentity extends BaseIdentity {
-  /**
-   * The type of identity
-   */
-  type: 'citizen';
-  /**
-   * The email of the citizen.
-   * This is his own mail used for registering to Montreal digital services.
-   */
-  email: string;
-  /**
-   * The first name of the citizen.
-   * For instance: John
-   */
-  firstName: string;
-  /**
-   * The last name of the citizen.
-   * For instance: DOE
-   */
-  lastName: string;
-}
+export type CitizenIdentity = UserIdentity<CitizenAttributes>;
+
+/**
+ * This is a user but we could not detect its type (employee, citizen...).
+ * In this case, it means that the user has at least a username or an email.
+ * All other common attributes might be defined but are not guaranteed.
+ *
+ * The ID of the unknown user will be mapped to the username when available, otherwise to the email.
+ */
+export type UnknownUserIdentity = UserIdentity<UnknownUserAttributes>;
 
 /**
  * This is an anonymous user: a user consuming some basic digitital services that don't require to be identified,
  * such as reporting a pot hole in the street.
  *
- * The id is mapped to the username.
+ * The ID is mapped to the username.
  */
-export interface AnonymousUserIdentity extends BaseIdentity {
+export type AnonymousIdentity = BaseIdentity<AnonymousAttributes> & {
   /** The type of identity */
   type: 'anonymous';
+};
+
+/**
+ * This is a service account, without interactive logon, that allows a backend service or an automation to perform some tasks
+ * with the required privileges (least privilege).
+ * A service account has an ID, a display name and a secret (that expires after a few months).
+ *
+ * The ID is mapped to the 'aud' or the 'username', depending on the subtype.
+ */
+export type ServiceAccountIdentity<
+  TAttributes extends ServiceAccountAttributes = ServiceAccountAttributes
+> = BaseIdentity<TAttributes> & {
   /**
-   * The username of the anonymous user.
-   * For instance: srvAccAnonymous
+   * The type of identity
    */
-  username: string;
-}
+  type: 'service-account';
+};
+
+/**
+ * This is a service account, without interactive logon, that allows a backend service or an automation to perform some tasks
+ * with the required privileges (least privilege).
+ * A service account has an ID, a display name and a secret (that expires after a few months).
+ *
+ * The ID is mapped to the 'aud' which contains the appId in Azure or the inum in Gluu.
+ */
+export type ClientServiceAccountIdentity = ServiceAccountIdentity<ClientServiceAccountAttributes>;
 
 /**
  * This is the old way of managing service accounts, with a real user provisioned (that's why there is a username property).
@@ -272,55 +519,32 @@ export interface AnonymousUserIdentity extends BaseIdentity {
  *
  * The id is mapped to the username.
  */
-export interface LegacyServiceAccountIdentity extends BaseIdentity {
-  /** The type of identity */
-  type: 'legacy-service-account';
-  /**
-   * The username of the legacy service account.
-   * For instance: SrvAccDiagCanary
-   */
-  username: string;
-}
+export type UserServiceAccountIdentity = ServiceAccountIdentity<UserServiceAccountAttributes>;
 
 /**
- * This is a service account, without interactive logon, that allows a backend service or an automation to perform some tasks
- * with the required privileges (least privilege).
- * A service account has an ID, a display name and a secret (that expires after a few months).
- *
- * The id is mapped to the appId in Azure or the inum in Gluu.
+ * An unknown identity has no specific attributes and defaults to this empty definition.
  */
-export interface ServiceAccountIdentity extends BaseIdentity {
-  /**
-   * The type of identity
-   */
-  type: 'service-account';
-}
+export type UnknownAttributes = {
+  type: 'unknown';
+};
 
 /**
  * This is the default identity when we could not match the proper one from the submitted JWT.
- * This might happen when we introduce a new type and this lib has not been updated in the client application.
+ * This might happen when we introduce a new type and this lib has not been updated in the client application,
+ * but it should be very rare.
  *
- * The id is mapped to the username or the sub when the former is not available.
+ * The ID is mapped to the sub.
  */
-export interface UnknownIdentity extends BaseIdentity {
+export type UnknownIdentity = BaseIdentity<UnknownAttributes> & {
   /**
    * The type of identity
    */
   type: 'unknown';
-}
+};
 
 /**
- * This is the Identity of the user performing a request.
+ * This is the Identity of the agent performing a request.
  * You would have to discriminate the right identity based on the 'type' property.
- * All identities would have a unique ID, a display name, a source and a toString() function for formatting the values.
+ * All identities will have a unique ID, a display name, a source, an attributes struct and a toString() function for formatting the values.
  */
-export type Identity =
-  | AnonymousUserIdentity
-  | CitizenIdentity
-  | EmployeeIdentity
-  | ExternalUserIdentity
-  | GenericUserIdentity
-  | GuestUserIdentity
-  | LegacyServiceAccountIdentity
-  | ServiceAccountIdentity
-  | UnknownIdentity;
+export type Identity = AnonymousIdentity | UserIdentity | ServiceAccountIdentity | UnknownIdentity;

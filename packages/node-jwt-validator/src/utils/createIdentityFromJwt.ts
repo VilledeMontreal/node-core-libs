@@ -1,16 +1,19 @@
 import {
   AccountProfile,
-  AnonymousUserIdentity,
+  AnonymousIdentity,
   CitizenIdentity,
   EmployeeIdentity,
   ExternalUserIdentity,
   GenericUserIdentity,
   GuestUserIdentity,
   Identity,
-  LegacyServiceAccountIdentity,
   ServiceAccountIdentity,
   UnknownIdentity,
+  UnknownUserIdentity,
+  UserServiceAccountIdentity,
 } from '../models/identities';
+
+const usernameClaimName = 'userName';
 
 /**
  * creates a specific type of Identity from the submitted JWT.
@@ -28,16 +31,25 @@ import {
  * product.modifiedBy = identity.id; // udoejo3
  * @example
  * const identity = createIdentityFromJwt(req.jwt);
- * console.log(`Order created by "${identity}"`); // Order created by "employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm"
+ * console.log(`Order created by "${identity}"`); // Order created by "user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm"
  * @example
  * const identity = createIdentityFromJwt(req.jwt);
  * res.send({ message: `Welcome back ${identity.displayName}`}); // { message: "Welcome back John DOE" }
  * @example
  * const identity = createIdentityFromJwt(req.jwt);
- * if (identity.type === 'employee') {
- *    const employeeRecord = employeeAPI.findEmployee(identity.registrationNumber);
+ * if (identity.type === 'user' && identity.attributes.type === 'employee') {
+ *    const employeeRecord = await employeeAPI.findEmployee(identity.attributes.registrationNumber);
  * } else {
  *    throw new Error(`Expected an employee but received "${identity}"`);
+ * }
+ * @example
+ * const identity = createIdentityFromJwt(req.jwt);
+ * if (identity.type === 'user') {
+ *   if (identity.attributes.email) {
+ *      emailService.send(identity.attributes.email, 'Welcome', 'Bla bla...');
+ *   } else {
+ *      throw new Error(`User "${identity}" has no email`);
+ *   }
  * }
  */
 export function createIdentityFromJwt(jwt: any): Identity {
@@ -60,32 +72,40 @@ export function createIdentityFromJwt(jwt: any): Identity {
     if (realm !== 'anonymous') {
       throw new Error(`${type}: expected token to belong to the "anonymous" realm`);
     }
-    const username = getStringClaim(jwt, 'userName', type);
-    const result: AnonymousUserIdentity = {
+    const username = getStringClaim(jwt, usernameClaimName, type);
+    const result: AnonymousIdentity = {
       type,
       id: username,
       displayName: getStringClaim(jwt, 'name', type),
-      username,
+      attributes: {
+        type: 'anonymous',
+        username,
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: sub,
       },
-      toString(this: AnonymousUserIdentity) {
+      toString(this: AnonymousIdentity) {
         return encodeComponents(this.type, this.id, this.displayName);
       },
     };
     return result;
   }
-  //----------< Service account >-----------------------------------------
+  //----------< Client Service account >-----------------------------------------
   if (userType === 'client') {
+    const type = 'service-account';
+    const subType = 'client';
     const result: ServiceAccountIdentity = {
-      type: 'service-account',
+      type,
       id: aud, // Gluu clientID or Azure appId
-      displayName: getStringClaim(jwt, 'displayName'),
+      displayName: getStringClaim(jwt, 'displayName', type, subType),
+      attributes: {
+        type: subType,
+      },
       source: {
         issuer,
         accessTokenIssuer,
@@ -95,47 +115,55 @@ export function createIdentityFromJwt(jwt: any): Identity {
         internalId: oid ?? sub,
       },
       toString(this: ServiceAccountIdentity) {
-        return encodeComponents(this.type, this.id, this.displayName);
+        return encodeComponents(this.type, this.attributes.type, this.id, this.displayName);
       },
     };
     return result;
   }
-  //----------< Legacy Service account >-----------------------------------------
+  //----------< User Service account >-----------------------------------------
   if (userType === 'serviceAccount') {
-    const type = 'legacy-service-account';
-    const username = getStringClaim(jwt, 'userName', type);
-    const result: LegacyServiceAccountIdentity = {
+    const type = 'service-account';
+    const subType = 'user';
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
+    const result: UserServiceAccountIdentity = {
       type,
       id: username,
-      displayName: getStringClaim(jwt, 'name', type),
-      username,
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: subType,
+        username,
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: sub,
       },
-      toString(this: LegacyServiceAccountIdentity) {
-        return encodeComponents(this.type, this.id, this.displayName);
+      toString(this: UserServiceAccountIdentity) {
+        return encodeComponents(this.type, this.attributes.type, this.id, this.displayName);
       },
     };
     return result;
   }
   //----------< Citizen >-----------------------------------------
   if (userType === 'citizen') {
-    const type = 'citizen';
+    const type = 'user';
+    const subType = 'citizen';
     if (realm !== 'citizens') {
-      throw new Error(`${type}: expected token to belong to the "citizens" realm`);
+      throw new Error(`${type}:${subType}: expected token to belong to the "citizens" realm`);
     }
     const result: CitizenIdentity = {
       type,
-      id: getStringClaim(jwt, 'mtlIdentityId', type),
-      displayName: getStringClaim(jwt, 'name', type),
-      email: getStringClaim(jwt, 'email', type),
-      firstName: getStringClaim(jwt, 'givenName', type),
-      lastName: getStringClaim(jwt, 'familyName', type),
+      id: getStringClaim(jwt, 'mtlIdentityId', type, subType),
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: subType,
+        email: getStringClaim(jwt, 'email', type, subType),
+        firstName: getStringClaim(jwt, 'givenName', type, subType),
+        lastName: getStringClaim(jwt, 'familyName', type, subType),
+      },
       source: {
         issuer,
         accessTokenIssuer,
@@ -145,39 +173,52 @@ export function createIdentityFromJwt(jwt: any): Identity {
         internalId: oid ?? sub,
       },
       toString(this: CitizenIdentity) {
-        return encodeComponents(this.type, this.id, this.displayName, this.email);
+        return encodeComponents(
+          this.type,
+          this.attributes.type,
+          this.id,
+          this.displayName,
+          this.attributes.email
+        );
       },
     };
     return result;
   }
   //----------< Generic user >-----------------------------------------
   if (isGenericUser === true) {
-    const type = 'generic-user';
-    const username = getStringClaim(jwt, 'userName', type);
+    const type = 'user';
+    const subType = 'generic-user';
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
     const result: GenericUserIdentity = {
       type,
       id: username,
-      displayName: getStringClaim(jwt, 'name', type),
-      username,
-      department: getOptionalStringClaim(jwt, 'department'),
-      firstName: getStringClaim(jwt, 'givenName', type),
-      lastName: getStringClaim(jwt, 'familyName', type),
-      accountProfile: getAccountProfile(jwt),
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: 'generic',
+        username,
+        email: getOptionalStringClaim(jwt, 'email'),
+        department: getOptionalStringClaim(jwt, 'department'),
+        firstName: getStringClaim(jwt, 'givenName', type, subType),
+        lastName: getStringClaim(jwt, 'familyName', type, subType),
+        accountProfile: getAccountProfile(jwt),
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: oid ?? sub,
       },
       toString(this: GenericUserIdentity) {
         return encodeComponents(
           this.type,
+          this.attributes.type,
           this.id,
           this.displayName,
-          this.department,
-          this.accountProfile
+          this.attributes.email,
+          this.attributes.department,
+          this.attributes.accountProfile
         );
       },
     };
@@ -185,39 +226,44 @@ export function createIdentityFromJwt(jwt: any): Identity {
   }
   //----------< Employee >-----------------------------------------
   if (userType === 'employee' && isEmployee(jwt)) {
-    const type = 'employee';
+    const type = 'user';
+    const subType = 'employee';
     if (realm !== 'employees') {
-      throw new Error(`${type}: expected token to belong to the "employees" realm`);
+      throw new Error(`${type}:${subType}: expected token to belong to the "employees" realm`);
     }
-    const username = getStringClaim(jwt, 'userName', type);
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
     const result: EmployeeIdentity = {
       type,
       id: username,
-      displayName: getStringClaim(jwt, 'name', type),
-      email: getStringClaim(jwt, 'email', type),
-      username,
-      registrationNumber: getStringClaim(jwt, 'employeeNumber', type),
-      department: getStringClaim(jwt, 'department', type),
-      firstName: getStringClaim(jwt, 'givenName', type),
-      lastName: getStringClaim(jwt, 'familyName', type),
-      accountProfile: getAccountProfile(jwt),
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: subType,
+        email: getStringClaim(jwt, 'email', type, subType),
+        username,
+        registrationNumber: getStringClaim(jwt, 'employeeNumber', type, subType),
+        department: getStringClaim(jwt, 'department', type, subType),
+        firstName: getStringClaim(jwt, 'givenName', type, subType),
+        lastName: getStringClaim(jwt, 'familyName', type, subType),
+        accountProfile: getAccountProfile(jwt),
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: oid ?? sub,
       },
       toString(this: EmployeeIdentity) {
         return encodeComponents(
           this.type,
+          this.attributes.type,
           this.id,
           this.displayName,
-          this.email,
-          this.registrationNumber,
-          this.department,
-          this.accountProfile
+          this.attributes.email,
+          this.attributes.registrationNumber,
+          this.attributes.department,
+          this.attributes.accountProfile
         );
       },
     };
@@ -225,37 +271,42 @@ export function createIdentityFromJwt(jwt: any): Identity {
   }
   //----------< External user >-----------------------------------------
   if (userType === 'employee' && isExternalUser(jwt)) {
-    const type = 'external-user';
+    const type = 'user';
+    const subType = 'external';
     if (realm !== 'employees') {
-      throw new Error(`${type}: expected token to belong to the "employees" realm`);
+      throw new Error(`${type}:${subType}: expected token to belong to the "employees" realm`);
     }
-    const username = getStringClaim(jwt, 'userName', type);
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
     const result: ExternalUserIdentity = {
       type,
       id: username,
-      displayName: getStringClaim(jwt, 'name', type),
-      email: getOptionalStringClaim(jwt, 'email'),
-      username,
-      department: getOptionalStringClaim(jwt, 'department'),
-      firstName: getStringClaim(jwt, 'givenName', type),
-      lastName: getStringClaim(jwt, 'familyName', type),
-      accountProfile: getAccountProfile(jwt),
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: subType,
+        email: getOptionalStringClaim(jwt, 'email'),
+        username,
+        department: getOptionalStringClaim(jwt, 'department'),
+        firstName: getStringClaim(jwt, 'givenName', type, subType),
+        lastName: getStringClaim(jwt, 'familyName', type, subType),
+        accountProfile: getAccountProfile(jwt),
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: oid ?? sub,
       },
       toString(this: ExternalUserIdentity) {
         return encodeComponents(
           this.type,
+          this.attributes.type,
           this.id,
           this.displayName,
-          this.email,
-          this.department,
-          this.accountProfile
+          this.attributes.email,
+          this.attributes.department,
+          this.attributes.accountProfile
         );
       },
     };
@@ -263,40 +314,98 @@ export function createIdentityFromJwt(jwt: any): Identity {
   }
   //----------< Guest user >-----------------------------------------
   if (isGuestUser(jwt)) {
-    const type = 'guest-user';
-    const username = getStringClaim(jwt, 'userName', type);
+    const type = 'user';
+    const subType = 'guest-user';
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
     const result: GuestUserIdentity = {
       type,
       id: username,
-      displayName: getStringClaim(jwt, 'name', type),
-      email: getStringClaim(jwt, 'email'),
-      username,
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: 'guest',
+        email: getStringClaim(jwt, 'email', type, subType),
+        username,
+        department: getOptionalStringClaim(jwt, 'department'),
+        firstName: getOptionalStringClaim(jwt, 'givenName'),
+        lastName: getOptionalStringClaim(jwt, 'familyName'),
+        accountProfile: getAccountProfile(jwt),
+      },
       source: {
         issuer,
         accessTokenIssuer,
         env,
         realm,
-        claim: 'userName',
+        claim: usernameClaimName,
         internalId: oid ?? sub,
       },
       toString(this: GuestUserIdentity) {
-        return encodeComponents(this.type, this.id, this.displayName, this.email);
+        return encodeComponents(
+          this.type,
+          this.attributes.type,
+          this.id,
+          this.displayName,
+          this.attributes.email
+        );
       },
     };
     return result;
   }
   //----------< Unknown user type >-----------------------------------------
-  const username = getOptionalStringClaim(jwt, 'userName');
+  const username = getOptionalStringClaim(jwt, usernameClaimName);
+  const email = getOptionalStringClaim(jwt, 'email');
+  if (username || email) {
+    const type = 'user';
+    const subType = 'unknown';
+    const claim = username ? usernameClaimName : 'email';
+    const result: UnknownUserIdentity = {
+      type,
+      id: getStringClaim(jwt, claim, type, subType),
+      displayName: getOptionalStringClaim(jwt, 'name') ?? email ?? username,
+      attributes: {
+        type: subType,
+        email: getOptionalStringClaim(jwt, 'email'),
+        username,
+        department: getOptionalStringClaim(jwt, 'department'),
+        firstName: getOptionalStringClaim(jwt, 'givenName'),
+        lastName: getOptionalStringClaim(jwt, 'familyName'),
+        accountProfile: getAccountProfile(jwt),
+      },
+      source: {
+        issuer,
+        accessTokenIssuer,
+        env,
+        realm,
+        claim: claim,
+        internalId: oid ?? sub,
+      },
+      toString(this: UnknownUserIdentity) {
+        return encodeComponents(
+          this.type,
+          this.attributes.type,
+          this.id,
+          this.displayName,
+          this.attributes.email,
+          this.attributes.department,
+          this.attributes.accountProfile
+        );
+      },
+    };
+    return result;
+  }
+  //----------< Unknown identity type >-----------------------------------------
   const result: UnknownIdentity = {
     type: 'unknown',
-    id: username ?? sub,
+    id: sub,
     displayName: getOptionalStringClaim(jwt, 'name') ?? 'unknown',
+    attributes: {
+      type: 'unknown',
+    },
     source: {
       issuer,
       accessTokenIssuer,
       env,
       realm,
-      claim: username ? 'userName' : 'sub',
+      claim: username ? usernameClaimName : 'sub',
       internalId: oid ?? sub,
     },
     toString(this: UnknownIdentity) {
@@ -317,10 +426,16 @@ function getOptionalStringClaim(jwt: any, name: string): string | undefined {
   return result;
 }
 
-function getStringClaim(jwt: any, name: string, identityType?: string): string | undefined {
+function getStringClaim(
+  jwt: any,
+  name: string,
+  identityType?: string,
+  identitySubType?: string
+): string | undefined {
   const result = getOptionalStringClaim(jwt, name);
   if (!result) {
-    const prefix = identityType ? `${identityType}: ` : '';
+    const subType = identitySubType ? `${identitySubType}: ` : '';
+    const prefix = (identityType ? `${identityType}: ` : '') + subType;
     throw new Error(`${prefix}expected to find the "${name}" claim in the JWT`);
   }
   return result;
@@ -347,21 +462,32 @@ function getAccountProfile(jwt: any): AccountProfile {
 }
 
 function isEmployee(jwt: any): boolean {
-  const username = jwt.userName;
-  if (typeof username !== 'string') {
+  const username = getOptionalStringClaim(jwt, usernameClaimName);
+  if (!username) {
     return false;
   }
   const employeeNumber = getOptionalStringClaim(jwt, 'employeeNumber');
   const department = getOptionalStringClaim(jwt, 'department');
+  const name = getOptionalStringClaim(jwt, 'name');
+  const firstName = getOptionalStringClaim(jwt, 'givenName');
+  const lastName = getOptionalStringClaim(jwt, 'familyName');
   const isCodeU = username.toLocaleLowerCase().startsWith('u');
   const hasEmployeeNumber = !!employeeNumber;
   const hasDepartment = !!department;
-  return isCodeU && hasEmployeeNumber && hasDepartment;
+  const hasNames = !!name && !!firstName && !!lastName;
+  return isCodeU && hasEmployeeNumber && hasDepartment && hasNames;
 }
 
 function isExternalUser(jwt: any): boolean {
-  const username = jwt.userName;
-  if (typeof username !== 'string') {
+  const username = getOptionalStringClaim(jwt, usernameClaimName);
+  if (!username) {
+    return false;
+  }
+  const name = getOptionalStringClaim(jwt, 'name');
+  const firstName = getOptionalStringClaim(jwt, 'givenName');
+  const lastName = getOptionalStringClaim(jwt, 'familyName');
+  const hasNames = !!name && !!firstName && !!lastName;
+  if (!hasNames) {
     return false;
   }
   const email = getOptionalStringClaim(jwt, 'email');
@@ -371,8 +497,16 @@ function isExternalUser(jwt: any): boolean {
 }
 
 function isGuestUser(jwt: any): boolean {
-  const username = jwt.userName;
-  if (typeof username !== 'string') {
+  const username = getOptionalStringClaim(jwt, usernameClaimName);
+  if (!username) {
+    return false;
+  }
+  const email = getOptionalStringClaim(jwt, 'email');
+  if (!email) {
+    return false;
+  }
+  const name = getOptionalStringClaim(jwt, 'name');
+  if (!name) {
     return false;
   }
   return (
