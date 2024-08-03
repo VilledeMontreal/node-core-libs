@@ -82,6 +82,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         username,
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -107,6 +108,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         type: subType,
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -134,6 +136,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         username,
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -160,11 +163,13 @@ export function createIdentityFromJwt(jwt: any): Identity {
       displayName: getStringClaim(jwt, 'name', type, subType),
       attributes: {
         type: subType,
+        username: getStringClaim(jwt, usernameClaimName, type, subType),
         email: getStringClaim(jwt, 'email', type, subType),
         firstName: getStringClaim(jwt, 'givenName', type, subType),
         lastName: getStringClaim(jwt, 'familyName', type, subType),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -203,6 +208,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         accountProfile: getAccountProfile(jwt),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -247,6 +253,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         accountProfile: getAccountProfile(jwt),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -291,6 +298,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         accountProfile: getAccountProfile(jwt),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -331,6 +339,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         accountProfile: getAccountProfile(jwt),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -371,6 +380,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         accountProfile: getAccountProfile(jwt),
       },
       source: {
+        aud,
         issuer,
         accessTokenIssuer,
         env,
@@ -401,6 +411,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       type: 'unknown',
     },
     source: {
+      aud,
       issuer,
       accessTokenIssuer,
       env,

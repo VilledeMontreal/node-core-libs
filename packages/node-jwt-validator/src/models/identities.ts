@@ -1,4 +1,5 @@
-/* Type summary:
+/* 
+Type summary:
 
   Identity
     |_ UnknownIdentity <-> UnknownAttributes
@@ -7,7 +8,7 @@
     |
     |_ ServiceAccountIdentity <-> ServiceAccountAttributes
     |     |_ ClientServiceAccountIdentity <-> ClientServiceAccountAttributes
-    |     |_ UserServiceAccountIdentityvv <-> UserServiceAccountAttributes
+    |     |_ UserServiceAccountIdentity <-> UserServiceAccountAttributes
     |
     |_ UserIdentity <-> UserAttributes
           |_ CitizenIdentity      <-> CitizenAttributes
@@ -17,12 +18,46 @@
           |_ GuestUserIdentity    <-> GuestUserAttributes
           |_ UnknownUserIdentity  <-> UnknownUserAttributes
 
+Existing ID mappings:
+
+| ---------------------------- | -------------------- | -------------------------------------------------------------- |
+| Entity                       | ID                   | Example                                                        |
+| ---------------------------- | -------------------- | -------------------------------------------------------------- |
+| UnknownIdentity              | sub                  | foo1234                                                        |
+| AnonymousIdentity            | username             | srvAccAnonymous                                                |
+| UserServiceAccountAttributes | username             | srvAccDiagCanary                                               |
+| ClientServiceAccountIdentity | aud (appId/clientId) | e5dd632b-cb97-48d7-a310-cde5147be717                           |
+| CitizenIdentity              | mtlIdentityId        | @!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D  |
+| EmployeeIdentity             | username             | umartw8                                                        |
+| ExternalUserIdentity         | username             | xdoejo3                                                        |
+| GenericUserIdentity          | username             | cgdsecdev2                                                     |
+| GuestUserIdentity            | username             | doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com  |
+| ---------------------------- | -------------------- | -------------------------------------------------------------- |
+
+Identity.toString() examples:
+
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Identity                     | Example                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| UnknownIdentity              | unknown:12345:John Doe                                                                                                 |
+| AnonymousIdentity            | anonymous:srvAccAnonymous:srvAcc Anonymous                                                                             |
+| UserServiceAccountAttributes | service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary                                                        |
+| ClientServiceAccountIdentity | service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev                             |
+| CitizenIdentity              | user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com            |
+| EmployeeIdentity             | user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm                                         |
+| ExternalUserIdentity         | user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm                                                               |
+| GenericUserIdentity          | user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm                                                        |
+| GuestUserIdentity            | user:guest:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+
+
 */
 
 /************************************************************************************************
  * User attributes
  * ---------------
  * All user attributes extend the CommonUserAttributes type, which defines a couple of common but optional attributes.
+ * All user attributes have at least a username or an email to qualify.
  *
  * We have identified the following types of user:
  *   - CitizenAttributes
@@ -37,6 +72,11 @@
  * common optional attributes through the CommonUserAttributes type,
  * but it is better to test the 'type' of the attributes to access the strongly types attributes
  * with additional guarantees.
+ *
+ * Since some users might have multiple profiles and thus multiple emails (like @montreal.ca, .adm@montreal.ca or @spvm.qc.ca)
+ * that they can select at login time, you might want to consider the "accountProfile" attribute which categorizes them.
+ * The ID will correctly identify the physical person but not the selected role.
+ * So, you could combine ID+accountProfile or prefer the email in some cases, like when you need to evaluate the permissions.
  *
  ************************************************************************************************/
 
@@ -61,7 +101,7 @@ export type CommonUserAttributes = {
   /**
    * The username of the user, which could be an email, a UPN or a short code depending on the 'type'.
    */
-  username?: string;
+  username: string;
   /**
    * The email of the user.
    */
@@ -95,6 +135,10 @@ export type CitizenAttributes = CommonUserAttributes & {
    * The type of user that will specify which attributes are allowed.
    */
   type: 'citizen';
+  /**
+   * The username of the citizen which should be the email.
+   */
+  username: string;
   /**
    * The email of the citizen.
    * This is his own mail used for registering to Montreal digital services.
@@ -242,8 +286,9 @@ export type GuestUserAttributes = CommonUserAttributes & {
 
 /**
  * An unknown user has no guaranteed attributes and defaults to optional common user attributes.
-
-* The ID is mapped to the username or the email.
+ * However, since it is a user, we know that it has at least a username or an email.
+ *
+ * The ID is mapped to the username or the email.
  */
 export type UnknownUserAttributes = CommonUserAttributes & {
   type: 'unknown';
@@ -349,6 +394,10 @@ export type ServiceAccountAttributes =
  */
 export type IdentitySource = {
   /**
+   * The audience of the JWT, which is usually the clientID our appId.
+   */
+  aud: string;
+  /**
    * Which service issued the JWT that we parsed into an identity.
    * Usually, this would be 'security-identity-token-api'.
    */
@@ -418,7 +467,12 @@ export type BaseIdentity<TAttributes> = {
 
 /**
  * This is a user that can interact with the systems of the city of Montreal.
- * The attributes will vary according to the type of user (citizen, employee, external user...)
+ * The attributes will vary according to the type of user (citizen, employee, external user...).
+ *
+ * Since some users might have multiple profiles and thus multiple emails (like @montreal.ca, .adm@montreal.ca or @spvm.qc.ca)
+ * that they can select at login time, you might want to consider the "accountProfile" attribute which categorizes them.
+ * The ID will correctly identify the physical person but not the selected role.
+ * So, you could combine ID+accountProfile or prefer the email in some cases, like when you need to evaluate the permissions.
  */
 export type UserIdentity<TAttributes extends UserAttributes = UserAttributes> =
   BaseIdentity<TAttributes> & {

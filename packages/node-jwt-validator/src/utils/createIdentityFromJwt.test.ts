@@ -56,14 +56,16 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
         internalId: '0b64042a-9cce-42dc-b645-cd721cbbc179',
       },
     });
+    // console.log(JSON.stringify(identity));
     expect(JSON.stringify(identity)).to.eql(
-      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm"},"source":{"issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
+      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm"},"source":{"aud":"e5dd632b-cb97-48d7-a310-5147be717cde","issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
     );
   });
 
@@ -114,6 +116,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
@@ -169,6 +172,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
@@ -221,6 +225,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
@@ -265,6 +270,7 @@ describe('createIdentityFromJwt', () => {
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer: 'security-identity-anonymous-token-api',
+        aud: '@!4025.CA62.9BB6.16C5!0001!2212.0010!0008!2212.0010',
         env: 'dev',
         realm: 'anonymous',
         claim: 'userName',
@@ -308,6 +314,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-cde5147be717',
         env: 'dev',
         realm: 'employees',
         claim: 'aud',
@@ -354,6 +361,7 @@ describe('createIdentityFromJwt', () => {
       source: {
         issuer: 'security-identity-token-api',
         accessTokenIssuer: 'https://auth.dev.interne.montreal.ca',
+        aud: '@!4025.CA62.9BB6.16C5!0001!2212.0010!0008!2212.0130',
         env: 'dev',
         realm: 'citizens',
         claim: 'userName',
@@ -398,6 +406,7 @@ describe('createIdentityFromJwt', () => {
       displayName: 'John Doe',
       attributes: {
         type: 'citizen',
+        username: 'john.doe@mailinator.com',
         email: 'john.doe@mailinator.com',
         firstName: 'John',
         lastName: 'Doe',
@@ -406,6 +415,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://connexion.dev.montreal.ca/1543b575-116b-4325-a0bf-3ccdd7925321/v2.0/',
+        aud: 'a496befa-db7d-45a6-ac7a-11471816b8f1',
         env: 'dev',
         realm: 'citizens',
         claim: 'mtlIdentityId',
@@ -459,6 +469,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'a496befa-db7d-45a6-ac7a-11471816b8f1',
         env: 'dev',
         realm: 'employees',
         claim: 'userName',
@@ -500,6 +511,7 @@ describe('createIdentityFromJwt', () => {
         issuer: 'security-identity-token-api',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'a496befa-db7d-45a6-ac7a-11471816b8f1',
         env: 'dev',
         realm: 'employees',
         claim: 'sub',
