@@ -36,7 +36,15 @@ describe('createIdentityFromJwt', () => {
     expect(`${identity}`).to.equal(
       'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
     );
-
+    if (identity.type === 'user') {
+      if (identity.attributes.type === 'employee') {
+        expect(identity.attributes.registrationNumber).to.eql('100674051');
+      } else {
+        expect.fail('expected employee');
+      }
+    } else {
+      expect.fail('expected user identity');
+    }
     delete identity.toString;
     expect(identity).to.eql({
       type: 'user',
