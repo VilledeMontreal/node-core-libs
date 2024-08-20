@@ -36,19 +36,19 @@ Existing ID mappings:
 
 Identity.toString() examples:
 
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Identity                     | Example                                                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| UnknownIdentity              | unknown:12345:John Doe                                                                                                 |
-| AnonymousIdentity            | anonymous:srvAccAnonymous:srvAcc Anonymous                                                                             |
-| UserServiceAccountAttributes | service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary                                                        |
-| ClientServiceAccountIdentity | service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev                             |
-| CitizenIdentity              | user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com            |
-| EmployeeIdentity             | user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm                                         |
-| ExternalUserIdentity         | user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm                                                               |
-| GenericUserIdentity          | user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm                                                        |
-| GuestUserIdentity            | user:guest:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Identity                     | Example                                                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| UnknownIdentity              | unknown:12345:John Doe                                                                                                           |
+| AnonymousIdentity            | anonymous:srvAccAnonymous:srvAcc Anonymous                                                                                       |
+| UserServiceAccountAttributes | service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary                                                                  |
+| ClientServiceAccountIdentity | service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev                                       |
+| CitizenIdentity              | user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com                      |
+| EmployeeIdentity             | user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm                                                   |
+| ExternalUserIdentity         | user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm                                                                         |
+| GenericUserIdentity          | user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm                                                                  |
+| GuestUserIdentity            | user:guest:employees:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 
 
 */

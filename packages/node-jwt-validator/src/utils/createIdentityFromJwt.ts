@@ -351,6 +351,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         return encodeComponents(
           this.type,
           this.attributes.type,
+          realm,
           this.id,
           this.displayName,
           this.attributes.email

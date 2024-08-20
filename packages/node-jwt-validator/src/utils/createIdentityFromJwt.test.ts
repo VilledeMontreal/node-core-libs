@@ -212,7 +212,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:guest:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca'
+      'user:guest:employees:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca'
     );
 
     delete identity.toString;
