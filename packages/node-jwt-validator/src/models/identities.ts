@@ -115,7 +115,13 @@ export type CommonUserAttributes = {
    */
   lastName?: string;
   /**
-   * The department of the user.
+   * The registration number of the employee as part of the HR process.
+   * For instance: 100375065
+   */
+  registrationNumber?: string;
+  /**
+   * The department of the user. This is the primary organization unit that the user has been assigned to.
+   * Note that a user could belong to multiple organization units.
    */
   department?: string;
   /**
@@ -192,7 +198,8 @@ export type EmployeeAttributes = CommonUserAttributes & {
    */
   registrationNumber: string;
   /**
-   * The department of the employee.
+   * The department of the employee. This is the primary organization unit that the employee has been assigned to.
+   * Note that an employee could belong to multiple organization units.
    * For instance: 421408000000
    */
   department: string;
@@ -230,6 +237,12 @@ export type ExternalUserAttributes = CommonUserAttributes & {
    * For instance: DOE
    */
   lastName: string;
+  /**
+   * The department of the user. This is the primary organization unit that the user has been assigned to.
+   * Note that a user could belong to multiple organization units.
+   * For instance: 421408000000
+   */
+  department?: string;
   /**
    * The account profile that was selected upon logon.
    */

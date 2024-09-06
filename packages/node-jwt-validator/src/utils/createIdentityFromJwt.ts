@@ -473,6 +473,11 @@ function getAccountProfile(jwt: any): AccountProfile {
   return 'vdm';
 }
 
+function isValidCodeU(code: string): boolean {
+  const re = /^u[a-z0-9]{4,22}$/gi;
+  return re.test(code);
+}
+
 function isEmployee(jwt: any): boolean {
   const username = getOptionalStringClaim(jwt, usernameClaimName);
   if (!username) {
@@ -483,11 +488,16 @@ function isEmployee(jwt: any): boolean {
   const name = getOptionalStringClaim(jwt, 'name');
   const firstName = getOptionalStringClaim(jwt, 'givenName');
   const lastName = getOptionalStringClaim(jwt, 'familyName');
-  const isCodeU = username.toLocaleLowerCase().startsWith('u');
+  const isCodeU = isValidCodeU(username);
   const hasEmployeeNumber = !!employeeNumber;
   const hasDepartment = !!department;
   const hasNames = !!name && !!firstName && !!lastName;
   return isCodeU && hasEmployeeNumber && hasDepartment && hasNames;
+}
+
+function isValidCodeX(code: string): boolean {
+  const re = /^x[a-z0-9]{4,22}$/gi;
+  return re.test(code);
 }
 
 function isExternalUser(jwt: any): boolean {
@@ -503,7 +513,7 @@ function isExternalUser(jwt: any): boolean {
     return false;
   }
   const email = getOptionalStringClaim(jwt, 'email');
-  const isCodeX = username.toLocaleLowerCase().startsWith('x');
+  const isCodeX = isValidCodeX(username);
   const isExtEmail = email && email.toLocaleLowerCase().includes('.ext@');
   return isCodeX || isExtEmail;
 }
