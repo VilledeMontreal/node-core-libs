@@ -375,6 +375,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         type: subType,
         email: getOptionalStringClaim(jwt, 'email'),
         username,
+        registrationNumber: getOptionalStringClaim(jwt, 'employeeNumber'),
         department: getOptionalStringClaim(jwt, 'department'),
         firstName: getOptionalStringClaim(jwt, 'givenName'),
         lastName: getOptionalStringClaim(jwt, 'familyName'),
@@ -396,6 +397,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.id,
           this.displayName,
           this.attributes.email,
+          this.attributes.registrationNumber,
           this.attributes.department,
           this.attributes.accountProfile
         );
@@ -417,7 +419,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       accessTokenIssuer,
       env,
       realm,
-      claim: username ? usernameClaimName : 'sub',
+      claim: 'sub',
       internalId: oid ?? sub,
     },
     toString(this: UnknownIdentity) {

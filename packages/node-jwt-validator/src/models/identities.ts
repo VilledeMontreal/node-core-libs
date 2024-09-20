@@ -122,6 +122,8 @@ export type CommonUserAttributes = {
   /**
    * The department of the user. This is the primary organization unit that the user has been assigned to.
    * Note that a user could belong to multiple organization units.
+   * Note that the department can be a 12 chars long string containing a number such as '040403040000'
+   * or a text description such as 'DIV. PREVENTION ET SECURITE URBAINE'.
    */
   department?: string;
   /**
@@ -200,7 +202,8 @@ export type EmployeeAttributes = CommonUserAttributes & {
   /**
    * The department of the employee. This is the primary organization unit that the employee has been assigned to.
    * Note that an employee could belong to multiple organization units.
-   * For instance: 421408000000
+   * Note that the department can be a 12 chars long string containing a number such as '040403040000'
+   * or a text description such as 'DIV. PREVENTION ET SECURITE URBAINE'.
    */
   department: string;
   /**
@@ -240,7 +243,8 @@ export type ExternalUserAttributes = CommonUserAttributes & {
   /**
    * The department of the user. This is the primary organization unit that the user has been assigned to.
    * Note that a user could belong to multiple organization units.
-   * For instance: 421408000000
+   * Note that the department can be a 12 chars long string containing a number such as '040403040000'
+   * or a text description such as 'DIV. PREVENTION ET SECURITE URBAINE'.
    */
   department?: string;
   /**
