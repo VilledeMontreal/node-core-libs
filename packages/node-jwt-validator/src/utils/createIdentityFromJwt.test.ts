@@ -1099,7 +1099,7 @@ describe('createIdentityFromJwt', () => {
         },
       });
       // console.log(JSON.stringify(identity));
-    });    
+    });
     it('no name and no email', () => {
       const jwt: any = {
         iss: 'security-identity-token-api',
@@ -1157,7 +1157,7 @@ describe('createIdentityFromJwt', () => {
         },
       });
       // console.log(JSON.stringify(identity));
-    });    
+    });
     it('no first name', () => {
       const jwt: any = {
         iss: 'security-identity-token-api',
@@ -1300,11 +1300,11 @@ describe('createIdentityFromJwt', () => {
       };
       const identity = createIdentityFromJwt(jwt);
       // console.log(identity);
-  
+
       expect(identity.toString()).to.equal(
         'user:unknown:xdr_foo:John DOE:john.doe@montreal.ca:::vdm'
       );
-  
+
       delete identity.toString;
       expect(identity).to.eql({
         type: 'user',
@@ -1356,11 +1356,11 @@ describe('createIdentityFromJwt', () => {
       };
       const identity = createIdentityFromJwt(jwt);
       // console.log(identity);
-  
+
       expect(identity.toString()).to.equal(
         'user:unknown:xdoejo3:john.doe@montreal.ca:john.doe@montreal.ca:::vdm'
       );
-  
+
       delete identity.toString;
       expect(identity).to.eql({
         type: 'user',
@@ -1414,8 +1414,10 @@ describe('createIdentityFromJwt', () => {
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
         email: 'john.doe@montreal.ca',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('expected to find the "sub" claim in the JWT');
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'expected to find the "sub" claim in the JWT'
+      );
     });
     it('optional string claim should be a string and not a number', () => {
       const jwt: any = {
@@ -1438,8 +1440,10 @@ describe('createIdentityFromJwt', () => {
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
         email: 'john.doe@montreal.ca',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws(`claim 'oid' to contain a string but received: 1234`);
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        `claim 'oid' to contain a string but received: 1234`
+      );
     });
     it('external users should belong to the employees realm', () => {
       const jwt: any = {
@@ -1462,8 +1466,10 @@ describe('createIdentityFromJwt', () => {
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
         email: 'john.doe@montreal.ca',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('expected token to belong to the "employees" realm');
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'expected token to belong to the "employees" realm'
+      );
     });
     it('anonymous users should belong to the anonymous realm', () => {
       const jwt: any = {
@@ -1482,9 +1488,11 @@ describe('createIdentityFromJwt', () => {
         userType: 'anonymous',
         realm: 'employees',
         env: 'dev',
-        accessTokenIssuer: 'security-identity-anonymous-token-api',  
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('anonymous: expected token to belong to the "anonymous" realm');
+        accessTokenIssuer: 'security-identity-anonymous-token-api',
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'anonymous: expected token to belong to the "anonymous" realm'
+      );
     });
     it('citizen users should belong to the citizens realm', () => {
       const jwt: any = {
@@ -1507,8 +1515,10 @@ describe('createIdentityFromJwt', () => {
           'https://connexion.dev.montreal.ca/1543b575-116b-4325-a0bf-3ccdd7925321/v2.0/',
         mtlIdentityId: '@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D',
         email: 'john.doe@mailinator.com',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('user:citizen: expected token to belong to the "citizens" realm');
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'user:citizen: expected token to belong to the "citizens" realm'
+      );
     });
     it('employee users should belong to the employees realm', () => {
       const jwt: any = {
@@ -1532,9 +1542,11 @@ describe('createIdentityFromJwt', () => {
         env: 'dev',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
-        email: 'john.doe@montreal.ca',  
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('user:employee: expected token to belong to the "employees" realm');
+        email: 'john.doe@montreal.ca',
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'user:employee: expected token to belong to the "employees" realm'
+      );
     });
     it('getStringClaim with identityType error', () => {
       const jwt: any = {
@@ -1554,8 +1566,10 @@ describe('createIdentityFromJwt', () => {
         realm: 'anonymous',
         env: 'dev',
         accessTokenIssuer: 'security-identity-anonymous-token-api',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('anonymous: expected to find the "userName" claim in the JWT');
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'anonymous: expected to find the "userName" claim in the JWT'
+      );
     });
     it('getStringClaim with identityType and subType error', () => {
       const jwt: any = {
@@ -1572,8 +1586,10 @@ describe('createIdentityFromJwt', () => {
         env: 'dev',
         accessTokenIssuer:
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
-      };      
-      expect(() => createIdentityFromJwt(jwt)).throws('service-account: client: expected to find the "displayName" claim in the JWT');
-    });    
+      };
+      expect(() => createIdentityFromJwt(jwt)).throws(
+        'service-account: client: expected to find the "displayName" claim in the JWT'
+      );
+    });
   });
 });
