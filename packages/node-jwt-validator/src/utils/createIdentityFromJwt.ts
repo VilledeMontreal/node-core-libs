@@ -64,7 +64,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
   const env = getOptionalStringClaim(jwt, 'env');
   const userType = getOptionalStringClaim(jwt, 'userType') ?? 'citizen';
   const accessTokenIssuer = getOptionalStringClaim(jwt, 'accessTokenIssuer');
-  const isGenericUser = jwt.isGenericAccount;
+  const isGenericUser = jwt.isGenericAccount === true;
 
   //----------< Anonymous user >-----------------------------------------
   if (userType === 'anonymous') {
@@ -189,47 +189,6 @@ export function createIdentityFromJwt(jwt: any): Identity {
     };
     return result;
   }
-  //----------< Generic user >-----------------------------------------
-  if (isGenericUser === true) {
-    const type = 'user';
-    const subType = 'generic-user';
-    const username = getStringClaim(jwt, usernameClaimName, type, subType);
-    const result: GenericUserIdentity = {
-      type,
-      id: username,
-      displayName: getStringClaim(jwt, 'name', type, subType),
-      attributes: {
-        type: 'generic',
-        username,
-        email: getOptionalStringClaim(jwt, 'email'),
-        department: getOptionalStringClaim(jwt, 'department'),
-        firstName: getStringClaim(jwt, 'givenName', type, subType),
-        lastName: getStringClaim(jwt, 'familyName', type, subType),
-        accountProfile: getAccountProfile(jwt),
-      },
-      source: {
-        aud,
-        issuer,
-        accessTokenIssuer,
-        env,
-        realm,
-        claim: usernameClaimName,
-        internalId: oid ?? sub,
-      },
-      toString(this: GenericUserIdentity) {
-        return encodeComponents(
-          this.type,
-          this.attributes.type,
-          this.id,
-          this.displayName,
-          this.attributes.email,
-          this.attributes.department,
-          this.attributes.accountProfile
-        );
-      },
-    };
-    return result;
-  }
   //----------< Employee >-----------------------------------------
   if (userType === 'employee' && isEmployee(jwt)) {
     const type = 'user';
@@ -251,6 +210,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         firstName: getStringClaim(jwt, 'givenName', type, subType),
         lastName: getStringClaim(jwt, 'familyName', type, subType),
         accountProfile: getAccountProfile(jwt),
+        isGeneric: isGenericUser,
       },
       source: {
         aud,
@@ -296,6 +256,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
         firstName: getStringClaim(jwt, 'givenName', type, subType),
         lastName: getStringClaim(jwt, 'familyName', type, subType),
         accountProfile: getAccountProfile(jwt),
+        isGeneric: isGenericUser,
       },
       source: {
         aud,
@@ -355,6 +316,47 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.id,
           this.displayName,
           this.attributes.email
+        );
+      },
+    };
+    return result;
+  }
+  //----------< Generic user >-----------------------------------------
+  if (isGenericUser) {
+    const type = 'user';
+    const subType = 'generic-user';
+    const username = getStringClaim(jwt, usernameClaimName, type, subType);
+    const result: GenericUserIdentity = {
+      type,
+      id: username,
+      displayName: getStringClaim(jwt, 'name', type, subType),
+      attributes: {
+        type: 'generic',
+        username,
+        email: getOptionalStringClaim(jwt, 'email'),
+        department: getOptionalStringClaim(jwt, 'department'),
+        firstName: getStringClaim(jwt, 'givenName', type, subType),
+        lastName: getStringClaim(jwt, 'familyName', type, subType),
+        accountProfile: getAccountProfile(jwt),
+      },
+      source: {
+        aud,
+        issuer,
+        accessTokenIssuer,
+        env,
+        realm,
+        claim: usernameClaimName,
+        internalId: oid ?? sub,
+      },
+      toString(this: GenericUserIdentity) {
+        return encodeComponents(
+          this.type,
+          this.attributes.type,
+          this.id,
+          this.displayName,
+          this.attributes.email,
+          this.attributes.department,
+          this.attributes.accountProfile
         );
       },
     };

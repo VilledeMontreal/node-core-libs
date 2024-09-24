@@ -167,6 +167,9 @@ export type CitizenAttributes = CommonUserAttributes & {
 /**
  * The attributes of an employee: a user on the payroll of the city of Montreal.
  *
+ * Note that a generic user that has all the required attributes of an employee would be detected as such,
+ * for testing purposes.
+ *
  * The ID is mapped to the username.
  */
 export type EmployeeAttributes = CommonUserAttributes & {
@@ -210,13 +213,20 @@ export type EmployeeAttributes = CommonUserAttributes & {
    * The account profile that was selected upon logon.
    */
   accountProfile: AccountProfile;
+  /**
+   * Specifies if the account presented as an external user is a generic account, used for testing purposes.
+   */
+  isGeneric: boolean;
 };
 
 /**
- * The attributes of an external user: a user that is not on the payroll of the city of Montreal but actively collaborates 
+ * The attributes of an external user: a user that is not on the payroll of the city of Montreal but actively collaborates
  * with the city and has his own internal email and short code (starting with the letter x).
-
-* The ID is mapped to the username.
+ *
+ * Note that a generic user that has all the required attributes of an external user would be detected as such,
+ * for testing purposes.
+ *
+ * The ID is mapped to the username.
  */
 export type ExternalUserAttributes = CommonUserAttributes & {
   type: 'external';
@@ -251,12 +261,20 @@ export type ExternalUserAttributes = CommonUserAttributes & {
    * The account profile that was selected upon logon.
    */
   accountProfile: AccountProfile;
+  /**
+   * Specifies if the account presented as an external user is a generic account, used for testing purposes.
+   */
+  isGeneric: boolean;
 };
 
 /**
  * The attributes of a generic user: a fake user used for testing only, that has the right profile or role to perform specific tasks.
-
-* The ID is mapped to the username.
+ *
+ * Note that if a generic user has all the required attributes of an employee or an external user, then it will be detected
+ * as such an employee or external user, for testing purposes, and not as a generic user.
+ * However, citizens and guest users cannot be generic.
+ *
+ * The ID is mapped to the username.
  */
 export type GenericUserAttributes = CommonUserAttributes & {
   type: 'generic';

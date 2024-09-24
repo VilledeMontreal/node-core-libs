@@ -66,6 +66,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'vdm',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -80,7 +81,7 @@ describe('createIdentityFromJwt', () => {
     });
     // console.log(JSON.stringify(identity));
     expect(JSON.stringify(identity)).to.eql(
-      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm"},"source":{"aud":"e5dd632b-cb97-48d7-a310-5147be717cde","issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
+      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm","isGeneric":false},"source":{"aud":"e5dd632b-cb97-48d7-a310-5147be717cde","issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
     );
   });
 
@@ -128,6 +129,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'spvm',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -187,6 +189,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'vdm-admin',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -245,6 +248,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'vdm-admin',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -301,6 +305,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'vdm',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -356,6 +361,7 @@ describe('createIdentityFromJwt', () => {
         firstName: 'John',
         lastName: 'DOE',
         accountProfile: 'vdm',
+        isGeneric: false,
       },
       source: {
         issuer: 'security-identity-token-api',
@@ -411,6 +417,124 @@ describe('createIdentityFromJwt', () => {
         firstName: 'C.Generique',
         lastName: 'dsec developpeur2',
         accountProfile: 'vdm',
+      },
+      source: {
+        issuer: 'security-identity-token-api',
+        accessTokenIssuer:
+          'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
+        env: 'dev',
+        realm: 'employees',
+        claim: 'userName',
+        internalId: '74096b4e-c090-4a97-af04-bbe25dc4f7d6',
+      },
+    });
+  });
+
+  it('should recognize a generic user as an employee', () => {
+    const jwt: any = {
+      iss: 'security-identity-token-api',
+      exp: 1722376780,
+      iat: 1722371805,
+      keyId: 6,
+      displayName: 'infra-auth-auth-playground-dev',
+      aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
+      name: 'C.Generique dsec developpeur2',
+      sub: 'mlKfaYaESpCXWGoHE3ej-kCaUBwfsQzqayvRvXXQHJo',
+      userName: 'umarba33',
+      givenName: 'C.Generique',
+      familyName: 'dsec developpeur2',
+      email: 'dsec.dev2.test@montreal.ca',
+      userType: 'employee',
+      department: '4211',
+      employeeNumber: '000333',
+      oid: '74096b4e-c090-4a97-af04-bbe25dc4f7d6',
+      isGenericAccount: true,
+      realm: 'employees',
+      env: 'dev',
+      accessTokenIssuer:
+        'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+    };
+    const identity = createIdentityFromJwt(jwt);
+    // console.log(identity);
+
+    expect(identity.toString()).to.equal(
+      'user:employee:umarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:000333:4211:vdm'
+    );
+
+    delete identity.toString;
+    expect(identity).to.eql({
+      type: 'user',
+      id: 'umarba33',
+      displayName: 'C.Generique dsec developpeur2',
+      attributes: {
+        type: 'employee',
+        username: 'umarba33',
+        email: 'dsec.dev2.test@montreal.ca',
+        registrationNumber: '000333',
+        department: '4211',
+        firstName: 'C.Generique',
+        lastName: 'dsec developpeur2',
+        accountProfile: 'vdm',
+        isGeneric: true,
+      },
+      source: {
+        issuer: 'security-identity-token-api',
+        accessTokenIssuer:
+          'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+        aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
+        env: 'dev',
+        realm: 'employees',
+        claim: 'userName',
+        internalId: '74096b4e-c090-4a97-af04-bbe25dc4f7d6',
+      },
+    });
+  });
+
+  it('should recognize a generic user as an external user', () => {
+    const jwt: any = {
+      iss: 'security-identity-token-api',
+      exp: 1722376780,
+      iat: 1722371805,
+      keyId: 6,
+      displayName: 'infra-auth-auth-playground-dev',
+      aud: 'e5dd632b-cb97-48d7-a310-5147be717cde',
+      name: 'C.Generique dsec developpeur2',
+      sub: 'mlKfaYaESpCXWGoHE3ej-kCaUBwfsQzqayvRvXXQHJo',
+      userName: 'xmarba33',
+      givenName: 'C.Generique',
+      familyName: 'dsec developpeur2',
+      email: 'dsec.dev2.test@montreal.ca',
+      userType: 'employee',
+      department: '4211',
+      oid: '74096b4e-c090-4a97-af04-bbe25dc4f7d6',
+      isGenericAccount: true,
+      realm: 'employees',
+      env: 'dev',
+      accessTokenIssuer:
+        'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
+    };
+    const identity = createIdentityFromJwt(jwt);
+    // console.log(identity);
+
+    expect(identity.toString()).to.equal(
+      'user:external:xmarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:4211:vdm'
+    );
+
+    delete identity.toString;
+    expect(identity).to.eql({
+      type: 'user',
+      id: 'xmarba33',
+      displayName: 'C.Generique dsec developpeur2',
+      attributes: {
+        type: 'external',
+        username: 'xmarba33',
+        email: 'dsec.dev2.test@montreal.ca',
+        department: '4211',
+        firstName: 'C.Generique',
+        lastName: 'dsec developpeur2',
+        accountProfile: 'vdm',
+        isGeneric: true,
       },
       source: {
         issuer: 'security-identity-token-api',
