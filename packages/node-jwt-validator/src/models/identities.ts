@@ -429,16 +429,20 @@ export type ServiceAccountAttributes =
  */
 export type IdentitySource = {
   /**
-   * The audience of the JWT, which is usually the clientID our appId.
+   * The audience of the JWT, which is usually the clientID of our appId.
    */
   aud: string;
   /**
-   * Which service issued the JWT that we parsed into an identity.
+   * The display name of the audience of the JWT, which is usually the name of our app.
+   */
+  audDisplayName?: string;
+  /**
+   * Specifies which service issued the JWT that we parsed into an identity.
    * Usually, this would be 'security-identity-token-api'.
    */
   issuer: string;
   /**
-   * Which IDP produced the access token that was submitted to TokenAPI.
+   * Specifies which IDP produced the access token that was submitted to TokenAPI.
    * For EntraID, this would be https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0,
    * for Azure AD B2C https://connexion.montreal.ca,
    * for Gluu employee https://idp.montreal.ca,
@@ -447,22 +451,22 @@ export type IdentitySource = {
    */
   accessTokenIssuer?: string;
   /**
-   * Which claim was used for the unique ID of the identity.
+   * Specifies which claim was used for the unique ID of the identity.
    * This could be: userName, email, mtlIdentityId, aud, sub
    */
   claim: string;
   /**
-   * The internal ID that would provide access to the user object in the IDP itself.
+   * Specifies the internal ID that would provide access to the user object in the IDP itself.
    * For Azure, this would be the 'oid' (or objectID) and for Gluu this would be the inum (or sub).
    */
   internalId: string;
   /**
-   * The realm that produced the access token.
+   * Specifies the realm that produced the access token.
    * This could be: employees, citizens, anonymous
    */
   realm: string;
   /**
-   * The name of the environment that produced the JWT.
+   * Specifies the name of the environment that produced the JWT.
    * This could be:  lab, dev, accept, prod
    */
   env?: string;

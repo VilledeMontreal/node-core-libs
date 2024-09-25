@@ -60,6 +60,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
   const realm = getStringClaim(jwt, 'realm');
   const aud = getStringClaim(jwt, 'aud');
   const sub = getStringClaim(jwt, 'sub');
+  const audDisplayName = getOptionalStringClaim(jwt, 'displayName');
   const oid = getOptionalStringClaim(jwt, 'oid');
   const env = getOptionalStringClaim(jwt, 'env');
   const userType = getOptionalStringClaim(jwt, 'userType') ?? 'citizen';
@@ -83,6 +84,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -109,6 +111,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -137,6 +140,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -170,6 +174,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -214,6 +219,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -260,6 +266,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -301,6 +308,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -341,6 +349,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -385,6 +394,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
       },
       source: {
         aud,
+        audDisplayName,
         issuer,
         accessTokenIssuer,
         env,
@@ -417,6 +427,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
     },
     source: {
       aud,
+      audDisplayName,
       issuer,
       accessTokenIssuer,
       env,
