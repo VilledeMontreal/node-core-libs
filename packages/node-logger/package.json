@@ -1,0 +1,69 @@
+{
+  "name": "@villedemontreal/logger",
+  "version": "6.6.3",
+  "description": "Logger and logging utilities",
+  "main": "dist/src/index.js",
+  "typings": "dist/src",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "start": "node run test",
+    "test": "node run test",
+    "show-coverage": "node run show-coverage",
+    "compile": "node run compile",
+    "lint": "node run lint",
+    "lint-fix": "node run lint-fix",
+    "tslint": "node run tslint",
+    "tslint-fix": "node run tslint-fix",
+    "prettier": "node run prettier",
+    "prettier-fix": "node run prettier-fix",
+    "watch": "node run watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/villedemontreal/node-logger.git"
+  },
+  "homepage": "https://github.com/villedemontreal/node-logger",
+  "keywords": [
+    "montreal",
+    "utils",
+    "utilities",
+    "logging",
+    "log",
+    "logger"
+  ],
+  "author": "Ville de Montréal",
+  "license": "MIT",
+  "dependencies": {
+    "@types/app-root-path": "1.2.8",
+    "@types/lodash": "4.17.7",
+    "@types/pino": "7.0.5",
+    "@types/source-map-support": "0.5.10",
+    "@villedemontreal/general-utils": "5.17.5",
+    "app-root-path": "3.1.0",
+    "lodash": "4.17.21",
+    "pino": "9.4.0",
+    "pino-pretty": "11.2.2",
+    "rotating-file-stream": "3.2.5",
+    "source-map-support": "0.5.21",
+    "uuid": "10.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "4.3.19",
+    "@types/fs-extra": "11.0.4",
+    "@types/mocha": "10.0.8",
+    "@typescript-eslint/eslint-plugin": "5.39.0",
+    "@villedemontreal/scripting": "2.1.8",
+    "chai": "4.5.0",
+    "eslint": "8.24.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "fs-extra": "11.2.0",
+    "mocha": "10.7.3",
+    "mocha-jenkins-reporter": "0.4.8",
+    "nyc": "17.1.0",
+    "typescript": "5.6.2"
+  }
+}
