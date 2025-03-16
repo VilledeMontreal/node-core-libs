@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "newLine": "LF",
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "downlevelIteration": true
+  },
+  "include": ["src", "scripts", "configs", "tests-resources"],
+  "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
+}
