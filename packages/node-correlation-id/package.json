@@ -32,7 +32,7 @@
     "@types/cls-hooked": "4.3.9",
     "@types/lodash": "4.17.16",
     "@types/uuid": "10.0.0",
-    "@villedemontreal/logger": "6.6.3",
+    "@villedemontreal/logger": "6.6.4",
     "app-root-path": "3.1.0",
     "cls-hooked": "4.2.2",
     "http-header-fields-typed": "1.3.0",

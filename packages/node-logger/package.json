@@ -38,7 +38,7 @@
     "@types/lodash": "4.17.16",
     "@types/pino": "7.0.5",
     "@types/source-map-support": "0.5.10",
-    "@villedemontreal/general-utils": "5.17.5",
+    "@villedemontreal/general-utils": "5.17.6",
     "app-root-path": "3.1.0",
     "lodash": "4.17.21",
     "pino": "9.4.0",

@@ -37,7 +37,7 @@
     "@caporal/core": "2.0.7",
     "@types/fs-extra": "11.0.4",
     "@types/lodash": "4.17.16",
-    "@villedemontreal/general-utils": "5.17.5",
+    "@villedemontreal/general-utils": "5.17.6",
     "fs-extra": "11.2.0",
     "is-class": "0.0.9",
     "java-properties": "1.0.2",
