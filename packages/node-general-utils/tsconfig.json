@@ -18,6 +18,6 @@
     "rootDir": ".",
     "downlevelIteration": true
   },
-  "include": ["src", "scripts", "configs", "tests-resources"],
+  "include": ["src", "config", "tests-resources"],
   "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
 }

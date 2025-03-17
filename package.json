@@ -2,14 +2,25 @@
   "name": "@villedemontreal/core-libs",
   "version": "1.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "compile": "nx run-many -t compile",
+    "graph": "nx graph",
+    "test": "nx run-many -t test --parallel=false",
+    "lint": "nx run-many -t run lint",
+    "lint-fix": "nx run-many -t lint-fix",
+    "ncu": "ncu && nx run-many -t ncu",
+    "ncu-fix": "ncu -u && nx run-many -t ncu-fix",
+    "update": "nx migrate latest",
+    "help": "nx help",
+    "nx": "nx"
+  },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nx/js": "20.6.0",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "npm-check-updates": "^17.1.15",
     "nx": "20.6.0",
     "tslib": "^2.3.0",
     "typescript": "~5.7.2"

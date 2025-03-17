@@ -175,7 +175,7 @@ export const initLogger = (loggerConfig: LoggerConfigs, name = 'default', force 
       messageKey: 'msg',
       level: convertLogLevelToPinoLabelLevel(loggerConfig.getLogLevel()),
     },
-    multistream
+    multistream,
   );
 
   libIsInited = true;
@@ -189,7 +189,7 @@ export const initLogger = (loggerConfig: LoggerConfigs, name = 'default', force 
 export const setGlobalLogLevel = (level: LogLevel) => {
   if (!loggerInstance) {
     throw new Error(
-      'You must use "initLogger" function in @villedemontreal/logger package before making new instance of Logger.'
+      'You must use "initLogger" function in @villedemontreal/logger package before making new instance of Logger.',
     );
   }
   // Change the log level and update children accordingly
@@ -243,7 +243,7 @@ export class Logger implements ILogger {
   constructor(name: string) {
     if (!loggerInstance) {
       throw new Error(
-        'You must use "initLogger" function in @villedemontreal/logger package before making new instance of Logger.'
+        'You must use "initLogger" function in @villedemontreal/logger package before making new instance of Logger.',
       );
     }
     this.pino = loggerInstance.child({ name });
@@ -357,7 +357,7 @@ export class Logger implements ILogger {
       try {
         loggerInstance.error(
           `The message object to log can't be an array. An object will be used instead and` +
-            `the content of the array will be moved to an "_arrayMsg" property on it : ${messageObjClean}`
+            `the content of the array will be moved to an "_arrayMsg" property on it : ${messageObjClean}`,
         );
       } catch (err) {
         // too bad

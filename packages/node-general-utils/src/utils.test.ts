@@ -16,6 +16,10 @@ import { ExecError, utils, Utils } from './utils';
 // @see https://github.com/mochajs/mocha/issues/2018
 // tslint:disable-next-line:only-arrow-functions ter-prefer-arrow-callback
 describe("App's utilities functions", function () {
+  this.beforeAll(() => {
+    constants.appRoot = constants.libRoot; // because our lib is within a monorepo
+  });
+
   // ==========================================
   // tsc()
   // ==========================================

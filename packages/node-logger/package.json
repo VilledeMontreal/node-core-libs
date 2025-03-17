@@ -9,17 +9,14 @@
     "dist"
   ],
   "scripts": {
-    "start": "node run test",
-    "test": "node run test",
-    "show-coverage": "node run show-coverage",
-    "compile": "node run compile",
-    "lint": "node run lint",
-    "lint-fix": "node run lint-fix",
-    "tslint": "node run tslint",
-    "tslint-fix": "node run tslint-fix",
-    "prettier": "node run prettier",
-    "prettier-fix": "node run prettier-fix",
-    "watch": "node run watch"
+    "start": "npm run test",
+    "test": "nyc mocha --require ts-node/register ./**/*.test.ts",
+    "compile": "tsc --build",
+    "show-coverage": "open output/coverage/lcov-report/index.html",
+    "lint": "eslint -c .eslintrc.js --ext .ts config src",
+    "lint-fix": "eslint -c .eslintrc.js --fix --ext .ts config src",
+    "ncu": "ncu --target minor -x @types/node",
+    "ncu-fix": "ncu -u --target minor -x @types/node"
   },
   "repository": {
     "type": "git",
@@ -55,15 +52,15 @@
     "@types/fs-extra": "11.0.4",
     "@types/mocha": "10.0.8",
     "@typescript-eslint/eslint-plugin": "5.39.0",
-    "@villedemontreal/scripting": "2.1.8",
+    "@typescript-eslint/parser": "5.39.0",
     "chai": "4.5.0",
     "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-prettier": "5.2.3",
     "fs-extra": "11.2.0",
     "mocha": "10.7.3",
-    "mocha-jenkins-reporter": "0.4.8",
     "nyc": "17.1.0",
+    "prettier": "3.1.0",
     "typescript": "5.6.2"
   }
 }

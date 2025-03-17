@@ -177,7 +177,9 @@ describe('Date Utility', () => {
     for (const entry of expectations) {
       const value = entry[0];
       const expectedResult = entry[1];
-      const valueDescription = `[${getValueDescriptionWithType(value[0])}, ${getValueDescriptionWithType(value[1])}]`;
+      const valueDescription = `[${getValueDescriptionWithType(
+        value[0],
+      )}, ${getValueDescriptionWithType(value[1])}]`;
       it(`should support ${valueDescription}`, () => {
         assert.deepEqual(getSafeDateRange(value), expectedResult);
       });

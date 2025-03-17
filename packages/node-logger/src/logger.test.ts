@@ -155,7 +155,7 @@ describe('Logger tests', () => {
           key2: 'val2',
           msg: 'blabla',
         },
-        'my text message'
+        'my text message',
       );
 
       assert.isTrue(!utils.isBlank(output));
@@ -263,7 +263,7 @@ describe('Logger tests', () => {
             key2: 'val2',
           },
         ],
-        'my text message'
+        'my text message',
       );
 
       const jsonObj = JSON.parse(output);
@@ -368,7 +368,8 @@ describe('Logger tests', () => {
     // ==========================================
     describe('Error controller log messages', () => {
       it('app and version properties', async () => {
-        const packageJson = require(`${constants.libRoot}/package.json`);
+        const packagePath = `${constants.libRoot}/../../package.json`;
+        const packageJson = require(packagePath);
         const appName = packageJson.name;
         const appVersion = packageJson.version;
 
@@ -608,7 +609,7 @@ describe('Logger tests', () => {
 
       assert.isFunction(
         (logger as any)[`pino`][`flush`],
-        `The "flush method should exist on a Pino logger"`
+        `The "flush method should exist on a Pino logger"`,
       );
       (logger as any)[`pino`][`flush`]();
 
