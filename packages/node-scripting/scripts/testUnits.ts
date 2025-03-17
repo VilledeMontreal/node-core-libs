@@ -29,7 +29,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
       {
         default: `output/test-results/report.xml`,
         validator: program.STRING,
-      }
+      },
     );
   }
 
@@ -55,14 +55,16 @@ export class TestUnitsScript extends ScriptBase<Options> {
     const cmdArgs = [];
 
     if (await this.isProjectDirectDependency(`nyc`)) {
-      cmdArgs.push(`${configs.projectRoot}/node_modules/nyc/bin/nyc`);
+      const cmdNyc = configs.findModulePath('node_modules/nyc/bin/nyc.js');
+      cmdArgs.push(cmdNyc);
     } else {
       this.logger.warn(
-        `The "nyc" direct dependency was not found in your project. The tests will be run using Mocha only!`
+        `The "nyc" direct dependency was not found in your project. The tests will be run using Mocha only!`,
       );
     }
 
-    cmdArgs.push(`${configs.projectRoot}/node_modules/mocha/bin/_mocha`);
+    const cmdMocha = configs.findModulePath('node_modules/mocha/bin/_mocha');
+    cmdArgs.push(cmdMocha);
 
     // ==========================================
     // The test locations need to be quoted because
@@ -109,7 +111,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
       });
 
       this.logger.info(
-        "   \u21b3  type 'run show-coverage' (or './run show-coverage' on Linux/Mac) to display the HTML report"
+        "   \u21b3  type 'run show-coverage' (or './run show-coverage' on Linux/Mac) to display the HTML report",
       );
     } catch (err) {
       throw new Error('Some unit tests failed');

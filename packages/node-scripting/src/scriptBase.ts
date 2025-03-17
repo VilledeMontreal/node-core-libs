@@ -28,7 +28,7 @@ export const TESTING_SCRIPT_NAME_PREFIX = 'testing:';
 export type IScriptConstructor<
   O = {},
   GO extends IGlobalOptions = IGlobalOptions,
-  A extends ParsedArgumentsObject = {}
+  A extends ParsedArgumentsObject = {},
 > = new (actionParams: ActionParameters) => ScriptBase<O, GO, A>;
 
 let projectDirectDependencies: string[];
@@ -42,7 +42,7 @@ let projectDirectDependencies: string[];
 export abstract class ScriptBase<
   O = {},
   GO extends IGlobalOptions = IGlobalOptions,
-  A extends ParsedArgumentsObject = {}
+  A extends ParsedArgumentsObject = {},
 > {
   private _actionParams: ActionParameters;
 
@@ -142,7 +142,7 @@ export abstract class ScriptBase<
   protected async invokeScript<TOptions, TArgs extends ParsedArgumentsObject>(
     scriptType: IScriptConstructor<TOptions, GO, TArgs>,
     options: TOptions,
-    args: TArgs
+    args: TArgs,
   ) {
     const allOptions = this.addGlobalOptions<TOptions>(options);
 
@@ -215,7 +215,7 @@ export abstract class ScriptBase<
       stdio?: StdioOptions;
       useShellOption?: boolean;
       useTestsNodeAppInstance?: boolean;
-    }
+    },
   ): Promise<number> {
     const useTestsNodeAppInstance = options?.useTestsNodeAppInstance ?? false;
     const execOptions = options;
@@ -333,17 +333,17 @@ export abstract class ScriptBase<
     const missingDirectDeps = _.difference(requiredDeps, projectDeps);
     if (missingDirectDeps && missingDirectDeps.length > 0) {
       this.logger.warn(
-        `This script requires some dependencies that are not direct dependencies in your project:`
+        `This script requires some dependencies that are not direct dependencies in your project:`,
       );
       for (const missingDep of missingDirectDeps) {
         this.logger.warn(`- ${missingDep}`);
       }
       this.logger.warn(
         `The script may still work if those dependencies are available ${chalk.italic(
-          'transitively'
+          'transitively',
         )}, but it may be a good idea to add them directly to your "${chalk.cyanBright(
-          'package.json'
-        )}" file.`
+          'package.json',
+        )}" file.`,
       );
     }
   }
@@ -364,14 +364,14 @@ export abstract class ScriptBase<
       if (err.__reported) {
         this.logger.warn(
           `Script "${chalk.cyanBright(this.outputName)}" was aborted after ${chalk.magenta(
-            calcElapsedTime(start, new Date())
-          )}`
+            calcElapsedTime(start, new Date()),
+          )}`,
         );
       } else {
         this.logger.error(
           `Script "${chalk.cyanBright(this.outputName)}" failed after ${chalk.magenta(
-            calcElapsedTime(start, new Date())
-          )} with: ${chalk.red(err.message)}`
+            calcElapsedTime(start, new Date()),
+          )} with: ${chalk.red(err.message)}`,
         );
         err.__reported = true;
       }
@@ -380,8 +380,8 @@ export abstract class ScriptBase<
 
     this.logger.info(
       `Script "${chalk.cyanBright(this.outputName)}" successful after ${chalk.magenta(
-        calcElapsedTime(start, new Date())
-      )}`
+        calcElapsedTime(start, new Date()),
+      )}`,
     );
   }
 

@@ -98,7 +98,7 @@ export async function withCustomRunFile(
 
     const { output, isSuccess } = await runCore(
       configs.isWindows ? 'runTesting.cmd' : './runTesting',
-      ...runArgs
+      ...runArgs,
     );
     return { output, isSuccess };
   } finally {

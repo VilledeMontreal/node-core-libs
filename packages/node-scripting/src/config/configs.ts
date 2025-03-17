@@ -1,4 +1,5 @@
 import { Program } from '@caporal/core';
+import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
@@ -57,6 +58,20 @@ export class Configs {
 
   public setProjectOutDir(projectOutDir: string) {
     this.projectOutDirVar = projectOutDir;
+  }
+
+  public findModulePath(subPath: string): string {
+    let current = this.libRoot;
+    let counter = 0;
+    while (counter < 10 && current !== '/' && fs.existsSync(current)) {
+      const p = path.join(current, subPath);
+      if (fs.existsSync(p)) {
+        return path.normalize(p);
+      }
+      current = path.normalize(path.join(current, '..'));
+      counter += 1;
+    }
+    throw new Error(`Could not find module "${subPath}"`);
   }
 }
 

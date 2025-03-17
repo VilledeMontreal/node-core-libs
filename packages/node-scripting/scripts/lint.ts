@@ -11,6 +11,7 @@ export class LintScript extends ScriptBase {
   }
 
   protected async main() {
-    await this.invokeShellCommand(`${configs.libRoot}/node_modules/.bin/eslint`, [configs.libRoot]);
+    const cmd = configs.findModulePath('node_modules/.bin/eslint');
+    await this.invokeShellCommand(cmd, [configs.libRoot]);
   }
 }

@@ -13,12 +13,12 @@ export interface SonarProjectInformation {
 export abstract class SonarBaseScript<Options> extends ScriptBase<Options> {
   protected async sonarProjectAlreadyExists(
     sonarProjectKey: string,
-    sonarHostUrl: string
+    sonarHostUrl: string,
   ): Promise<boolean> {
     let res;
 
     this.logger.debug(
-      `*** Calling Sonar host check whether ${sonarHostUrl} Sonar instance is reachable...`
+      `*** Calling Sonar host check whether ${sonarHostUrl} Sonar instance is reachable...`,
     );
 
     try {
@@ -29,7 +29,7 @@ export abstract class SonarBaseScript<Options> extends ScriptBase<Options> {
     }
 
     this.logger.debug(
-      `*** Calling Sonar API to check whether ${sonarProjectKey} project exists in ${sonarHostUrl} Sonar instance...`
+      `*** Calling Sonar API to check whether ${sonarProjectKey} project exists in ${sonarHostUrl} Sonar instance...`,
     );
 
     try {
@@ -65,12 +65,12 @@ export abstract class SonarBaseScript<Options> extends ScriptBase<Options> {
     };
     if (!result.sonarHostUrl) {
       throw new Error(
-        '"sonar.host.url" property must be defined in "sonar-project.properties" file!'
+        '"sonar.host.url" property must be defined in "sonar-project.properties" file!',
       );
     }
     if (!result.sonarProjectKey) {
       throw new Error(
-        '"sonar.projectKey" property must be defined in "sonar-project.properties" file!'
+        '"sonar.projectKey" property must be defined in "sonar-project.properties" file!',
       );
     }
     return result;

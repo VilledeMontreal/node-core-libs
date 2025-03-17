@@ -42,7 +42,7 @@ export class LoggerRecorder {
             that.recordedLogs += `${prop.toString()}: ${arguments[0]}\n`;
           };
         },
-      }
+      },
     );
   }
 }

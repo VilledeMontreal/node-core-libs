@@ -25,7 +25,7 @@ export class SonarScript extends SonarBaseScript<Options> {
       `-t, --target-branch <branch>`,
       `Sonar target branch: current source code will be analyzed and compared to this target branch. ` +
         `See https://docs.sonarqube.org/7.5/branches/overview/#header-2 for more information. ` +
-        `Usually set to 'develop'; default target branch is 'master'.`
+        `Usually set to 'develop'; default target branch is 'master'.`,
     );
   }
 
@@ -36,7 +36,7 @@ export class SonarScript extends SonarBaseScript<Options> {
 
     if (!(await this.sonarProjectAlreadyExists(sonarProjectKey, sonarHostUrl))) {
       this.logger.warn(
-        `'${sonarProjectKey}' Sonar project does not yet exist on ${sonarHostUrl} ! Initializing it first...`
+        `'${sonarProjectKey}' Sonar project does not yet exist on ${sonarHostUrl} ! Initializing it first...`,
       );
       await this.invokeScript(SonarInitScript, {}, {});
     }

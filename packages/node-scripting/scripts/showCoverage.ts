@@ -41,7 +41,7 @@ export class ShowCoverageScript extends ScriptBase<Options> {
     const reportDir = path.resolve(
       configs.projectRoot,
       this.options.report,
-      'lcov-report/index.html'
+      'lcov-report/index.html',
     );
     return reportDir;
   }
