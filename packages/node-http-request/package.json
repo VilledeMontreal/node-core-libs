@@ -9,14 +9,14 @@
     "dist"
   ],
   "scripts": {
-    "start": "echo 'not yet implemented'",
-    "test": "mocha --require ts-node/register src/**/*.test.ts",
-    "compile": "node run compile",
-    "lint": "node run lint",
-    "lint-fix": "node run lint-fix",
-    "prettier": "echo 'not yet implemented'",
-    "prettier-fix": "echo 'not yet implemented'",
-    "watch": "echo 'not yet implemented'"
+    "start": "npm run test",
+    "test": "nyc mocha --require ts-node/register ./**/*.test.ts",
+    "compile": "tsc --build",
+    "show-coverage": "open output/coverage/lcov-report/index.html",
+    "lint": "eslint -c .eslintrc.js --ext .ts config src",
+    "lint-fix": "eslint -c .eslintrc.js --fix --ext .ts config src",
+    "ncu": "ncu --target minor -x @types/node",
+    "ncu-fix": "ncu -u --target minor -x @types/node"
   },
   "keywords": [
     "montreal",
@@ -48,6 +48,7 @@
     "@types/sinon": "17.0.3",
     "@types/superagent": "8.1.9",
     "@typescript-eslint/eslint-plugin": "5.39.0",
+    "@typescript-eslint/parser": "5.39.0",
     "@villedemontreal/scripting": "2.1.8",
     "chai": "4.5.0",
     "express": "4.21.0",
