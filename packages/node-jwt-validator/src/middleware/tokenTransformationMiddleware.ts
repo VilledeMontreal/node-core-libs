@@ -48,9 +48,9 @@ const getAccessTokenFromHeader = (authHeader: string): string | null => {
  * @param {boolean} config Configuration of the middleware.
  */
 export const tokenTransformationMiddleware: (
-  config?: ITokenTtransformationMiddlewareConfig
+  config?: ITokenTtransformationMiddlewareConfig,
 ) => (req: express.Request, res: express.Response, next: express.NextFunction) => void = (
-  config
+  config,
 ) => {
   return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
     try {

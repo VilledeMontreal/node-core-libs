@@ -589,7 +589,7 @@ export type AnonymousIdentity = BaseIdentity<AnonymousAttributes> & {
  * The ID is mapped to the 'aud' or the 'username', depending on the subtype.
  */
 export type ServiceAccountIdentity<
-  TAttributes extends ServiceAccountAttributes = ServiceAccountAttributes
+  TAttributes extends ServiceAccountAttributes = ServiceAccountAttributes,
 > = BaseIdentity<TAttributes> & {
   /**
    * The type of identity

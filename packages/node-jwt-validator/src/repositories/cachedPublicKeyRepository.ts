@@ -72,7 +72,7 @@ export class CachedPublicKeyRepository implements ICachedPublicKeyRepository {
         }
         logger.error(
           JSON.stringify(err),
-          `[getOne] There was an error getting key ${keyId}, cached value was sent as result`
+          `[getOne] There was an error getting key ${keyId}, cached value was sent as result`,
         );
       }
     }

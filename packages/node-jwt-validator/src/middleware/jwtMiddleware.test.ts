@@ -58,7 +58,7 @@ describe('#jwtValidationMiddleware', () => {
       headers: { Authorization: authorizationHeader },
     });
     verifyMethod = stub(jwtValidator, 'verifyAuthorizationHeader').returns(
-      delay(DELAY).then(() => jwt)
+      delay(DELAY).then(() => jwt),
     );
 
     // WHEN
@@ -77,7 +77,7 @@ describe('#jwtValidationMiddleware', () => {
     middleware = jwtValidationMiddleware(false);
     request.headers = {}; // ∅
     verifyMethod = stub(jwtValidator, 'verifyAuthorizationHeader').returns(
-      delay(50).then(() => jwt)
+      delay(50).then(() => jwt),
     );
 
     // WHEN
@@ -115,7 +115,7 @@ describe('#jwtValidationMiddleware', () => {
     verifyMethod = stub(jwtValidator, 'verifyAuthorizationHeader').returns(
       delay(50).then(() => {
         throw error;
-      })
+      }),
     );
 
     // WHEN

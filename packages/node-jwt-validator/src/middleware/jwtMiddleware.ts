@@ -13,7 +13,7 @@ export const jwtValidationMiddleware =
   async (
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ): Promise<void> => {
     try {
       const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);

@@ -92,7 +92,7 @@ it('JWT Validator - verifyHeader - should reject unknow authentication scheme', 
     assert.strictEqual(err.error.details[0].target, 'Authorization header');
     assert.strictEqual(
       err.error.details[0].message,
-      'Bad authentication scheme, "Bearer" required'
+      'Bad authentication scheme, "Bearer" required',
     );
   });
 
@@ -377,7 +377,7 @@ it('JWT Validator - verify - should reject jwt created after the expiration date
     assert.strictEqual(err.error.details[0].target, 'jwt');
     assert.strictEqual(
       err.error.details[0].message,
-      "this jwt can't be created after the expiration of the public key"
+      "this jwt can't be created after the expiration of the public key",
     );
   });
 
@@ -404,7 +404,7 @@ it('JWT Validator - verify - should reject jwt created before the creation date 
     assert.strictEqual(err.error.details[0].target, 'jwt');
     assert.strictEqual(
       err.error.details[0].message,
-      "this jwt can't be created before the public key"
+      "this jwt can't be created before the public key",
     );
   });
 

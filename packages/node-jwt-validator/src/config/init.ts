@@ -15,7 +15,7 @@ export function init(
   endpoint: string = constants.default.endpoint,
   fetchKeysParameters: string = constants.default.fetchKeysParameters,
   cacheDuration: number = constants.default.cacheDuration,
-  urlCaseSensitive = false
+  urlCaseSensitive = false,
 ): void {
   if (!loggerCreator) {
     throw new Error(`The Logger Creator is required.`);

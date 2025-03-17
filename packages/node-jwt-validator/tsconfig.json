@@ -17,5 +17,6 @@
     "outDir": "dist",
     "rootDir": "."
   },
+  "include": ["src"],
   "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
 }

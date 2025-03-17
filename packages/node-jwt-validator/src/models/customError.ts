@@ -25,7 +25,7 @@ export function createInvalidJwtError(detail: IApiError): IApiErrorAndInfo {
 export function createInvalidAuthHeaderError(detail: IApiError): IApiErrorAndInfo {
   return createError(
     constants.errors.codes.INVALID_AUTHORIZATION_HEADER,
-    'Invalid Authorization header'
+    'Invalid Authorization header',
   )
     .httpStatus(HttpStatusCodes.UNAUTHORIZED)
     .target('Authorization header')

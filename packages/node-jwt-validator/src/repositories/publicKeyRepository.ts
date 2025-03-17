@@ -32,7 +32,7 @@ class PublicKeyRepository implements IPublicKeyRepository {
   public async getAll(): Promise<IPublicKeys> {
     const url = `${httpUtils.urlJoin(
       configs.getHost(),
-      configs.getEndpoint()
+      configs.getEndpoint(),
     )}?${configs.getFetchKeysParameters()}`;
     const request = superagent.get(url);
 
@@ -68,7 +68,7 @@ class PublicKeyRepository implements IPublicKeyRepository {
 
       throw createError(
         constants.errors.codes.UNABLE_TO_GET_PUBLIC_KEY,
-        `An error occurred calling ${url} : ${response.error}`
+        `An error occurred calling ${url} : ${response.error}`,
       )
         .httpStatus(response.status)
         .build();

@@ -31,10 +31,10 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
     );
     expect(`${identity}`).to.equal(
-      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+      'user:employee:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
     );
     if (identity.type === 'user') {
       // we test that the registration is optional when you don't know the type of user
@@ -82,7 +82,7 @@ describe('createIdentityFromJwt', () => {
     });
     // console.log(JSON.stringify(identity));
     expect(JSON.stringify(identity)).to.eql(
-      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm","isGeneric":false},"source":{"aud":"e5dd632b-cb97-48d7-a310-5147be717cde","audDisplayName":"infra-auth-auth-playground-dev","issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`
+      `{"type":"user","id":"udoejo3","displayName":"John DOE","attributes":{"type":"employee","email":"john.doe@montreal.ca","username":"udoejo3","registrationNumber":"100674051","department":"421408000000","firstName":"John","lastName":"DOE","accountProfile":"vdm","isGeneric":false},"source":{"aud":"e5dd632b-cb97-48d7-a310-5147be717cde","audDisplayName":"infra-auth-auth-playground-dev","issuer":"security-identity-token-api","accessTokenIssuer":"https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0","env":"dev","realm":"employees","claim":"userName","internalId":"0b64042a-9cce-42dc-b645-cd721cbbc179"}}`,
     );
   });
 
@@ -114,7 +114,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:employee:udoejo3:John DOE:john.doe@spvm.qc.ca:100674051:PDQ 11:spvm'
+      'user:employee:udoejo3:John DOE:john.doe@spvm.qc.ca:100674051:PDQ 11:spvm',
     );
     delete identity.toString;
     expect(identity).to.eql({
@@ -175,7 +175,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:employee:udoejo3:John DOE:john.doe.adm@lavilledemontreal.omnicrosoft.com:100674051:421408000000:vdm-admin'
+      'user:employee:udoejo3:John DOE:john.doe.adm@lavilledemontreal.omnicrosoft.com:100674051:421408000000:vdm-admin',
     );
     delete identity.toString;
     expect(identity).to.eql({
@@ -235,7 +235,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:employee:udoejo3:John DOE:john.doe.adm@montrealville.omnicrosoft.com:100674051:421408000000:vdm-admin'
+      'user:employee:udoejo3:John DOE:john.doe.adm@montrealville.omnicrosoft.com:100674051:421408000000:vdm-admin',
     );
     delete identity.toString;
     expect(identity).to.eql({
@@ -293,7 +293,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm'
+      'user:external:xdoejo3:John DOE:john.doe@montreal.ca::vdm',
     );
 
     delete identity.toString;
@@ -350,7 +350,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:external:foobar:John DOE:john.doe.ext@montreal.ca::vdm'
+      'user:external:foobar:John DOE:john.doe.ext@montreal.ca::vdm',
     );
 
     delete identity.toString;
@@ -407,7 +407,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm'
+      'user:generic:cgdsecdev2:C.Generique dsec developpeur2::4211:vdm',
     );
 
     delete identity.toString;
@@ -466,7 +466,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:employee:umarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:000333:4211:vdm'
+      'user:employee:umarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:000333:4211:vdm',
     );
 
     delete identity.toString;
@@ -526,7 +526,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:external:xmarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:4211:vdm'
+      'user:external:xmarba33:C.Generique dsec developpeur2:dsec.dev2.test@montreal.ca:4211:vdm',
     );
 
     delete identity.toString;
@@ -581,7 +581,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:guest:employees:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca'
+      'user:guest:employees:doe.daniel_hydro.qc.ca#EXT#@lavilledemontreal.omnicrosoft.com:doe.daniel@hydro.qc.ca:doe.daniel@hydro.qc.ca',
     );
 
     delete identity.toString;
@@ -678,7 +678,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev'
+      'service-account:client:e5dd632b-cb97-48d7-a310-cde5147be717:infra-auth-auth-playground-dev',
     );
 
     delete identity.toString;
@@ -726,7 +726,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary'
+      'service-account:user:srvAccDiagCanary:srvAcc Diagnostics Canary',
     );
 
     delete identity.toString;
@@ -777,7 +777,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com'
+      'user:citizen:@!4025.CA62.9BB6.16C5!0001!2212.0010!0000!3F39.BEDB.4ADB.F74D:John Doe:john.doe@mailinator.com',
     );
 
     delete identity.toString;
@@ -830,7 +830,7 @@ describe('createIdentityFromJwt', () => {
     // console.log(identity);
 
     expect(identity.toString()).to.equal(
-      'user:unknown:john.doe:John Doe:john.doe@mailinator.com:::vdm'
+      'user:unknown:john.doe:John Doe:john.doe@mailinator.com:::vdm',
     );
 
     delete identity.toString;
@@ -977,7 +977,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca::421408000000:vdm'
+        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca::421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1037,7 +1037,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051::vdm'
+        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051::vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1097,7 +1097,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:usr_foo33:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+        'user:unknown:usr_foo33:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1156,7 +1156,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:john.doe@montreal.ca:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+        'user:unknown:john.doe@montreal.ca:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1215,7 +1215,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:john.doe@montreal.ca:john.doe@montreal.ca:100674051:421408000000:vdm'
+        'user:unknown:udoejo3:john.doe@montreal.ca:john.doe@montreal.ca:100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1274,7 +1274,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:udoejo3::100674051:421408000000:vdm'
+        'user:unknown:udoejo3:udoejo3::100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1333,7 +1333,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1392,7 +1392,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm'
+        'user:unknown:udoejo3:John DOE:john.doe@montreal.ca:100674051:421408000000:vdm',
       );
       delete identity.toString;
       expect(identity).to.eql({
@@ -1451,7 +1451,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:xdr_foo:John DOE:john.doe@montreal.ca:::vdm'
+        'user:unknown:xdr_foo:John DOE:john.doe@montreal.ca:::vdm',
       );
 
       delete identity.toString;
@@ -1508,7 +1508,7 @@ describe('createIdentityFromJwt', () => {
       // console.log(identity);
 
       expect(identity.toString()).to.equal(
-        'user:unknown:xdoejo3:john.doe@montreal.ca:john.doe@montreal.ca:::vdm'
+        'user:unknown:xdoejo3:john.doe@montreal.ca:john.doe@montreal.ca:::vdm',
       );
 
       delete identity.toString;
@@ -1567,7 +1567,7 @@ describe('createIdentityFromJwt', () => {
         email: 'john.doe@montreal.ca',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'expected to find the "sub" claim in the JWT'
+        'expected to find the "sub" claim in the JWT',
       );
     });
     it('optional string claim should be a string and not a number', () => {
@@ -1593,7 +1593,7 @@ describe('createIdentityFromJwt', () => {
         email: 'john.doe@montreal.ca',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        `claim 'oid' to contain a string but received: 1234`
+        `claim 'oid' to contain a string but received: 1234`,
       );
     });
     it('external users should belong to the employees realm', () => {
@@ -1619,7 +1619,7 @@ describe('createIdentityFromJwt', () => {
         email: 'john.doe@montreal.ca',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'expected token to belong to the "employees" realm'
+        'expected token to belong to the "employees" realm',
       );
     });
     it('anonymous users should belong to the anonymous realm', () => {
@@ -1642,7 +1642,7 @@ describe('createIdentityFromJwt', () => {
         accessTokenIssuer: 'security-identity-anonymous-token-api',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'anonymous: expected token to belong to the "anonymous" realm'
+        'anonymous: expected token to belong to the "anonymous" realm',
       );
     });
     it('citizen users should belong to the citizens realm', () => {
@@ -1668,7 +1668,7 @@ describe('createIdentityFromJwt', () => {
         email: 'john.doe@mailinator.com',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'user:citizen: expected token to belong to the "citizens" realm'
+        'user:citizen: expected token to belong to the "citizens" realm',
       );
     });
     it('employee users should belong to the employees realm', () => {
@@ -1696,7 +1696,7 @@ describe('createIdentityFromJwt', () => {
         email: 'john.doe@montreal.ca',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'user:employee: expected token to belong to the "employees" realm'
+        'user:employee: expected token to belong to the "employees" realm',
       );
     });
     it('getStringClaim with identityType error', () => {
@@ -1719,7 +1719,7 @@ describe('createIdentityFromJwt', () => {
         accessTokenIssuer: 'security-identity-anonymous-token-api',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'anonymous: expected to find the "userName" claim in the JWT'
+        'anonymous: expected to find the "userName" claim in the JWT',
       );
     });
     it('getStringClaim with identityType and subType error', () => {
@@ -1739,7 +1739,7 @@ describe('createIdentityFromJwt', () => {
           'https://login.microsoftonline.com/9f15d2dc-8753-4f83-aac2-a58288d3a4bc/v2.0',
       };
       expect(() => createIdentityFromJwt(jwt)).throws(
-        'service-account: client: expected to find the "displayName" claim in the JWT'
+        'service-account: client: expected to find the "displayName" claim in the JWT',
       );
     });
   });

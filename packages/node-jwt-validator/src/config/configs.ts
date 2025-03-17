@@ -156,7 +156,7 @@ export class Configs {
   get correlationIdProvider(): () => string {
     if (!this._correlationIdProvider) {
       throw new Error(
-        `The Correlation Id provider HAS to be set as a configuration! Please call the init(...) fonction first.`
+        `The Correlation Id provider HAS to be set as a configuration! Please call the init(...) fonction first.`,
       );
     }
     return this._correlationIdProvider;

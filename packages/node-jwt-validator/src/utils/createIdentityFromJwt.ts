@@ -188,7 +188,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.attributes.type,
           this.id,
           this.displayName,
-          this.attributes.email
+          this.attributes.email,
         );
       },
     };
@@ -236,7 +236,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.attributes.email,
           this.attributes.registrationNumber,
           this.attributes.department,
-          this.attributes.accountProfile
+          this.attributes.accountProfile,
         );
       },
     };
@@ -282,7 +282,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.displayName,
           this.attributes.email,
           this.attributes.department,
-          this.attributes.accountProfile
+          this.attributes.accountProfile,
         );
       },
     };
@@ -323,7 +323,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           realm,
           this.id,
           this.displayName,
-          this.attributes.email
+          this.attributes.email,
         );
       },
     };
@@ -365,7 +365,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.displayName,
           this.attributes.email,
           this.attributes.department,
-          this.attributes.accountProfile
+          this.attributes.accountProfile,
         );
       },
     };
@@ -411,7 +411,7 @@ export function createIdentityFromJwt(jwt: any): Identity {
           this.attributes.email,
           this.attributes.registrationNumber,
           this.attributes.department,
-          this.attributes.accountProfile
+          this.attributes.accountProfile,
         );
       },
     };
@@ -457,7 +457,7 @@ function getStringClaim(
   jwt: any,
   name: string,
   identityType?: string,
-  identitySubType?: string
+  identitySubType?: string,
 ): string | undefined {
   const result = getOptionalStringClaim(jwt, name);
   if (!result) {
