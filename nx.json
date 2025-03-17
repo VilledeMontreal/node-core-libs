@@ -13,6 +13,7 @@
     ]
   },
   "nxCloudId": "67d756fd5c97cf7948a23f43",
+  "parallel": 1,
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
