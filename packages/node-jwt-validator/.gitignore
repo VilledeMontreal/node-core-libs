@@ -1,0 +1,16 @@
+node_modules
+/log
+/temp
+.idea
+/*.log
+/test-*
+/src/test.ts
+yarn.lock
+/dist
+/output
+
+*.map
+*.d.ts
+*.js
+!/.prettierrc.js
+!/.eslintrc.js
