@@ -14,6 +14,8 @@
     "ncu:patch": "ncu --target patch && nx exec --verbose -- ncu --target patch -x @types/node",
     "ncu-fix": "ncu -u && nx run-many -t ncu-fix",
     "ncu-fix:patch": "ncu -u --target patch && nx exec --verbose -- ncu -u --target patch -x @types/node",
+    "bump:patch": "npm version patch --workspaces --include-workspace-root",
+    "publish-libs": "nx exec -- npm publish",
     "update": "nx migrate latest",
     "help": "nx help",
     "nx": "nx"

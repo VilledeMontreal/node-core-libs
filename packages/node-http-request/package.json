@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/http-request",
-  "version": "7.4.11",
+  "version": "7.4.12",
   "description": "HTTP utilities - send HTTP requests with proper headers, etc.",
   "main": "dist/src/index.js",
   "typings": "dist/src",
