@@ -4,6 +4,7 @@ import { assert } from 'chai';
 import { execSync } from 'child_process';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import { stripVTControlCharacters } from 'node:util';
 import { configs } from '../config/configs';
 
 export function setTestingConfigs() {
@@ -55,7 +56,7 @@ export async function runCore(runFilePath: string, ...args: string[]) {
         const newOut = `${stdoutData ? ' ' + stdoutData : ''} ${
           stderrData ? ' ' + stderrData : ''
         } `;
-        output += newOut;
+        output += stripVTControlCharacters(newOut);
       },
     });
   } catch (err) {
