@@ -1,6 +1,7 @@
 node_modules
 /log
 .idea
+.nyc_output
 .eslintrc.json
 /*.log
 /test-*

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "compile": "nx run-many -t compile",
     "graph": "nx graph",
     "test": "nx run-many -t test --parallel=false",

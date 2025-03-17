@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "start": "npm run test",
-    "test": "nyc mocha --require ts-node/register ./**/*.test.ts",
+    "test": "nyc mocha --require ts-node/register ./src/**/*.test.ts",
     "compile": "tsc --build",
     "show-coverage": "open output/coverage/lcov-report/index.html",
     "lint": "eslint -c .eslintrc.js --ext .ts config src",
