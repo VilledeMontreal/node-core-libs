@@ -47,7 +47,7 @@ export class Constants {
         appSchemaCollectionName: 'testAppSchema',
       },
       mockServer: {
-        serverVersion: '5.0.8',
+        serverVersion: '7.0.16',
       },
     };
   }

@@ -138,7 +138,7 @@ error: Script "sonar-init" failed after 0 s with: ENOENT: no such file or direct
         // @ts-ignore
         const shellCommand = sandbox.stub(SonarInitScript.prototype, 'invokeShellCommand');
         shellCommand
-          .withArgs(SONAR_SCANNER)
+          .withArgs(SONAR_SCANNER as any)
           .rejects(new Error('An error occured while analyzing code.'));
 
         const loggerRecorder = new LoggerRecorder();

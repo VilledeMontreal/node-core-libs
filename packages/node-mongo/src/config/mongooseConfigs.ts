@@ -97,7 +97,7 @@ export class MongooseConfigs implements IMongooseConfigs {
   };
 
   public mockServer: { serverVersion: string } = {
-    serverVersion: '5.0.8',
+    serverVersion: '7.0.16',
   };
 
   /**

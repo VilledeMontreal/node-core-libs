@@ -36,7 +36,7 @@
   "dependencies": {
     "@caporal/core": "2.0.7",
     "@types/fs-extra": "11.0.4",
-    "@types/lodash": "4.17.7",
+    "@types/lodash": "4.17.16",
     "@villedemontreal/general-utils": "5.17.5",
     "fs-extra": "11.2.0",
     "is-class": "0.0.9",
@@ -44,15 +44,15 @@
     "lodash": "4.17.21",
     "node-notifier": "10.0.1",
     "sonar-scanner": "3.1.0",
-    "superagent": "10.1.0"
+    "superagent": "10.1.1"
   },
   "devDependencies": {
-    "@types/chai": "4.3.19",
-    "@types/chai-as-promised": "8.0.0",
+    "@types/chai": "4.3.20",
+    "@types/chai-as-promised": "8.0.2",
     "@types/chai-string": "1.4.5",
-    "@types/mocha": "10.0.8",
+    "@types/mocha": "10.0.10",
     "@types/node-notifier": "8.0.5",
-    "@types/sinon": "17.0.3",
+    "@types/sinon": "17.0.4",
     "@types/sinon-chai": "3.2.12",
     "@types/superagent": "8.1.9",
     "@typescript-eslint/eslint-plugin": "5.39.0",
@@ -65,12 +65,12 @@
     "eslint-plugin-prettier": "5.2.3",
     "mocha": "10.7.3",
     "mock-spawn": "0.2.6",
-    "nock": "13.5.5",
+    "nock": "13.5.6",
     "nyc": "17.1.0",
-    "prettier": "3.1.0",
+    "prettier": "3.1.1",
     "sinon": "19.0.2",
     "sinon-chai": "3.7.0",
     "source-map-support": "0.5.21",
-    "typescript": "5.6.2"
+    "typescript": "5.6.3"
   }
 }
