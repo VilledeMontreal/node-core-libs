@@ -7,7 +7,6 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "newLine": "LF",
-    "suppressImplicitAnyIndexErrors": true,
     "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
@@ -19,5 +18,6 @@
     "rootDir": ".",
     "ignoreDeprecations": "5.0"
   },
+  "include": ["src", "tests"],
   "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
 }

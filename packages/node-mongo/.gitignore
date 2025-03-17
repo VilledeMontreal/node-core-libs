@@ -1,13 +1,12 @@
 node_modules
-/log
-/temp
+log
+temp
 .idea
-/*.log
+*.log
 /test-*
-/src/test.ts
 yarn.lock
-/dist
-/output
+dist
+output
 
 *.map
 *.d.ts

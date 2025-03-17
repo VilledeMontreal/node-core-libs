@@ -11,7 +11,7 @@ export class Configs {
   private _loggerCreator: (name: string) => ILogger;
 
   constructor() {
-    this.libRoot = path.normalize(__dirname + '/../../..');
+    this.libRoot = path.normalize(__dirname + '/../..');
     this.isWindows = os.platform() === 'win32';
   }
 

@@ -27,6 +27,8 @@ describe('Mongo Updater', () => {
   const testconfig: IMongooseConfigs = mongodbConstants.testsConfig;
 
   before(async function () {
+    mongodbConstants.appRoot = mongodbConstants.libRoot; // because we are in a monorepo, approot would default to the root folder of the repo
+
     // Makes sure Mongoose is mocked, but not in Jenkins as we will start a dedicated mongodb container.
     await mongoUtils.mockMongoose(this, testconfig.mockServer.serverVersion);
     const connection = await initMongoose(testconfig);
@@ -244,8 +246,8 @@ describe('Mongo Updater', () => {
       // Temporarly changes the lock max age.
       // ==========================================
       const lockMaxAgeSecondsBackup = testconfig.updater.lockMaxAgeSeconds;
-      mongoUpdater['lockMaxAgeSeconds'] = 3;
-      assert.strictEqual(mongoUpdater['lockMaxAgeSeconds'], 3);
+      (mongoUpdater as any)['lockMaxAgeSeconds'] = 3;
+      assert.strictEqual((mongoUpdater as any)['lockMaxAgeSeconds'], 3);
 
       try {
         const isLocked: boolean = await mongoUpdater.lockAppSchemaDocument();
@@ -257,7 +259,7 @@ describe('Mongo Updater', () => {
 
         assert.isTrue(elapsed > 3000);
       } finally {
-        mongoUpdater['lockMaxAgeSeconds'] = lockMaxAgeSecondsBackup;
+        (mongoUpdater as any)['lockMaxAgeSeconds'] = lockMaxAgeSecondsBackup;
       }
     });
   });

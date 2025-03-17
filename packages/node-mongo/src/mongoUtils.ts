@@ -143,7 +143,7 @@ export class MongoUtils {
   }
 
   public async getMockedServerPort(): Promise<number> {
-    const mongooseConnection = mongoose[this.mockgosseMockedFlag];
+    const mongooseConnection = (mongoose as any)[this.mockgosseMockedFlag];
     if (mongooseConnection && this.mongoMemServer && !this.useReplSet) {
       return (this.mongoMemServer as MongoMemoryServer).instanceInfo.port;
     }
@@ -306,21 +306,22 @@ export class MongoUtils {
       return document;
     }
 
-    const pojo: T = document.toObject() as T;
+    const pojoObj = document.toObject();
+    const pojo: T = pojoObj as T;
 
     // ==========================================
     // Converts the "_id" property to "id"
     // ==========================================
     // tslint:disable-next-line:no-string-literal
-    pojo['id'] = pojo['_id'].toString();
+    pojoObj['id'] = pojoObj['_id'].toString();
     // tslint:disable-next-line:no-string-literal
-    delete pojo['_id'];
+    delete pojoObj['_id'];
 
     // ==========================================
     // Removes the "__v"
     // ==========================================
     // tslint:disable-next-line:no-string-literal
-    delete pojo['__v'];
+    delete pojoObj['__v'];
 
     return pojo;
   }
