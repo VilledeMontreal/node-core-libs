@@ -1,0 +1,16 @@
+export { LintScript } from './lint';
+export { LintFixScript } from './lintFix';
+export { ShowCoverageScript } from './showCoverage';
+export { SonarScript } from './sonar/sonar';
+export { SonarInitScript } from './sonar/sonarInit';
+export { TestScript } from './test';
+export { TestingCallingScript } from './testing/testingCallingScript';
+export { TestingDepMissingScript } from './testing/testingDepMissingScript';
+export { TestingExampleScript } from './testing/testingExampleScript';
+export { TestingtestingHiddenScript } from './testing/testingHiddenScript';
+export { TestingScript } from './testing/testingScript';
+export { TestingScriptGlobalCustomOptions1 } from './testing/testingScriptCustomGlobalOptions1';
+export { TestingScriptGlobalCustomOptions2 } from './testing/testingScriptCustomGlobalOptions2';
+export { TestingScriptWithArgs } from './testing/testingScriptWithArgs';
+export { TestUnitsScript } from './testUnits';
+export { WatchScript } from './watch';
