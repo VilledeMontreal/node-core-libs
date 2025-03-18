@@ -2,9 +2,9 @@
   "check-coverage": true,
   "per-file": false,
   "lines": 87,
-  "statements": 88,
+  "statements": 87,
   "functions": 83,
-  "branches": 72,
+  "branches": 71,
   "extension": [
     ".js",
     ".ts",

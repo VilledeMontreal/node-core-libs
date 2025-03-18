@@ -1,16 +1,7 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "sourceMap": true,
-    "pretty": true,
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "newLine": "LF",
-    "alwaysStrict": true,
-    "declaration": true,
-    "outDir": "dist",
-    "rootDir": "."
+    "noImplicitAny": false,
   },
   "include": ["src", "config"],
   "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
