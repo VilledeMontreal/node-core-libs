@@ -12,6 +12,7 @@
     "start": "npm run test",
     "test": "nyc mocha --require ts-node/register ./src/**/*.test.ts",
     "compile": "tsc --build",
+    "show-tsconfig": "tsc --showConfig",
     "show-coverage": "open output/coverage/lcov-report/index.html",
     "lint": "eslint -c .eslintrc.js --ext .ts config src",
     "lint-fix": "eslint -c .eslintrc.js --fix --ext .ts config src",

@@ -17,10 +17,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
-    "outDir": "dist",
-    "rootDir": ".",
     "downlevelIteration": true
-  },
-  "include": ["src", "config", "tests-resources"],
-  "exclude": ["dist", "temp", "node_modules", "output", "log", "test-data", "generated", ".*"]
+  }
 }

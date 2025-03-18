@@ -6,7 +6,7 @@
     "postinstall": "npm run compile",
     "prepublishOnly": "npm run compile",
     "compile": "nx run-many -t compile",
-    "clean": "nx exec -- rm -rf node_modules",
+    "clean": "nx exec -- rm -rf node_modules dist",
     "graph": "nx graph",
     "test": "nx run-many -t test",
     "test:docker": "docker build -t vdm-core-libs .",
