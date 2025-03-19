@@ -22,9 +22,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/villedemontreal/node-scripting.git"
+    "url": "https://github.com/villedemontreal/node-core-libs.git",
+    "directory": "packages/node-scripting"
   },
-  "homepage": "https://github.com/villedemontreal/node-scripting.git",
+  "homepage": "https://github.com/villedemontreal/node-core-libs",
   "keywords": [
     "montreal",
     "node.js",

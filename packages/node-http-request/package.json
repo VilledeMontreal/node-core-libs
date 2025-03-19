@@ -19,6 +19,12 @@
     "ncu": "ncu --target minor -x @types/node",
     "ncu-fix": "ncu -u --target minor -x @types/node"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/villedemontreal/node-core-libs.git",
+    "directory": "packages/node-http-request"
+  },
+  "homepage": "https://github.com/villedemontreal/node-core-libs",
   "keywords": [
     "montreal",
     "http",

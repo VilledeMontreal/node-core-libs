@@ -24,9 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/villedemontreal/node-general-utils.git"
+    "url": "https://github.com/villedemontreal/node-core-libs.git",
+    "directory": "packages/node-general-utils"
   },
-  "homepage": "https://github.com/villedemontreal/node-general-utils",
+  "homepage": "https://github.com/villedemontreal/node-core-libs",
   "keywords": [
     "montreal",
     "utils",
