@@ -6,7 +6,6 @@
     "module": "commonjs",
     "sourceMap": true,
     "pretty": true,
-    // "esModuleInterop": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "newLine": "LF",

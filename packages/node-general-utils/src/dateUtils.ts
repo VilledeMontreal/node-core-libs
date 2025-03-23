@@ -1,8 +1,8 @@
-import _ from 'lodash';
 import { DateTime, Zone } from 'luxon';
-import moment from 'moment';
+import * as moment from 'moment';
 import { Moment } from 'moment';
 import { getValueDescription, utils } from '.';
+import { isDate, isNil } from 'lodash';
 
 export function isDateEqual(value: DateDefinition, expectedDate: DateDefinition) {
   const _moment: Moment = moment(value);
@@ -230,11 +230,11 @@ export function startOfDay(
   isoDate: Date | string,
   timezone: string | Zone = 'America/Montreal',
 ): Date {
-  if (_.isNil(isoDate)) {
+  if (isNil(isoDate)) {
     return isoDate;
   }
 
-  let luxonDate = DateTime.fromISO(_.isDate(isoDate) ? isoDate.toISOString() : isoDate);
+  let luxonDate = DateTime.fromISO(isDate(isoDate) ? isoDate.toISOString() : isoDate);
   if (!luxonDate.isValid) {
     throw new Error(`Invalid ISO date ${JSON.stringify(isoDate)} : ${luxonDate.invalidReason}`);
   }
@@ -261,11 +261,11 @@ export function endOfDay(
   isoDate: Date | string,
   timezone: string | Zone = 'America/Montreal',
 ): Date {
-  if (_.isNil(isoDate)) {
+  if (isNil(isoDate)) {
     return isoDate;
   }
 
-  let luxonDate = DateTime.fromISO(_.isDate(isoDate) ? isoDate.toISOString() : isoDate);
+  let luxonDate = DateTime.fromISO(isDate(isoDate) ? isoDate.toISOString() : isoDate);
   if (!luxonDate.isValid) {
     throw new Error(`Invalid ISO date ${JSON.stringify(isoDate)} : ${luxonDate.invalidReason}`);
   }

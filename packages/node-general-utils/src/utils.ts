@@ -1,11 +1,11 @@
 import { spawn, StdioOptions } from 'child_process';
 import * as fs from 'fs';
-import getPort from 'get-port';
-import _ from 'lodash';
+import * as getPort from 'get-port';
 import * as pathUtils from 'path';
 import { rimraf } from 'rimraf';
 import * as tsconfig from 'tsconfig-extends';
 import { constants } from './config/constants';
+import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 
 /**
  * General utilities
@@ -158,7 +158,7 @@ export class Utils {
     pathClean = pathUtils.normalize(pathClean);
 
     pathClean = pathClean.replace(/\\/g, '/');
-    pathClean = _.trimEnd(pathClean, '/ ');
+    pathClean = trimEnd(pathClean, '/ ');
 
     return (pathClean.match(/\//g) || []).length > 1;
   }
@@ -268,11 +268,12 @@ export class Utils {
     if (!this.tscCompilerOptionsParams) {
       this.tscCompilerOptionsParams = [];
       const compilerOptions = tsconfig.load_file_sync(constants.appRoot + '/tsconfig.json');
+
       for (const key of Object.keys(compilerOptions)) {
         // ==========================================
-        // TS6064: Option 'plugins' can only be specified in 'tsconfig.json' file.
+        // TS6064: Options 'plugins', 'composite' can only be specified in 'tsconfig.json' file.
         // ==========================================
-        if (key === 'plugins') {
+        if (['plugins', 'composite'].includes(key)) {
           continue;
         }
 
@@ -362,13 +363,13 @@ export class Utils {
   public dateTransformer = (value: any): Date => {
     let date: Date;
 
-    if (_.isNil(value)) {
+    if (isNil(value)) {
       return null;
     }
 
-    if (_.isDate(value)) {
+    if (isDate(value)) {
       date = value;
-    } else if (!_.isString(value) || utils.isBlank(value)) {
+    } else if (!isString(value) || utils.isBlank(value)) {
       // ==========================================
       // Makes sure it's an invalid date!
       // Because by default, true and 123 are accepted,
@@ -406,7 +407,7 @@ export class Utils {
     if (!val) {
       return false;
     }
-    return _.isObject(val) && !_.isArray(val) && !_.isDate(val) && !_.isFunction(val);
+    return isObject(val) && !isArray(val) && !isDate(val) && !isFunction(val);
   };
 
   /**
@@ -415,12 +416,12 @@ export class Utils {
    * strictly equals to the specified "value".
    */
   public arrayContainsObjectWithKeyEqualsTo = (array: any[], key: string, value: any): boolean => {
-    if (!array || !_.isArray(array) || array.length < 1) {
+    if (!array || !isArray(array) || array.length < 1) {
       return false;
     }
 
     for (const obj of array) {
-      if (this.isObjectStrict(obj) && _.isEqual(obj[key], value)) {
+      if (this.isObjectStrict(obj) && isEqual(obj[key], value)) {
         return true;
       }
     }
@@ -499,7 +500,7 @@ export class Utils {
     const optionsClean = options ?? {};
     optionsClean.useShellOption = optionsClean.useShellOption ?? true;
     optionsClean.successExitCodes = optionsClean.successExitCodes
-      ? _.isArray(optionsClean.successExitCodes)
+      ? isArray(optionsClean.successExitCodes)
         ? optionsClean.successExitCodes
         : [optionsClean.successExitCodes]
       : [0];
@@ -575,7 +576,7 @@ export function getValueDescription(value: any): string {
 }
 
 export function getValueDescriptionWithType(value: any): string {
-  const valueType = _.isObject(value) ? value.constructor.name : typeof value;
+  const valueType = isObject(value) ? value.constructor.name : typeof value;
   return getValueDescription(value) + ` (${valueType})`;
 }
 

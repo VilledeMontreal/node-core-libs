@@ -24,10 +24,20 @@ export enum LogLevel {
  * LogLevel enum value.
  */
 export const logLevelFromString = (levelStr: string): LogLevel => {
-  if (levelStr) {
-    return LogLevel[levelStr.toUpperCase()];
+  switch ((levelStr || '').toUpperCase()) {
+    case 'DEBUG':
+      return LogLevel.DEBUG;
+    case 'TRACE':
+      return LogLevel.TRACE;
+    case 'ERROR':
+      return LogLevel.ERROR;
+    case 'INFO':
+      return LogLevel.INFO;
+    case 'WARNING':
+      return LogLevel.WARNING;
+    default:
+      return LogLevel.DEBUG;
   }
-  return undefined;
 };
 
 /**

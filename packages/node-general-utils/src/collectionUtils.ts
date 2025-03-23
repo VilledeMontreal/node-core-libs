@@ -130,7 +130,7 @@ export function toDictionary<T, C extends T[]>(
     collection,
     (accumulator, value, index) => {
       const key = mapper(value, index);
-      accumulator[key] = value;
+      (accumulator as any)[key] = value;
       return accumulator;
     },
     {},
