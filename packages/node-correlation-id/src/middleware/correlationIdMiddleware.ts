@@ -29,9 +29,9 @@ export const createCorrelationIdMiddleware = (
       let correlationId = req.get(httpHeaderFieldsTyped.X_CORRELATION_ID);
       if (!correlationId) {
         correlationId = correlationIdService.createNewId();
-        req[constants.requestExtraVariables.cidNew] = correlationId;
+        (req as any)[constants.requestExtraVariables.cidNew] = correlationId;
       } else {
-        req[constants.requestExtraVariables.cidReceivedInRequest] = correlationId;
+        (req as any)[constants.requestExtraVariables.cidReceivedInRequest] = correlationId;
       }
       if (!res.headersSent) {
         res.set(httpHeaderFieldsTyped.X_CORRELATION_ID, correlationId);

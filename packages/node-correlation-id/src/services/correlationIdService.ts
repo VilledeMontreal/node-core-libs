@@ -136,8 +136,8 @@ class CorrelationIdServiceWithClsHooked implements ICorrelationIdService {
   public getCidInfo(req: express.Request): ICidInfo {
     return {
       current: this.getId(),
-      receivedInRequest: req[constants.requestExtraVariables.cidReceivedInRequest],
-      generated: req[constants.requestExtraVariables.cidNew],
+      receivedInRequest: (req as any)[constants.requestExtraVariables.cidReceivedInRequest],
+      generated: (req as any)[constants.requestExtraVariables.cidNew],
     };
   }
 
@@ -149,19 +149,20 @@ class CorrelationIdServiceWithClsHooked implements ICorrelationIdService {
     // risk having ordering issues.
     // Note however that patching an emitter might not work in 100% cases.
     // patch emit method only once!
-    if (!emitter[oldEmitSlot]) {
-      emitter[oldEmitSlot] = emitter.emit;
+    const emitterObj: any = emitter;
+    if (!emitterObj[oldEmitSlot]) {
+      emitterObj[oldEmitSlot] = emitter.emit;
       (emitter as any).emit = (...args: any[]) => {
         // wrap the emit call within a new correlation context
         // with the bound cid.
         this.withId(() => {
           // invoke original emit method
-          emitter[oldEmitSlot].apply(emitter, args);
-        }, emitter[cidSlot]);
+          emitterObj[oldEmitSlot].apply(emitter, args);
+        }, emitterObj[cidSlot]);
       };
     }
     // update the cid bound to the emitter
-    emitter[cidSlot] = this.getId();
+    emitterObj[cidSlot] = this.getId();
     return emitter;
   }
 
@@ -211,27 +212,28 @@ class CorrelationIdServiceWithAsyncLocalStorage implements ICorrelationIdService
   public getCidInfo(req: express.Request): ICidInfo {
     return {
       current: this.getId(),
-      receivedInRequest: req[constants.requestExtraVariables.cidReceivedInRequest],
-      generated: req[constants.requestExtraVariables.cidNew],
+      receivedInRequest: (req as any)[constants.requestExtraVariables.cidReceivedInRequest],
+      generated: (req as any)[constants.requestExtraVariables.cidNew],
     };
   }
 
   private bindEmitter<T extends EventEmitter>(emitter: T): T {
     // patch emit method only once!
-    if (!emitter[oldEmitSlot]) {
-      emitter[oldEmitSlot] = emitter.emit;
-      (emitter as any).emit = (...args: any[]) => {
+    const emitterObj: any = emitter;
+    if (!emitterObj[oldEmitSlot]) {
+      emitterObj[oldEmitSlot] = emitter.emit;
+      emitterObj.emit = (...args: any[]) => {
         // use the store that was bound to this emitter
-        const store = emitter[storeSlot];
+        const store = emitterObj[storeSlot];
         if (store) {
           this.storage.enterWith(store);
         }
         // invoke original emit method
-        emitter[oldEmitSlot].call(emitter, ...args);
+        emitterObj[oldEmitSlot].call(emitter, ...args);
       };
     }
     // update the store bound to the emitter
-    emitter[storeSlot] = this.storage.getStore();
+    emitterObj[storeSlot] = this.storage.getStore();
     return emitter;
   }
 
