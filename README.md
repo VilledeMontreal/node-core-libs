@@ -31,6 +31,15 @@ npm run lint
 npm test
 ```
 
+### Upgrade the dependencies to minor versions for all projects in the mono-repo
+
+- `npm run ncu-fix`
+- `npm i`
+- `npm run lint`
+- `npm test`
+- Check that the lint and tests pass before committing
+- `git commit -am "upgrade deps to minor versions"`
+
 ### Releasing
 
 When you've finished making your changes and are ready to publish, follow these steps:
@@ -116,6 +125,15 @@ npm run lint
 ```shell
 npm test
 ```
+
+### Mettre à jour les dépendances aux versions mineures pour tous les projets du mono-repo
+
+- `npm run ncu-fix`
+- `npm i`
+- `npm run lint`
+- `npm test`
+- vérifier que le lint et les tests passent avant de faire le commit
+- `git commit -am "upgrade deps to minor versions"`
 
 ### Publier les librairies
 
