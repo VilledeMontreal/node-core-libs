@@ -107,12 +107,12 @@ export class HttpUtils {
     const timeoutRequestVarName = '_timeout';
     request.timeout({
       response:
-        request[responseTimeoutRequestVarName] !== undefined
-          ? request[responseTimeoutRequestVarName]
+        (request as any)[responseTimeoutRequestVarName] !== undefined
+          ? (request as any)[responseTimeoutRequestVarName]
           : constants.request.timeoutsDefault.response,
       deadline:
-        request[timeoutRequestVarName] !== undefined
-          ? request[timeoutRequestVarName]
+        (request as any)[timeoutRequestVarName] !== undefined
+          ? (request as any)[timeoutRequestVarName]
           : constants.request.timeoutsDefault.deadline,
     });
 
@@ -198,24 +198,24 @@ export class HttpUtils {
     // We need more work to make sure we merge
     // params in a case insensitive manner.
     // ==========================================
-    if (!req[this.REQ_PARAMS_LOWERCASED]) {
-      req[this.REQ_PARAMS_LOWERCASED] = [];
+    if (!(req as any)[this.REQ_PARAMS_LOWERCASED]) {
+      (req as any)[this.REQ_PARAMS_LOWERCASED] = [];
       Object.keys(req.query).forEach((keyExisting: string) => {
         const keyLower = keyExisting.toLowerCase();
 
-        if (keyLower in req[this.REQ_PARAMS_LOWERCASED]) {
-          req[this.REQ_PARAMS_LOWERCASED][keyLower].push(req.query[keyExisting]);
+        if (keyLower in (req as any)[this.REQ_PARAMS_LOWERCASED]) {
+          (req as any)[this.REQ_PARAMS_LOWERCASED][keyLower].push(req.query[keyExisting]);
         } else {
           let val = req.query[keyExisting];
           if (!_.isArray(val)) {
             val = [val] as string[];
           }
-          req[this.REQ_PARAMS_LOWERCASED][keyLower] = val;
+          (req as any)[this.REQ_PARAMS_LOWERCASED][keyLower] = val;
         }
       });
     }
 
-    const values = req[this.REQ_PARAMS_LOWERCASED][key.toLowerCase()];
+    const values = (req as any)[this.REQ_PARAMS_LOWERCASED][key.toLowerCase()];
     return values || [];
   }
 

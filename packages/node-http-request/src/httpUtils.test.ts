@@ -184,13 +184,19 @@ describe('httpUtils', () => {
       it('Timeouts are added, if not already set', async () => {
         const request = superagent.get('http://localhost/test').set('titi', '123');
 
-        assert.isUndefined(request['_responseTimeout']);
-        assert.isUndefined(request['_timeout']);
+        assert.isUndefined((request as any)['_responseTimeout']);
+        assert.isUndefined((request as any)['_timeout']);
 
         const response = await httpUtils.send(request);
         assert.isOk(response);
-        assert.strictEqual(request['_responseTimeout'], constants.request.timeoutsDefault.response);
-        assert.strictEqual(request['_timeout'], constants.request.timeoutsDefault.deadline);
+        assert.strictEqual(
+          (request as any)['_responseTimeout'],
+          constants.request.timeoutsDefault.response,
+        );
+        assert.strictEqual(
+          (request as any)['_timeout'],
+          constants.request.timeoutsDefault.deadline,
+        );
       });
 
       it('Response timeout already set', async () => {
@@ -200,13 +206,16 @@ describe('httpUtils', () => {
           response: 55555,
         });
 
-        assert.strictEqual(request['_responseTimeout'], 55555);
-        assert.isUndefined(request['_timeout']);
+        assert.strictEqual((request as any)['_responseTimeout'], 55555);
+        assert.isUndefined((request as any)['_timeout']);
 
         const response = await httpUtils.send(request);
         assert.isOk(response);
-        assert.strictEqual(request['_responseTimeout'], 55555);
-        assert.strictEqual(request['_timeout'], constants.request.timeoutsDefault.deadline);
+        assert.strictEqual((request as any)['_responseTimeout'], 55555);
+        assert.strictEqual(
+          (request as any)['_timeout'],
+          constants.request.timeoutsDefault.deadline,
+        );
       });
 
       it('Deadline timeout already set', async () => {
@@ -216,13 +225,16 @@ describe('httpUtils', () => {
           deadline: 55555,
         });
 
-        assert.isUndefined(request['_responseTimeout']);
-        assert.strictEqual(request['_timeout'], 55555);
+        assert.isUndefined((request as any)['_responseTimeout']);
+        assert.strictEqual((request as any)['_timeout'], 55555);
 
         const response = await httpUtils.send(request);
         assert.isOk(response);
-        assert.strictEqual(request['_responseTimeout'], constants.request.timeoutsDefault.response);
-        assert.strictEqual(request['_timeout'], 55555);
+        assert.strictEqual(
+          (request as any)['_responseTimeout'],
+          constants.request.timeoutsDefault.response,
+        );
+        assert.strictEqual((request as any)['_timeout'], 55555);
       });
 
       it('Both timeouts timeout already set', async () => {
@@ -233,13 +245,13 @@ describe('httpUtils', () => {
           response: 66666,
         });
 
-        assert.strictEqual(request['_responseTimeout'], 66666);
-        assert.strictEqual(request['_timeout'], 55555);
+        assert.strictEqual((request as any)['_responseTimeout'], 66666);
+        assert.strictEqual((request as any)['_timeout'], 55555);
 
         const response = await httpUtils.send(request);
         assert.isOk(response);
-        assert.strictEqual(request['_responseTimeout'], 66666);
-        assert.strictEqual(request['_timeout'], 55555);
+        assert.strictEqual((request as any)['_responseTimeout'], 66666);
+        assert.strictEqual((request as any)['_timeout'], 55555);
       });
     });
 
@@ -298,7 +310,7 @@ describe('httpUtils', () => {
         },
       );
       port = await utils.findFreePort();
-      server = await app.listen(port);
+      server = app.listen(port);
     }
 
     async function send(pathAndQueryString: string) {
