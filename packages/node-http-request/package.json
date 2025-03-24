@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/http-request",
-  "version": "7.4.12",
+  "version": "7.4.13",
   "description": "HTTP utilities - send HTTP requests with proper headers, etc.",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -40,8 +40,8 @@
     "@types/express": "4.17.21",
     "@types/lodash": "4.17.16",
     "@types/superagent": "8.1.9",
-    "@villedemontreal/general-utils": "5.17.6",
-    "@villedemontreal/logger": "6.6.4",
+    "@villedemontreal/general-utils": "5.17.7",
+    "@villedemontreal/logger": "6.6.5",
     "app-root-path": "3.1.0",
     "http-header-fields-typed": "1.3.0",
     "lodash": "4.17.21",
