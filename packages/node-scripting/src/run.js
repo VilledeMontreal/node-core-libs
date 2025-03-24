@@ -132,10 +132,8 @@ Note that this script is automatically executed first when calling most scripts,
           }
 
           const isSilent = options.silent || options.quiet;
-          execSync(
-            `node ${projectRoot}/node_modules/typescript/lib/tsc.js --project ${projectRoot}`,
-            isSilent ? {} : { stdio: [0, 1, 2] },
-          );
+          const tscCmd = findModulePath('node_modules/typescript/lib/tsc.js', projectRoot);
+          execSync(`node ${tscCmd} --project ${projectRoot}`, isSilent ? {} : { stdio: [0, 1, 2] });
           logger.info('Compilation done.\n');
         } catch (err) {
           logger.error('Compilation errors');
@@ -177,4 +175,18 @@ function isScriptingLibItself() {
   }
 
   return _isScriptingLibItself;
+}
+
+function findModulePath(subPath, projectRoot) {
+  let current = projectRoot;
+  let counter = 0;
+  while (counter < 10 && current !== '/' && fs.existsSync(current)) {
+    const p = path.join(current, subPath);
+    if (fs.existsSync(p)) {
+      return path.normalize(p);
+    }
+    current = path.normalize(path.join(current, '..'));
+    counter += 1;
+  }
+  throw new Error(`Could not find module "${subPath}"`);
 }
