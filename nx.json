@@ -13,6 +13,9 @@
     ]
   },
   "parallel": 1,
+  "release": {
+    "projectsRelationship": "independent"
+  },
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
