@@ -31,6 +31,44 @@ npm run lint
 npm test
 ```
 
+### Releasing
+
+When you've finished making your changes and are ready to publish, follow these steps:
+
+- Check for compliance (`npm run lint`)
+- Check integration tests (`npm test`)
+- `npm run bump-versions`
+
+    - You'll need to choose how to bump the version of each library in this monorepo.
+    - The version bump should reflect the type of change introduced to the library, as well as the type of dependency update performed. 
+      If one of your dependencies changes major version, then you'll also need to force a major version for that library.
+
+- Build everything (`npm run compile`)
+- Commit the changes (`git commit -am "bump versions"`)
+- Increment the mono-repo version (`npm run bump-core`)
+- Push the changes to Github (`git push`)
+- Push the new tag to Github (`git push --tags`)
+- Go to Github to create a new release (https://github.com/VilledeMontreal/node-core-libs/releases)
+    - click the "`Draft a new release`" button
+    - click the "`Choose a tag`" selector
+    - find the latest released tag
+    - click the "`Generate release notes`" button
+    - review the description
+    - click the "`publish release`" button
+    - watch the https://github.com/VilledeMontreal/node-core-libs/actions
+    - A new action should be triggered to release the libs
+    - once the action successfully completes, you should get a new release for each lib in the npm registry :
+
+        - https://www.npmjs.com/package/@villedemontreal/correlation-id
+        - https://www.npmjs.com/package/@villedemontreal/general-utils
+        - https://www.npmjs.com/package/@villedemontreal/http-request
+        - https://www.npmjs.com/package/@villedemontreal/jwt-validator
+        - https://www.npmjs.com/package/@villedemontreal/logger
+        - https://www.npmjs.com/package/@villedemontreal/mongo
+        - https://www.npmjs.com/package/@villedemontreal/scripting
+
+    - You should advertize the new release in the Teams channel [Développeurs / Annonces](https://teams.microsoft.com/l/channel/19%3A9d04a2581b5f4f8d92922e40730da6e0%40thread.tacv2/%F0%9F%93%A3%20Annonces?groupId=4ea353ba-735e-4c17-b9f6-e41720d6d0e3&tenantId=9f15d2dc-8753-4f83-aac2-a58288d3a4bc)
+
 ### License
 
 The source code of this project is distributed under the [MIT License](LICENSE).
@@ -78,6 +116,46 @@ npm run lint
 ```shell
 npm test
 ```
+
+### Publier les librairies
+
+Lorsque vous avez fini vos changements et que vous êtes prêt à publier, veuillez suivre les étapes suivantes:
+
+- vérifier la conformité (`npm run lint`)
+- vérifier les tests d'intégration (`npm test`)
+- `npm run bump-versions`
+
+    - Vous allez devoir choisir comment incrémenter la version de chacune des librairies dans ce mono-repo
+    - L'incrément de version doit refléter le type de changement introduit dans la lib, ainsi que le type 
+      de mise à jour des dépendances effectué. Si une de vos dépendances change de version majeure, 
+      alors vous devrez aussi forcer une version majeure pour la lib en question.
+
+- builder tout (`npm run compile`)
+- committer les changements (`git commit -am "bump versions"`)
+- incrémenter la version du mono-repo (`npm run bump-core`)
+- pousser les changements dans Github (`git push`)
+- pousser le nouveau tag dans Github (`git push --tags`)
+- aller dans Github pour créer une nouvelle release (https://github.com/VilledeMontreal/node-core-libs/releases)
+
+    - cliquer sur le bouton "`Draft a new release`"
+    - Cliquez sur le sélecteur "`Choose atag`""
+    - Trouvez le tag le plus récent
+    - Cliquez sur le bouton "`Generate release notes`"
+    - Consultez la description
+    - Cliquez sur le bouton "`Publish release`"
+    - Consultez https://github.com/VilledeMontreal/node-core-libs/actions
+    - Une nouvelle action devrait être déclenchée pour publier les bibliothèques
+    - Une fois l'action terminée, vous devriez obtenir une nouvelle version pour chaque bibliothèque du registre npm :
+
+        - https://www.npmjs.com/package/@villedemontreal/correlation-id
+        - https://www.npmjs.com/package/@villedemontreal/general-utils
+        - https://www.npmjs.com/package/@villedemontreal/http-request
+        - https://www.npmjs.com/package/@villedemontreal/jwt-validator
+        - https://www.npmjs.com/package/@villedemontreal/logger
+        - https://www.npmjs.com/package/@villedemontreal/mongo
+        - https://www.npmjs.com/package/@villedemontreal/scripting
+
+    - Vous devriez annoncer la nouvelle version dans le canal Teams [Développeurs / Annonces](https://teams.microsoft.com/l/channel/19%3A9d04a2581b5f4f8d92922e40730da6e0%40thread.tacv2/%F0%9F%93%A3%20Annonces?groupId=4ea353ba-735e-4c17-b9f6-e41720d6d0e3&tenantId=9f15d2dc-8753-4f83-aac2-a58288d3a4bc)
 
 ### Contribuer
 
