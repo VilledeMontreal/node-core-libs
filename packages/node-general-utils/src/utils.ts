@@ -307,9 +307,8 @@ export class Utils {
     }
 
     const cmd = 'node';
-    const args = [constants.libRoot + '/node_modules/typescript/lib/tsc.js']
-      .concat(this.tscCompilerOptions)
-      .concat(files);
+    const tscCmd = constants.findModulePath('node_modules/typescript/lib/tsc.js');
+    const args = [tscCmd].concat(this.tscCompilerOptions).concat(files);
 
     await this.execPromisified(cmd, args);
   }

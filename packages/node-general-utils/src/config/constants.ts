@@ -1,5 +1,6 @@
-import { path as appRoot } from 'app-root-path';
+import * as fs from 'fs';
 import * as path from 'path';
+import { path as appRoot } from 'app-root-path';
 
 /**
  * Library constants
@@ -31,6 +32,20 @@ export class Constants {
   // ==========================================
   get testDataDirPath() {
     return this.libRoot + '/test-data';
+  }
+
+  public findModulePath(subPath: string): string {
+    let current = this.libRoot;
+    let counter = 0;
+    while (counter < 10 && current !== '/' && fs.existsSync(current)) {
+      const p = path.join(current, subPath);
+      if (fs.existsSync(p)) {
+        return path.normalize(p);
+      }
+      current = path.normalize(path.join(current, '..'));
+      counter += 1;
+    }
+    throw new Error(`Could not find module "${subPath}"`);
   }
 }
 
