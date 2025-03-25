@@ -36,7 +36,7 @@ export const logLevelFromString = (levelStr: string): LogLevel => {
     case 'WARNING':
       return LogLevel.WARNING;
     default:
-      return LogLevel.DEBUG;
+      return undefined;
   }
 };
 
