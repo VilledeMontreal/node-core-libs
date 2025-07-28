@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/logger",
-  "version": "6.7.1",
+  "version": "6.8.0",
   "description": "Logger and logging utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -37,13 +37,13 @@
   "license": "MIT",
   "dependencies": {
     "@types/app-root-path": "1.2.8",
-    "@types/lodash": "4.17.16",
+    "@types/lodash": "4.17.20",
     "@types/pino": "7.0.5",
     "@types/source-map-support": "0.5.10",
-    "@villedemontreal/general-utils": "5.18.1",
+    "@villedemontreal/general-utils": "5.19.0",
     "app-root-path": "3.1.0",
     "lodash": "4.17.21",
-    "pino": "9.6.0",
+    "pino": "9.7.0",
     "pino-pretty": "11.3.0",
     "rotating-file-stream": "3.2.6",
     "source-map-support": "0.5.21",
@@ -57,13 +57,13 @@
     "@typescript-eslint/parser": "5.62.0",
     "chai": "4.5.0",
     "eslint": "8.57.1",
-    "eslint-config-prettier": "8.10.0",
-    "eslint-plugin-prettier": "5.2.4",
+    "eslint-config-prettier": "8.10.2",
+    "eslint-plugin-prettier": "5.5.3",
     "fs-extra": "11.3.0",
     "mocha": "10.8.2",
     "nyc": "17.1.0",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   }
 }
