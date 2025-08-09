@@ -77,7 +77,6 @@ export class MongooseConfigs implements IMongooseConfigs {
     auto_reconnect: true,
     reconnectTries: 604800,
     reconnectInterval: 1000,
-    useNewUrlParser: true,
   };
 
   public updater: {

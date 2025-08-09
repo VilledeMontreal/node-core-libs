@@ -37,17 +37,14 @@ export class Constants {
     return {
       applyUpdates: false,
       connectionString: 'mock',
-      connectionOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
+      connectionOptions: {},
       updater: {
         lockMaxAgeSeconds: 30,
         mongoSchemaUpdatesDirPath: '/dist/tests/testingMongoUpdates',
         appSchemaCollectionName: 'testAppSchema',
       },
       mockServer: {
-        serverVersion: '7.0.16',
+        serverVersion: '8.0.12',
       },
     };
   }

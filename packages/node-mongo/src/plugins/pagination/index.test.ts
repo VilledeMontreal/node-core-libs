@@ -141,11 +141,11 @@ describe('plugin pagination', () => {
     });
   });
 
-  after((done) => {
-    mongoose.connection.db.dropDatabase(done);
+  after(async () => {
+    await mongoose.connection.db.dropDatabase();
   });
 
-  after((done) => {
-    mongoose.disconnect(done);
+  after(async () => {
+    await mongoose.disconnect();
   });
 });

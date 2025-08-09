@@ -272,7 +272,7 @@ export class MongoUpdater implements IMongoUpdater {
       },
     );
 
-    if (document.value !== null) {
+    if (document && document.value !== null) {
       logger.info(` > Succesfully locked the ${this.appSchemaCollectionName} document`);
       return true;
     }
@@ -307,7 +307,7 @@ export class MongoUpdater implements IMongoUpdater {
       // ==========================================
       // *Just* taken by another app!
       // ==========================================
-      if (document.value === null) {
+      if (document && document.value === null) {
         return false;
       }
 
@@ -334,7 +334,7 @@ export class MongoUpdater implements IMongoUpdater {
       },
     );
 
-    if (document.value !== null) {
+    if (document && document.value !== null) {
       logger.info(` > Succesfully unlocked the ${this.appSchemaCollectionName} document`);
       return true;
     }
