@@ -70,8 +70,8 @@
     "chai-as-promised": "^7.1.2",
     "eslint": "8.57.1",
     "eslint-config-prettier": "8.10.2",
-    "eslint-plugin-prettier": "5.5.3",
-    "fs-extra": "11.3.0",
+    "eslint-plugin-prettier": "5.5.4",
+    "fs-extra": "11.3.1",
     "mocha": "10.8.2",
     "mock-express-request": "0.2.2",
     "node-mocks-http": "1.17.2",
@@ -79,7 +79,7 @@
     "nyc": "17.1.0",
     "sinon": "19.0.5",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "validator": "13.15.15"
   }
 }
