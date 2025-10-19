@@ -24,8 +24,7 @@ import { constants } from './config/constants';
  * Mongo utilities
  */
 export class MongoUtils {
-  private mongoMemServer: MongoMemoryServer | MongoMemoryReplSet;
-  private useReplSet = false;
+  private mongoMemServer: MongoMemoryServer | MongoMemoryReplSet | null;
 
   private mockgosseMockedFlag = 'mocked';
 
@@ -61,7 +60,6 @@ export class MongoUtils {
     // not already so.
     // ==========================================
     if (!this.mongoMemServer) {
-      // this.useReplSet = useReplSet;
       // ==========================================
       // Path to download the mocked Mongo server to.
       // We make sure this folder is wihtin the application
@@ -142,24 +140,23 @@ export class MongoUtils {
     }
   }
 
-  public async getMockedServerPort(): Promise<number> {
+  public async getMockedServerPort(): Promise<number | undefined> {
     const mongooseConnection = (mongoose as any)[this.mockgosseMockedFlag];
-    if (mongooseConnection && this.mongoMemServer && !this.useReplSet) {
-      return (this.mongoMemServer as MongoMemoryServer).instanceInfo.port;
-    }
-    if (mongooseConnection && this.mongoMemServer && this.useReplSet) {
-      const servers = (this.mongoMemServer as MongoMemoryReplSet).servers;
-      let port = null;
-      for (const serv of servers) {
-        if (serv.instanceInfo.instance.isInstancePrimary) {
-          port = serv.instanceInfo.port;
-          break;
+    if (mongooseConnection) {
+      if (this.mongoMemServer instanceof MongoMemoryServer) {
+        return this.mongoMemServer.instanceInfo?.port;
+      }
+      if (this.mongoMemServer instanceof MongoMemoryReplSet) {
+        const servers = this.mongoMemServer.servers;
+        for (const serv of servers) {
+          if (serv.instanceInfo?.instance.isInstancePrimary) {
+            return serv.instanceInfo.port;
+          }
         }
       }
-      return port;
     }
 
-    return null;
+    return undefined;
   }
 
   /**
@@ -274,9 +271,8 @@ export class MongoUtils {
         }
       }
 
-      let errorDetails: IApiError[];
+      const errorDetails: IApiError[] = [];
       if (errClean.errors && !_.isEmpty(errClean.errors)) {
-        errorDetails = [];
         Object.keys(errClean.errors).forEach((errorKey) => {
           const errorMessage = errClean.errors[errorKey];
 
@@ -306,7 +302,7 @@ export class MongoUtils {
       return document;
     }
 
-    const pojoObj = document.toObject();
+    const pojoObj: any = document.toObject();
     const pojo: T = pojoObj as T;
 
     // ==========================================

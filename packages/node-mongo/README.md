@@ -75,16 +75,6 @@ d'environnement.
 
 Voir https://www.npmjs.com/package/debug pour les détails d'utilisation
 
-# Versions
-
-Importe les dépendances suivantes:
-
-- Mongo 3.5.9 [Détails](https://docs.mongodb.com/ecosystem/drivers/driver-compatibility-reference/#node-js-driver-compatibility)
-- Mongoose 5.9.19 [Détails](https://mongoosejs.com/docs/compatibility.html)
-- MongoMemoryServer 6.6.1
-- @types/mongodb: 3.5.22
-- @types/mongoose: 5.7.24
-
 ## Notes
 
 - Lorsque vous appellez la méthode `MongoUtils#mockMongoose(...)` en passant une instance de "`mocha`", assurez-vous de le

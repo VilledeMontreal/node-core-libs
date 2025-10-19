@@ -3,7 +3,15 @@ import * as fs from 'fs';
 import * as http from 'http';
 import * as _ from 'lodash';
 import * as path from 'path';
-import { DestinationStream, StreamEntry, pino } from 'pino';
+import {
+  DestinationStream,
+  StreamEntry,
+  pino,
+  Logger as PinoLogger,
+  multistream as PinoMultistream,
+  Level as PinoLevel,
+  levels as PinoLevels,
+} from 'pino';
 import { PinoPretty } from 'pino-pretty';
 import { LoggerConfigs } from './config/configs';
 import { constants } from './config/constants';
@@ -31,7 +39,7 @@ const packageJson = require(`${constants.appRoot}/package.json`);
 const appName = packageJson.name;
 const appVersion = packageJson.version;
 
-let loggerInstance: pino.Logger;
+let loggerInstance: PinoLogger;
 let loggerConfigs: LoggerConfigs;
 let libIsInited = false;
 
@@ -54,15 +62,15 @@ export interface ILogger {
 /**
  * Converts a Pino level to its number value.
  */
-export const convertPinoLevelToNumber = (pinoLogLevel: pino.Level): number => {
-  return pino.levels.values[pinoLogLevel];
+export const convertPinoLevelToNumber = (pinoLogLevel: PinoLevel): number => {
+  return PinoLevels.values[pinoLogLevel];
 };
 
 /**
  * Converts a local LogLevel to a Pino label level.
  */
-export const convertLogLevelToPinoLabelLevel = (logLevel: LogLevel): pino.Level => {
-  let pinoLevel: pino.Level = 'error';
+export const convertLogLevelToPinoLabelLevel = (logLevel: LogLevel): PinoLevel => {
+  let pinoLevel: PinoLevel = 'error';
   if (logLevel !== undefined) {
     if (logLevel === LogLevel.TRACE) {
       pinoLevel = 'trace';
@@ -166,7 +174,7 @@ export const initLogger = (loggerConfig: LoggerConfigs, name = 'default', force 
     });
   }
 
-  multistream = pino.multistream(streams);
+  multistream = PinoMultistream(streams);
   loggerInstance = pino(
     {
       name,
@@ -229,7 +237,7 @@ export function isInited(): boolean {
  * Logger implementation.
  */
 export class Logger implements ILogger {
-  private readonly pino: pino.Logger;
+  private readonly pino: PinoLogger;
 
   /**
    * Creates a logger.
