@@ -1,4 +1,4 @@
-import { Program } from '@caporal/core';
+import { Program } from '@villedemontreal/caporal';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';

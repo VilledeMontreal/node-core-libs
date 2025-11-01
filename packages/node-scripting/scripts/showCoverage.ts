@@ -1,4 +1,4 @@
-import { Command, program } from '@caporal/core';
+import { Command, program } from '@villedemontreal/caporal';
 import * as path from 'path';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';

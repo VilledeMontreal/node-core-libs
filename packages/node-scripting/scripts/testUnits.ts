@@ -1,4 +1,4 @@
-import { Command, program } from '@caporal/core';
+import { Command, program } from '@villedemontreal/caporal';
 import * as _ from 'lodash';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
@@ -36,7 +36,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
   protected get requiredDependencies(): string[] {
     const deps = ['mocha'];
     if (this.options.jenkins) {
-      deps.push('mocha-jenkins-reporter');
+      deps.push('@villedemontreal/mocha-jenkins-reporter');
     }
     return deps;
   }
@@ -102,7 +102,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
 
       this.logger.info('Exporting tests to junit file ' + process.env.JUNIT_REPORT_PATH);
       cmdArgs.push('--reporter');
-      cmdArgs.push('mocha-jenkins-reporter');
+      cmdArgs.push('@villedemontreal/mocha-jenkins-reporter');
     }
 
     try {

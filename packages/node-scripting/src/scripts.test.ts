@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
-import { program as caporal, Program } from '@caporal/core';
+import { program as caporal, Program } from '@villedemontreal/caporal';
 import { globalConstants, utils } from '@villedemontreal/general-utils';
 import { assert } from 'chai';
 import * as fs from 'fs-extra';
@@ -11,6 +11,7 @@ import { configs } from './config/configs';
 import {
   containsText,
   isMainHelpDisplayed,
+  isShortHelpDisplayed,
   run,
   setTestingConfigs,
   timeout,
@@ -127,12 +128,12 @@ describe(`Scripts tests`, function () {
       timeout(this, 60000);
 
       const { output, isSuccess } = await run();
-      assert.isTrue(isSuccess);
+      assert.isFalse(isSuccess);
 
       assert.isTrue(output.indexOf(`Compilation done.`) > -1);
       assert.isFalse(output.indexOf(`Compilation skipped because of the "--nc" parameter...`) > -1);
 
-      assert.isTrue(isMainHelpDisplayed(output));
+      assert.isTrue(isShortHelpDisplayed(output));
     });
 
     it(`Just "help" and "--nc" - no compilation is done and main help is displayed`, async function () {
@@ -422,8 +423,8 @@ describe(`Scripts tests`, function () {
      */
     it(`Custom global options`, async () => {
       const { output, isSuccess } = await withCustomRunFile(
-        `const caporal = require('@caporal/core').program;`,
-        `const caporal = require('@caporal/core').program;
+        `const caporal = require('@villedemontreal/caporal').program;`,
+        `const caporal = require('@villedemontreal/caporal').program;
        caporal.option('--custom', 'Custom global option', {
          global: true
        });

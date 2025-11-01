@@ -1,4 +1,4 @@
-import { Action, ActionParameters, chalk, Command, Program } from '@caporal/core';
+import { Action, ActionParameters, chalk, Command, Program } from '@villedemontreal/caporal';
 import { globalConstants } from '@villedemontreal/general-utils';
 import { IScriptConstructor, ScriptBase, TESTING_SCRIPT_NAME_PREFIX } from './scriptBase';
 

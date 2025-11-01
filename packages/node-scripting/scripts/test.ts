@@ -1,4 +1,4 @@
-import { Command, program } from '@caporal/core';
+import { Command, program } from '@villedemontreal/caporal';
 import { ScriptBase } from '../src';
 import { LintScript } from './lint';
 import { TestUnitsScript } from './testUnits';

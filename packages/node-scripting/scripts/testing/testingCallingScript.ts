@@ -1,4 +1,4 @@
-import { Command, program as caporal } from '@caporal/core';
+import { Command, program as caporal } from '@villedemontreal/caporal';
 import { ScriptBase, TESTING_SCRIPT_NAME_PREFIX } from '../../src';
 import { TestingExampleScript } from './testingExampleScript';
 import { TestingScriptWithArgs } from './testingScriptWithArgs';

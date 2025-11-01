@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const caporal = require('@caporal/core').program;
+const caporal = require('@villedemontreal/caporal').program;
 
 require(`${__dirname}/src/run`).run({
   caporal,

@@ -1,4 +1,4 @@
-import { Command } from '@caporal/core';
+import { Command } from '@villedemontreal/caporal';
 import { utils } from '@villedemontreal/general-utils';
 import * as _ from 'lodash';
 import * as path from 'path';

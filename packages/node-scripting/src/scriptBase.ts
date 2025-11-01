@@ -7,7 +7,7 @@ import {
   ParsedArgumentsObject,
   ParsedOptions,
   Program,
-} from '@caporal/core';
+} from '@villedemontreal/caporal';
 import { globalConstants, utils } from '@villedemontreal/general-utils';
 import { StdioOptions } from 'child_process';
 import * as _ from 'lodash';
@@ -192,6 +192,9 @@ export abstract class ScriptBase<
    *   https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
    *   Defaults to `true`.
    *
+   * @param options.escapeArgs will automatically escape the submitted args.
+   *   Defaults to `true` to avoid any breaking changes.
+   *
    * @param options.useTestsNodeAppInstance Execute the specified command with the
    *   "NODE_APP_INSTANCE" env var set to "tests". This makes the testing configurations
    *   be used in the launched process.
@@ -214,12 +217,16 @@ export abstract class ScriptBase<
       disableConsoleOutputs?: boolean;
       stdio?: StdioOptions;
       useShellOption?: boolean;
+      escapeArgs?: boolean;
       useTestsNodeAppInstance?: boolean;
     },
   ): Promise<number> {
     const useTestsNodeAppInstance = options?.useTestsNodeAppInstance ?? false;
-    const execOptions = options;
+    const execOptions = { ...options };
     delete execOptions?.useTestsNodeAppInstance;
+    if (execOptions.escapeArgs === undefined) {
+      execOptions.escapeArgs = true;
+    }
 
     this.logger.info(`Executing: ${bin} ${args}`);
 

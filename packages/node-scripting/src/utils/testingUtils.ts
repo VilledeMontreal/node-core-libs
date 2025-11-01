@@ -1,4 +1,4 @@
-import { program as caporal } from '@caporal/core';
+import { program as caporal } from '@villedemontreal/caporal';
 import { globalConstants, utils } from '@villedemontreal/general-utils';
 import { assert } from 'chai';
 import { execSync } from 'child_process';
@@ -52,6 +52,7 @@ export async function runCore(runFilePath: string, ...args: string[]) {
   let isSuccess = true;
   try {
     await utils.exec(runFilePath, args, {
+      escapeArgs: true,
       outputHandler: (stdoutData: string, stderrData: string) => {
         const newOut = `${stdoutData ? ' ' + stdoutData : ''} ${
           stderrData ? ' ' + stderrData : ''
@@ -67,6 +68,13 @@ export async function runCore(runFilePath: string, ...args: string[]) {
     output,
     isSuccess,
   };
+}
+
+export function isShortHelpDisplayed(output: string) {
+  return (
+    output.indexOf(`error: Unspecified command. Available commands are:`) > -1 &&
+    output.indexOf(`For more help, type run --help`) > -1
+  );
 }
 
 export function isMainHelpDisplayed(output: string) {

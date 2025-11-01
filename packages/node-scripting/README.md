@@ -37,7 +37,7 @@ node "%~dp0\run" %*
 
 ```javascript
 #!/usr/bin/env node
-const caporal = require("@caporal/core").program;
+const caporal = require("@villedemontreal/caporal").program;
 
 // Here, you could add custom global options, or tweak
 // the Caporal instance, if required.
