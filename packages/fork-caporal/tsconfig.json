@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "",
+    "useUnknownInCatchVariables": false,
+    "esModuleInterop": true,
+  },
+  "include": ["src"],
+  "exclude": ["dist", "temp", "examples", "node_modules", "output", "log", "test-data", "generated", ".*"]
+}

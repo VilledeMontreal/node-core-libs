@@ -1,0 +1,19 @@
+{
+  // Force vscode to use prettier version of node_modules
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "javascript.validate.enable": false,
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
