@@ -5,10 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.2]
+
+### Changed
+
+- Dependencies updates
+- Update Mongoose to latest patch version
+
+## [8.0.1]
+
+### Changed
+
+- Dependencies updates
+
+## [8.0.0]
+
+### Changed
+
+- **breaking changes** The version of the Mongoose dependency changed from 6.x to 8.x
+- **breaking changes** The version of the mongodb dependency changed from 4.x to 6.x
+
 ## [7.1.1]
+
+### Changed
+
 - Dependencies updates
 
 ## [7.0.2]
+
+### Changed
 
 - Change Mongo mock server to use version 5.0.8 by default in order to test the new 5.x release
 - move scripting lib to devDependencies
