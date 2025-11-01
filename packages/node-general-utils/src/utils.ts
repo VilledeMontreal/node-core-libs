@@ -1,11 +1,11 @@
-import { spawn, StdioOptions } from 'child_process';
+import { ChildProcess, spawn, StdioOptions } from 'child_process';
 import * as fs from 'fs';
 import * as getPort from 'get-port';
+import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 import * as pathUtils from 'path';
 import { rimraf } from 'rimraf';
 import * as tsconfig from 'tsconfig-extends';
 import { constants } from './config/constants';
-import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 
 /**
  * General utilities
@@ -308,9 +308,9 @@ export class Utils {
 
     const cmd = 'node';
     const tscCmd = constants.findModulePath('node_modules/typescript/lib/tsc.js');
-    const args = [tscCmd].concat(this.tscCompilerOptions).concat(files);
+    const args = [tscCmd, ...this.tscCompilerOptions, ...files];
 
-    await this.execPromisified(cmd, args);
+    await this.exec(cmd, args, { useShellOption: false });
   }
 
   /**
@@ -428,6 +428,43 @@ export class Utils {
     return false;
   };
 
+  public shellescape(args: string[]) {
+    // Function inspired from: https://github.com/xxorax/node-shell-escape/blob/master/shell-escape.js
+    return args.map(this.shellescapeArgument).join(' ');
+  }
+
+  public shellescapeArgument(a: string) {
+    const trimSpaces = (str: string) => {
+      return str.replace(/^[ ]+|[ ]+$/g, '');
+    };
+    const innerQuotedArgEscape = (arg: string, quote: string): string => {
+      const re = new RegExp(quote, 'g');
+      let result = arg.substring(1, arg.length - 1);
+      result = result.replace(/'\\''/g, "'");
+      result = result.replace(/"\\""/g, '"');
+      result = result.replace(re, `${quote}\\${quote}${quote}`);
+      result = result.replace('\n', '\\n'); // handle new lines
+      result = result.replace('\t', '\\t'); // handle tabs
+      return `${quote}${result}${quote}`;
+    };
+    a = trimSpaces(a);
+    if (/[^A-Za-z0-9_/.$:=-]/.test(a)) {
+      if (a.startsWith('"') && a.endsWith('"')) {
+        return innerQuotedArgEscape(a, '"');
+      }
+      if (a.startsWith("'") && a.endsWith("'")) {
+        return innerQuotedArgEscape(a, "'");
+      }
+      a = "'" + a.replace(/'/g, "'\\''") + "'";
+      a = a
+        .replace(/^(?:'')+/g, '') // unduplicate single-quote at the beginning
+        .replace(/\\'''/g, "\\'") // remove non-escaped single-quote if there are enclosed between 2 escaped
+        .replace('\n', '\\n') // handle new lines
+        .replace('\t', '\\t'); // handle tabs
+    }
+    return a;
+  }
+
   /**
    * @deprecated Use `exec()` instead.
    */
@@ -478,6 +515,9 @@ export class Utils {
    *   https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
    *   Defaults to `true`.
    *
+   * @param options.escapeArgs will automatically escape the submitted args.
+   *   Defaults to `false` to avoid any breaking changes.
+   *
    * @returns The exit code
    *
    * @throws Will fail with a `ExecError` error if the process returns
@@ -494,10 +534,12 @@ export class Utils {
       disableConsoleOutputs?: boolean;
       stdio?: StdioOptions;
       useShellOption?: boolean;
+      escapeArgs?: boolean;
     },
   ): Promise<number> {
     const optionsClean = options ?? {};
     optionsClean.useShellOption = optionsClean.useShellOption ?? true;
+    optionsClean.escapeArgs = optionsClean.escapeArgs ?? false;
     optionsClean.successExitCodes = optionsClean.successExitCodes
       ? isArray(optionsClean.successExitCodes)
         ? optionsClean.successExitCodes
@@ -511,13 +553,27 @@ export class Utils {
     }
 
     return new Promise<number>((resolve, reject) => {
-      const spawnedProcess = spawn(bin, args, {
-        detached: false,
-        stdio: optionsClean.stdio,
-        shell: optionsClean.useShellOption,
-        windowsVerbatimArguments: false,
-      });
+      let spawnedProcess: ChildProcess;
+      if (optionsClean.useShellOption && optionsClean.escapeArgs) {
+        const cmd = this.shellescape([bin, ...args]);
+        spawnedProcess = spawn(cmd, {
+          detached: false,
+          stdio: optionsClean.stdio,
+          shell: optionsClean.useShellOption,
+          windowsVerbatimArguments: false,
+        });
+      } else {
+        spawnedProcess = spawn(bin, args, {
+          detached: false,
+          stdio: optionsClean.stdio,
+          shell: optionsClean.useShellOption,
+          windowsVerbatimArguments: false,
+        });
+      }
 
+      spawnedProcess.on('error', (err: Error) => {
+        reject(new ExecError(`Error while executing command: ${err.message}`, 1));
+      });
       spawnedProcess.on('close', (code: number) => {
         const successExitCodes = optionsClean.successExitCodes as number[];
         if (!successExitCodes.includes(code)) {

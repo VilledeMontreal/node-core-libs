@@ -1443,4 +1443,88 @@ describe("App's utilities functions", function () {
       }
     });
   });
+  describe('shellescape()', () => {
+    it('should not escape valid chars', () => {
+      assert.strictEqual(utils.shellescape(['arg1']), 'arg1');
+      assert.strictEqual(utils.shellescape(['123']), '123');
+      assert.strictEqual(utils.shellescape(['12.33']), '12.33');
+      assert.strictEqual(utils.shellescape(['abc-def']), 'abc-def');
+      assert.strictEqual(utils.shellescape(['arg1']), 'arg1');
+      assert.strictEqual(utils.shellescape(['arg_1']), 'arg_1');
+      assert.strictEqual(utils.shellescape(['c:/foo.bat']), 'c:/foo.bat');
+      assert.strictEqual(utils.shellescape(['c:\\foo.bat']), `'c:\\foo.bat'`);
+      assert.strictEqual(utils.shellescape(['/foo/bar/foo.txt']), '/foo/bar/foo.txt');
+    });
+
+    it('escapes multiple arguments', () => {
+      const result = utils.shellescape(['arg1', 'arg2']);
+      assert.strictEqual(result, 'arg1 arg2');
+    });
+
+    it('handles already quoted arguments', () => {
+      assert.strictEqual(utils.shellescape(['"arg1"', "'arg2'"]), `"arg1" 'arg2'`);
+      assert.strictEqual(utils.shellescape([' "arg1"', " 'arg2'"]), `"arg1" 'arg2'`);
+      assert.strictEqual(utils.shellescape(['"arg1" ', "'arg2' "]), `"arg1" 'arg2'`);
+      assert.strictEqual(utils.shellescape([' "arg1" ', " 'arg2' "]), `"arg1" 'arg2'`);
+      assert.strictEqual(utils.shellescape(['"ar"g1"', "'ar'g2'"]), `"ar"\\""g1" 'ar'\\''g2'`);
+    });
+
+    it('handles already escaped arguments', () => {
+      assert.strictEqual(
+        utils.shellescape([`"arg"\\""?"\\""1"`, `'arg'\\''2'`]),
+        `"arg"\\""?"\\""1" 'arg'\\''2'`,
+      );
+      assert.strictEqual(
+        utils.shellescape(['""\\""arg1"\\"""', "''\\''arg2'\\'''"]),
+        `""\\""arg1"\\""" ''\\''arg2'\\'''`,
+      );
+    });
+
+    it('do not escape arg containing an env var', () => {
+      const result = utils.shellescape(['echo', '$HOME']);
+      assert.strictEqual(result, 'echo $HOME');
+    });
+    it('mixed', () => {
+      const result = utils.shellescape([
+        'echo',
+        'hello!',
+        'how are you doing $USER',
+        '"double"',
+        "'single'",
+      ]);
+      assert.strictEqual(result, `echo 'hello!' 'how are you doing $USER' "double" 'single'`);
+    });
+    it('more complex', () => {
+      const samples: [string, string[]][] = [
+        ["echo 'hello\\nworld'", ['echo', 'hello\\nworld']],
+        ['echo hello:world', ['echo', 'hello:world']],
+        ['echo --hello=world', ['echo', '--hello=world']],
+        ["echo 'hello\\tworld'", ['echo', 'hello\\tworld']],
+        ["echo '\\thello\\nworld'\\'", ['echo', `\thello\nworld'`]],
+        ["echo '\\thello\\nworld'", ['echo', `'\thello\nworld'`]],
+        [`echo "\\thello\\nworld"`, ['echo', `"\thello\nworld"`]],
+        ["echo 'hello  world'", ['echo', 'hello  world']],
+        ['echo hello world', ['echo', 'hello', 'world']],
+        ["echo 'hello\\\\'\\' \\''\\\\'\\''world'", ['echo', "hello\\\\'", "'\\\\'world"]],
+        ["echo hello 'world\\'", ['echo', 'hello', 'world\\']],
+        [
+          "curl -v -H 'Location;' -H 'User-Agent: dave#10' 'http://www.daveeddy.com/?name=dave&age=24'",
+          [
+            'curl',
+            '-v',
+            '-H',
+            'Location;',
+            '-H',
+            'User-Agent: dave#10',
+            'http://www.daveeddy.com/?name=dave&age=24',
+          ],
+        ],
+      ];
+      for (const [output, input] of samples) {
+        const result = utils.shellescape(input);
+        // console.log(`input: ${input} => expected: ${output} => result: ${result}`);
+        assert.strictEqual(result, output);
+      }
+    });
+  });
 });
