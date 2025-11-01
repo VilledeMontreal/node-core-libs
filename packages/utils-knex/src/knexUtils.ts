@@ -84,7 +84,7 @@ export class KnexUtils {
     knex: Knex,
     selectBuilder: Knex.QueryBuilder,
     offset: number,
-    limit: number
+    limit: number,
   ): Promise<IPaginatedResult<any>> {
     const result = await this.paginateOrTotalCount(knex, selectBuilder, offset, limit);
     return result;
@@ -193,7 +193,7 @@ export class KnexUtils {
   public wrapWithOracleModificationkeywords(
     columnNameOrInterrogationMark: string,
     isConvert: boolean,
-    isLower: boolean
+    isLower: boolean,
   ): string {
     if (isConvert && isLower) {
       return `LOWER(CONVERT(${columnNameOrInterrogationMark}, 'US7ASCII', 'WE8ISO8859P1'))`;
@@ -217,7 +217,7 @@ export class KnexUtils {
     columnName: string,
     val: string,
     isConvert: boolean,
-    isLower: boolean
+    isLower: boolean,
   ): Knex.QueryBuilder {
     let valClean = val;
     let wildcardPrefix = '';
@@ -238,11 +238,11 @@ export class KnexUtils {
       const clause = `${this.wrapWithOracleModificationkeywords(
         columnName,
         isConvert,
-        isLower
+        isLower,
       )} LIKE ${wildcardPrefix}${this.wrapWithOracleModificationkeywords(
         '?',
         isConvert,
-        isLower
+        isLower,
       )}${wildcardSuffix}`;
       queryBuilderClean = queryBuilderClean.whereRaw(clause, valClean);
     }
@@ -258,7 +258,7 @@ export class KnexUtils {
   public wrapWithSqlServerModificationKeywords(
     columnNameOrInterrogationMark: string,
     isConvert: boolean,
-    isLower: boolean
+    isLower: boolean,
   ): string {
     if (!isLower && !isConvert) {
       return columnNameOrInterrogationMark;
@@ -297,7 +297,7 @@ export class KnexUtils {
     val: string,
     acceptWildcard: boolean,
     removeAccents: boolean,
-    lower: boolean
+    lower: boolean,
   ): Knex.QueryBuilder {
     let valClean = val;
     let wildcardPrefix = '';
@@ -321,11 +321,11 @@ export class KnexUtils {
       const clause = `${this.wrapWithSqlServerModificationKeywords(
         columnName,
         removeAccents,
-        lower
+        lower,
       )} LIKE ${wildcardPrefix}${this.wrapWithSqlServerModificationKeywords(
         '?',
         removeAccents,
-        lower
+        lower,
       )}${wildcardSuffix}`;
       queryBuilderClean = queryBuilderClean.whereRaw(clause, valClean);
     }
@@ -342,7 +342,7 @@ export class KnexUtils {
     selectBuilder: Knex.QueryBuilder,
     offset: number,
     limit: number,
-    totalCountOnly = false
+    totalCountOnly = false,
   ): Promise<IPaginatedResult<any>> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     if (!selectBuilder) {
@@ -351,7 +351,7 @@ export class KnexUtils {
 
     if ((selectBuilder as any)['_method'] !== 'select') {
       throw new Error(
-        "The 'paginate()' and 'totalCount()' functions are only available on a SELECT query builder!"
+        "The 'paginate()' and 'totalCount()' functions are only available on a SELECT query builder!",
       );
     }
 

@@ -51,7 +51,7 @@ describe('Knex Utilities', () => {
 
         assert.strictEqual(
           queryInfo.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfo.bindings.length, 1);
         assert.strictEqual(queryInfo.bindings[0], 1);
@@ -65,13 +65,13 @@ describe('Knex Utilities', () => {
             .from('books')
             .orderBy('author')
             .offset(2)
-            .limit(3)
+            .limit(3),
         );
 
         const queryInfo: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfo.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfo.bindings.length, 1);
         assert.strictEqual(queryInfo.bindings[0], 1);
@@ -96,7 +96,7 @@ describe('Knex Utilities', () => {
         assert.strictEqual(
           queryInfo.sql,
           'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` ' +
-            'from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?'
+            'from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfo.bindings.length, 5);
         assert.strictEqual(queryInfo.bindings[4], 1);
@@ -105,13 +105,13 @@ describe('Knex Utilities', () => {
       it('with distinct', async () => {
         await knexUtils.totalCount(
           mockedClient,
-          mockedClient.distinct('info').from('books').orderBy('author').offset(0).limit(3)
+          mockedClient.distinct('info').from('books').orderBy('author').offset(0).limit(3),
         );
 
         const queryInfo: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfo.sql,
-          'select count(*) as `count` from (select distinct `info` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select distinct `info` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfo.bindings.length, 1);
         assert.strictEqual(queryInfo.bindings[0], 1);
@@ -128,7 +128,7 @@ describe('Knex Utilities', () => {
         const queryInfo: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfo.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc'
+          'select `id`, `author`, `title` from `books` order by `author` asc',
         );
         assert.strictEqual(queryInfo.bindings.length, 0);
       });
@@ -144,7 +144,7 @@ describe('Knex Utilities', () => {
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -152,7 +152,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 3);
@@ -163,13 +163,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           3,
-          3
+          3,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -177,7 +177,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 3);
@@ -189,13 +189,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           6,
-          3
+          3,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -203,7 +203,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 3);
@@ -215,13 +215,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           9,
-          3
+          3,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -229,7 +229,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 3);
@@ -241,13 +241,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           9,
-          1
+          1,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -255,7 +255,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -267,13 +267,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           9,
-          0
+          0,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -281,7 +281,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -293,13 +293,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           0,
-          1
+          1,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -307,7 +307,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -318,13 +318,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           -1,
-          1
+          1,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -332,7 +332,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -343,13 +343,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           0,
-          0
+          0,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -357,7 +357,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -368,13 +368,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           0,
-          -1
+          -1,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -382,7 +382,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 1);
@@ -393,13 +393,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           0,
-          100
+          100,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -407,7 +407,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 100);
@@ -418,13 +418,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           9,
-          100
+          100,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -432,7 +432,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 100);
@@ -444,13 +444,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.select('id', 'author', 'title').from('books').orderBy('author'),
           10,
-          100
+          100,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -458,7 +458,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 100);
@@ -475,7 +475,7 @@ describe('Knex Utilities', () => {
               .from('books')
               .where('author', 'author_01'),
             0,
-            1
+            1,
           );
         } catch (err) {
           error = true;
@@ -495,7 +495,7 @@ describe('Knex Utilities', () => {
               })
               .into('books'),
             0,
-            1
+            1,
           );
         } catch (err) {
           error = true;
@@ -531,7 +531,7 @@ describe('Knex Utilities', () => {
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 5);
         assert.strictEqual(queryInfoCount.bindings[4], 1);
@@ -539,7 +539,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ?'
+          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 5);
         assert.strictEqual(queryInfoResultSet.bindings[4], 2);
@@ -563,7 +563,7 @@ describe('Knex Utilities', () => {
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 5);
         assert.strictEqual(queryInfoCount.bindings[4], 1);
@@ -571,7 +571,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ? offset ?'
+          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 6);
         assert.strictEqual(queryInfoResultSet.bindings[4], 2);
@@ -596,7 +596,7 @@ describe('Knex Utilities', () => {
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?)) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 5);
         assert.strictEqual(queryInfoCount.bindings[4], 1);
@@ -604,7 +604,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ? offset ?'
+          'select `id`, `author`, (select `title` from `books` where `author` = ?) as `test` from `books` where `author` in (?, ?, ?) order by `author` desc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 6);
         assert.strictEqual(queryInfoResultSet.bindings[4], 2);
@@ -616,13 +616,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.distinct('info').from('books').orderBy('author'),
           1,
-          100
+          100,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select distinct `info` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select distinct `info` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -630,7 +630,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select distinct `info` from `books` order by `author` asc limit ? offset ?'
+          'select distinct `info` from `books` order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 2);
         assert.strictEqual(queryInfoResultSet.bindings[0], 100);
@@ -642,13 +642,13 @@ describe('Knex Utilities', () => {
           mockedClient,
           mockedClient.distinct('info', 'info2').from('books').orderBy('author'),
           0,
-          2
+          2,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select distinct `info`, `info2` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select distinct `info`, `info2` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 1);
         assert.strictEqual(queryInfoCount.bindings[0], 1);
@@ -656,7 +656,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select distinct `info`, `info2` from `books` order by `author` asc limit ?'
+          'select distinct `info`, `info2` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 1);
         assert.strictEqual(queryInfoResultSet.bindings[0], 2);
@@ -671,13 +671,13 @@ describe('Knex Utilities', () => {
             .whereIn('title', ['title_01', 'title_02', 'title_03'])
             .orderBy('author'),
           1,
-          1
+          1,
         );
 
         const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoCount.sql,
-          'select count(*) as `count` from (select distinct `info`, `info2` from `books` where `title` in (?, ?, ?)) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select distinct `info`, `info2` from `books` where `title` in (?, ?, ?)) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCount.bindings.length, 4);
         assert.strictEqual(queryInfoCount.bindings[3], 1);
@@ -685,7 +685,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoResultSet.sql,
-          'select distinct `info`, `info2` from `books` where `title` in (?, ?, ?) order by `author` asc limit ? offset ?'
+          'select distinct `info`, `info2` from `books` where `title` in (?, ?, ?) order by `author` asc limit ? offset ?',
         );
         assert.strictEqual(queryInfoResultSet.bindings.length, 5);
         assert.strictEqual(queryInfoResultSet.bindings[3], 1);
@@ -722,14 +722,14 @@ describe('Knex Utilities', () => {
         const queryInfoResultSetAsIs: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
         assert.strictEqual(
           queryInfoResultSetAsIs.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc'
+          'select `id`, `author`, `title` from `books` order by `author` asc',
         );
         assert.strictEqual(queryInfoResultSetAsIs.bindings.length, 0);
 
         const queryInfoCountPaginated: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
         assert.strictEqual(
           queryInfoCountPaginated.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCountPaginated.bindings.length, 1);
         assert.strictEqual(queryInfoCountPaginated.bindings[0], 1);
@@ -737,7 +737,7 @@ describe('Knex Utilities', () => {
         const queryInfoResultSetPaginated: any = mockedClient.beforeQuerySpy.getCall(2).args[0];
         assert.strictEqual(
           queryInfoResultSetPaginated.sql,
-          'select `id`, `author`, `title` from `books` order by `author` asc limit ?'
+          'select `id`, `author`, `title` from `books` order by `author` asc limit ?',
         );
         assert.strictEqual(queryInfoResultSetPaginated.bindings.length, 1);
         assert.strictEqual(queryInfoResultSetPaginated.bindings[0], 3);
@@ -745,7 +745,7 @@ describe('Knex Utilities', () => {
         const queryInfoCountAlone: any = mockedClient.beforeQuerySpy.getCall(3).args[0];
         assert.strictEqual(
           queryInfoCountAlone.sql,
-          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?'
+          'select count(*) as `count` from (select `id`, `author`, `title` from `books`) as `_knexSub` limit ?',
         );
         assert.strictEqual(queryInfoCountAlone.bindings.length, 1);
         assert.strictEqual(queryInfoCountAlone.bindings[0], 1);
@@ -787,7 +787,7 @@ describe('Knex Utilities', () => {
 
       assert.strictEqual(
         queryInfo.sql,
-        'select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ? order by `somethingB` asc'
+        'select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ? order by `somethingB` asc',
       );
       assert.strictEqual(queryInfo.bindings.length, 1);
       assert.strictEqual(queryInfo.bindings[0], 'someValue');
@@ -930,7 +930,7 @@ describe('Knex Utilities', () => {
       const queryInfoCount: any = mockedClient.beforeQuerySpy.getCall(0).args[0];
       assert.strictEqual(
         queryInfoCount.sql,
-        'select count(*) as `count` from (select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ?) as `_knexSub` limit ?'
+        'select count(*) as `count` from (select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ?) as `_knexSub` limit ?',
       );
       assert.strictEqual(queryInfoCount.bindings.length, 2);
       assert.strictEqual(queryInfoCount.bindings[1], 1);
@@ -938,7 +938,7 @@ describe('Knex Utilities', () => {
       const queryInfoResultSet: any = mockedClient.beforeQuerySpy.getCall(1).args[0];
       assert.strictEqual(
         queryInfoResultSet.sql,
-        'select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ? order by `somethingB` asc limit ? offset ?'
+        'select `somethingA`, `somethingB` from `someTbale` where `someColumn` = ? order by `somethingB` asc limit ? offset ?',
       );
       assert.strictEqual(queryInfoResultSet.bindings.length, 3);
       assert.strictEqual(queryInfoResultSet.bindings[1], 7);
@@ -1067,7 +1067,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', 'val', true, false);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')"
+        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')",
       );
     });
 
@@ -1075,7 +1075,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val', true, false);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE '%' || CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')"
+        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE '%' || CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')",
       );
     });
 
@@ -1083,7 +1083,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', 'val*', true, false);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE CONVERT('val', 'US7ASCII', 'WE8ISO8859P1') || '%'"
+        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE CONVERT('val', 'US7ASCII', 'WE8ISO8859P1') || '%'",
       );
     });
 
@@ -1091,7 +1091,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val*', true, false);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE '%' || CONVERT('val', 'US7ASCII', 'WE8ISO8859P1') || '%'"
+        "select `titi` where CONVERT(test, 'US7ASCII', 'WE8ISO8859P1') LIKE '%' || CONVERT('val', 'US7ASCII', 'WE8ISO8859P1') || '%'",
       );
     });
 
@@ -1106,7 +1106,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val', false, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(test) LIKE '%' || LOWER('val')"
+        "select `titi` where LOWER(test) LIKE '%' || LOWER('val')",
       );
     });
 
@@ -1114,7 +1114,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', 'val*', false, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(test) LIKE LOWER('val') || '%'"
+        "select `titi` where LOWER(test) LIKE LOWER('val') || '%'",
       );
     });
 
@@ -1122,7 +1122,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val*', false, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(test) LIKE '%' || LOWER('val') || '%'"
+        "select `titi` where LOWER(test) LIKE '%' || LOWER('val') || '%'",
       );
     });
 
@@ -1132,7 +1132,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', 'val', true, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1'))"
+        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1'))",
       );
     });
 
@@ -1140,7 +1140,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val', true, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE '%' || LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1'))"
+        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE '%' || LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1'))",
       );
     });
 
@@ -1148,7 +1148,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', 'val*', true, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')) || '%'"
+        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')) || '%'",
       );
     });
 
@@ -1156,7 +1156,7 @@ describe('Knex Utilities', () => {
       const result = knexUtils.addOracleLikeClause(queryBuilder, 'test', '*val*', true, true);
       assert.strictEqual(
         result.toQuery(),
-        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE '%' || LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')) || '%'"
+        "select `titi` where LOWER(CONVERT(test, 'US7ASCII', 'WE8ISO8859P1')) LIKE '%' || LOWER(CONVERT('val', 'US7ASCII', 'WE8ISO8859P1')) || '%'",
       );
     });
   });
@@ -1179,7 +1179,7 @@ describe('Knex Utilities', () => {
         result,
         `CAST(` +
           `REPLACE(REPLACE(REPLACE(REPLACE(test, 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')` +
-          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS`
+          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS`,
       );
 
       result = knexUtils.wrapWithSqlServerModificationKeywords('?', true, false);
@@ -1187,7 +1187,7 @@ describe('Knex Utilities', () => {
         result,
         `CAST(` +
           `REPLACE(REPLACE(REPLACE(REPLACE(?, 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')` +
-          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS`
+          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS`,
       );
     });
 
@@ -1205,7 +1205,7 @@ describe('Knex Utilities', () => {
         result,
         `LOWER(CAST(` +
           `REPLACE(REPLACE(REPLACE(REPLACE(test, 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')` +
-          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)`
+          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)`,
       );
 
       result = knexUtils.wrapWithSqlServerModificationKeywords('?', true, true);
@@ -1213,7 +1213,7 @@ describe('Knex Utilities', () => {
         result,
         `LOWER(CAST(` +
           `REPLACE(REPLACE(REPLACE(REPLACE(?, 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')` +
-          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)`
+          `AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)`,
       );
     });
   });
@@ -1236,7 +1236,7 @@ describe('Knex Utilities', () => {
           'val',
           true,
           false,
-          false
+          false,
         );
         assert.strictEqual(result.toQuery(), "select `titi` where `test` = 'val'");
       });
@@ -1248,7 +1248,7 @@ describe('Knex Utilities', () => {
           '*val',
           true,
           false,
-          false
+          false,
         );
         assert.strictEqual(result.toQuery(), "select `titi` where test LIKE '%' + 'val'");
       });
@@ -1260,7 +1260,7 @@ describe('Knex Utilities', () => {
           'val*',
           true,
           false,
-          false
+          false,
         );
         assert.strictEqual(result.toQuery(), "select `titi` where test LIKE 'val' + '%'");
       });
@@ -1272,7 +1272,7 @@ describe('Knex Utilities', () => {
           '*val*',
           true,
           false,
-          false
+          false,
         );
         assert.strictEqual(result.toQuery(), "select `titi` where test LIKE '%' + 'val' + '%'");
       });
@@ -1286,7 +1286,7 @@ describe('Knex Utilities', () => {
           'val',
           true,
           true,
-          false
+          false,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1295,7 +1295,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS ' +
             'LIKE CAST(' +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS'
+            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS',
         );
       });
 
@@ -1306,7 +1306,7 @@ describe('Knex Utilities', () => {
           '*val',
           true,
           true,
-          false
+          false,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1315,7 +1315,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS ' +
             "LIKE '%' + CAST(" +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS'
+            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS',
         );
       });
 
@@ -1326,7 +1326,7 @@ describe('Knex Utilities', () => {
           'val*',
           true,
           true,
-          false
+          false,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1335,7 +1335,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS ' +
             'LIKE CAST(' +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS + '%'"
+            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS + '%'",
         );
       });
 
@@ -1346,7 +1346,7 @@ describe('Knex Utilities', () => {
           '*val*',
           true,
           true,
-          false
+          false,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1355,7 +1355,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS ' +
             "LIKE '%' + CAST(" +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS + '%'"
+            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS + '%'",
         );
       });
 
@@ -1368,7 +1368,7 @@ describe('Knex Utilities', () => {
           'val',
           true,
           false,
-          true
+          true,
         );
         assert.strictEqual(result.toQuery(), "select `titi` where LOWER(test) LIKE LOWER('val')");
       });
@@ -1380,11 +1380,11 @@ describe('Knex Utilities', () => {
           '*val',
           true,
           false,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
-          "select `titi` where LOWER(test) LIKE '%' + LOWER('val')"
+          "select `titi` where LOWER(test) LIKE '%' + LOWER('val')",
         );
       });
 
@@ -1395,11 +1395,11 @@ describe('Knex Utilities', () => {
           'val*',
           true,
           false,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
-          "select `titi` where LOWER(test) LIKE LOWER('val') + '%'"
+          "select `titi` where LOWER(test) LIKE LOWER('val') + '%'",
         );
       });
 
@@ -1410,11 +1410,11 @@ describe('Knex Utilities', () => {
           '*val*',
           true,
           false,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
-          "select `titi` where LOWER(test) LIKE '%' + LOWER('val') + '%'"
+          "select `titi` where LOWER(test) LIKE '%' + LOWER('val') + '%'",
         );
       });
 
@@ -1427,7 +1427,7 @@ describe('Knex Utilities', () => {
           'val',
           true,
           true,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1436,7 +1436,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) ' +
             'LIKE LOWER(CAST(' +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)'
+            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)',
         );
       });
 
@@ -1447,7 +1447,7 @@ describe('Knex Utilities', () => {
           '*val',
           true,
           true,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1456,7 +1456,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) ' +
             "LIKE '%' + LOWER(CAST(" +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)'
+            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)',
         );
       });
 
@@ -1467,7 +1467,7 @@ describe('Knex Utilities', () => {
           'val*',
           true,
           true,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1476,7 +1476,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) ' +
             'LIKE LOWER(CAST(' +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) + '%'"
+            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) + '%'",
         );
       });
 
@@ -1487,7 +1487,7 @@ describe('Knex Utilities', () => {
           '*val*',
           true,
           true,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1496,7 +1496,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) ' +
             "LIKE '%' + LOWER(CAST(" +
             "REPLACE(REPLACE(REPLACE(REPLACE('val', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) + '%'"
+            "AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) + '%'",
         );
       });
     });
@@ -1509,7 +1509,7 @@ describe('Knex Utilities', () => {
           '*val*',
           false,
           true,
-          true
+          true,
         );
         assert.strictEqual(
           result.toQuery(),
@@ -1518,7 +1518,7 @@ describe('Knex Utilities', () => {
             'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS) ' +
             'LIKE LOWER(CAST(' +
             "REPLACE(REPLACE(REPLACE(REPLACE('*val*', 'œ', 'oe'), 'Œ', 'OE'), 'æ', 'ae'), 'Æ', 'AE')" +
-            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)'
+            'AS VARCHAR(max)) COLLATE SQL_Latin1_General_Cp1251_CS_AS)',
         );
       });
     });

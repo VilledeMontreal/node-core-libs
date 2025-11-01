@@ -27,7 +27,7 @@ export class KnexTransactionManager {
    */
   public async withTransaction<T>(
     context: IDatabaseContext,
-    fnt: (client: Knex) => Promise<T>
+    fnt: (client: Knex) => Promise<T>,
   ): Promise<T> {
     return await this.withClient(context, fnt, true);
   }
@@ -40,7 +40,7 @@ export class KnexTransactionManager {
   public async withClient<T>(
     context: IDatabaseContext,
     fnt: (client: Knex) => Promise<T>,
-    transactional = false
+    transactional = false,
   ): Promise<T> {
     let contextClean = context;
     if (_.isNil(contextClean)) {
@@ -56,8 +56,8 @@ export class KnexTransactionManager {
         `This manager requires a *knex* client to be passed in the database context! Currently : ${JSON.stringify(
           existingClient,
           null,
-          2
-        )}`
+          2,
+        )}`,
       );
     }
 

@@ -277,7 +277,7 @@ describe(`Transactions Manager tests`, () => {
           .where(`id`, userId);
 
         return await getUserById(userId);
-      }
+      },
     );
 
     assert.deepEqual(user.lastName, 'aaaaa');
@@ -294,7 +294,7 @@ describe(`Transactions Manager tests`, () => {
           .where(`id`, userId);
 
         return await getUserById(userId);
-      }
+      },
     );
 
     assert.deepEqual(user.lastName, 'bbbbb');
