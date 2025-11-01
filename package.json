@@ -21,7 +21,7 @@
     "bump-core": "npm version minor -m 'Release v%s'",
     "bump-versions": "nx release version --git-commit=false --git-tag=false",
     "bump-versions:dry-run": "nx release version --dry-run --git-commit=false --git-tag=false",
-    "publish-libs": "nx exec -- npm publish",
+    "publish-libs": "nx exec -- npm publish --access public",
     "update": "nx migrate latest",
     "help": "nx help",
     "nx": "nx"
