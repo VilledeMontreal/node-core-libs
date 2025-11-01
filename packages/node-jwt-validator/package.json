@@ -49,7 +49,7 @@
     "superagent": "10.2.3"
   },
   "devDependencies": {
-    "@types/app-root-path": "1.2.8",
+    "@types/app-root-path": "3.1.0",
     "@types/chai": "4.3.20",
     "@types/chai-as-promised": "^7.1.8",
     "@types/express": "4.17.25",

@@ -35,7 +35,7 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@types/app-root-path": "1.2.8",
+    "@types/app-root-path": "3.1.0",
     "@types/cls-hooked": "4.3.9",
     "@types/lodash": "4.17.20",
     "@types/uuid": "10.0.0",
