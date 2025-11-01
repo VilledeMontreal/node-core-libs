@@ -37,7 +37,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/app-root-path": "1.2.8",
-    "@types/express": "4.17.23",
+    "@types/express": "4.17.25",
     "@types/lodash": "4.17.20",
     "@types/superagent": "8.1.9",
     "@villedemontreal/general-utils": "5.19.3",

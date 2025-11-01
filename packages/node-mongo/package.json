@@ -41,7 +41,7 @@
     "lodash": "4.17.21",
     "mongodb": "6.20.0",
     "mongodb-memory-server-core": "10.2.3",
-    "mongoose": "8.19.1",
+    "mongoose": "8.19.2",
     "semver": "7.7.3"
   },
   "devDependencies": {
