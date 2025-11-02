@@ -1,17 +1,17 @@
-# @villemontreal/core-utils-knex-nodejs-lib
+# @villedemontreal/utils-knex
 
 Module d'utilitaires pour la librairie Knex.
 
 ## Availabililty
 
-https://bitbucket.org/villemontreal/core-utils-knex-nodejs-lib
+https://github.com/VilledeMontreal/node-core-libs/tree/main/packages/utils-knex
 
 ## Installation
 
 Installer la bibliothèque:
 
 ```shell
-    npm install --save @villemontreal/test-core-utils-knex-nodejs-lib
+    npm install --save @villedemontreal/utils-knex
 ```
 
 ## Utilisation
