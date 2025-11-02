@@ -61,7 +61,7 @@
     "@types/superagent": "8.1.9",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
-    "@villedemontreal/mocha-jenkins-reporter": "0.4.10",
+    "@villedemontreal/mocha-jenkins-reporter": "0.4.11",
     "chai": "4.5.0",
     "chai-as-promised": "7.1.2",
     "chai-string": "1.6.0",
