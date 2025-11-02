@@ -41,7 +41,7 @@
   "author": "Matthias ETIENNE <matthias@etienne.in> (https://github.com/mattallty)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/villedemontreal/node-core-libs.git",
+    "url": "git+https://github.com/villedemontreal/node-core-libs.git",
     "directory": "packages/fork-caporal"
   },
   "license": "MIT",
