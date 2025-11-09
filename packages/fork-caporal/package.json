@@ -46,7 +46,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@tsconfig/node16": "^16.1.6",
+    "@tsconfig/node22": "22.0.2",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "8.57.1",
@@ -65,7 +65,7 @@
     "@types/tabtab": "^3.0.4",
     "@types/wrap-ansi": "^8.1.0",
     "chalk": "4.1.2",
-    "glob": "^10.4.5",
+    "glob": "^11.0.3",
     "lodash": "^4.17.21",
     "lodash.truncate": "^4.4.2",
     "table": "^6.9.0",

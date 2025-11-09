@@ -22,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/villedemontreal/node-core-libs.git",
-    "directory": "packages/utils-knex"
+    "directory": "packages/node-utils-knex"
   },
   "homepage": "https://github.com/villedemontreal/node-core-libs",
   "keywords": [
@@ -39,12 +39,12 @@
     "@villedemontreal/logger": "6.8.5",
     "app-root-path": "3.1.0",
     "bluebird": "3.7.2",
-    "config": "3.3.12",
-    "del": "7.1.0",
+    "config": "4.1.1",
+    "del": "8.0.1",
     "knex": "3.1.0",
     "lodash": "4.17.21",
     "moment": "2.30.1",
-    "sinon": "19.0.5",
+    "sinon": "21.0.0",
     "source-map-support": "0.5.21",
     "uuid": "13.0.0"
   },
@@ -66,7 +66,7 @@
     "eslint-config-prettier": "8.10.2",
     "eslint-plugin-prettier": "5.5.4",
     "fs-extra": "11.3.2",
-    "mocha": "10.8.2",
+    "mocha": "11.7.5",
     "nyc": "17.1.0",
     "prettier": "3.6.2",
     "sqlite3": "5.1.7",

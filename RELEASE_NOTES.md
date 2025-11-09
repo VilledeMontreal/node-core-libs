@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2025-11-09
+
+- BREAKING: upgrade @types/express from 4.17.25 to 5.0.5
+- upgrade mongodb-memory-server-core from 10.2.3 to 10.3.0
+- upgrade mongoose from 8.19.2 to 8.19.3
+- upgrade pino from 9.14.0 to 10.1.0, pino-pretty from 11.3.0 to 13.1.2
+- upgrade nock from 13.5.6 to 14.0.10
+
 ## 2025-11-01
 
 - Added this file to better track the changes.
