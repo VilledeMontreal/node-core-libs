@@ -65,7 +65,7 @@
     "@types/tabtab": "^3.0.4",
     "@types/wrap-ansi": "^8.1.0",
     "chalk": "4.1.2",
-    "glob": "^11.0.3",
+    "glob": "^11.1.0",
     "lodash": "^4.17.21",
     "lodash.truncate": "^4.4.2",
     "table": "^6.9.0",
