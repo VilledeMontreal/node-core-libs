@@ -429,36 +429,51 @@ export class Utils {
   };
 
   public shellescape(args: string[]) {
-    // Function inspired from: https://github.com/xxorax/node-shell-escape/blob/master/shell-escape.js
-    return args.map(this.shellescapeArgument).join(' ');
+    const isWindows = process.platform === 'win32';
+    if (isWindows) {
+      return this.shellescapeForWindowsCmd(args);
+    } else {
+      return this.shellescapeForLinuxShell(args);
+    }
   }
 
-  public shellescapeArgument(a: string) {
+  public shellescapeForLinuxShell(args: string[]) {
+    return args.map((x) => this.shellescapeArgumentForLinuxShell(x)).join(' ');
+  }
+
+  public shellescapeForWindowsCmd(args: string[]) {
+    return args.map((x) => this.shellescapeArgumentForWindowsCmd(x)).join(' ');
+  }
+
+  public shellescapeArgumentForLinuxShell(a: string) {
+    // Function inspired from: https://github.com/xxorax/node-shell-escape/blob/master/shell-escape.js
+
     const trimSpaces = (str: string) => {
       return str.replace(/^[ ]+|[ ]+$/g, '');
     };
-    const innerQuotedArgEscape = (arg: string, quote: string): string => {
-      const re = new RegExp(quote, 'g');
-      let result = arg.substring(1, arg.length - 1);
-      result = result.replace(/'\\''/g, "'");
-      result = result.replace(/"\\""/g, '"');
-      result = result.replace(re, `${quote}\\${quote}${quote}`);
-      result = result.replace('\n', '\\n'); // handle new lines
-      result = result.replace('\t', '\\t'); // handle tabs
-      return `${quote}${result}${quote}`;
-    };
+
     a = trimSpaces(a);
-    if (/[^A-Za-z0-9_/.$:=-]/.test(a)) {
-      if (a.startsWith('"') && a.endsWith('"')) {
-        return innerQuotedArgEscape(a, '"');
-      }
-      if (a.startsWith("'") && a.endsWith("'")) {
-        return innerQuotedArgEscape(a, "'");
-      }
+    if (/[^A-Za-z0-9_/.:=-]/.test(a)) {
+      a = a.replace(/\\\\/g, '\\');
+      a = a.replace(/\\/g, '\\\\');
       a = "'" + a.replace(/'/g, "'\\''") + "'";
       a = a
         .replace(/^(?:'')+/g, '') // unduplicate single-quote at the beginning
         .replace(/\\'''/g, "\\'") // remove non-escaped single-quote if there are enclosed between 2 escaped
+        .replace('\n', '\\n') // handle new lines
+        .replace('\t', '\\t'); // handle tabs
+    }
+    return a;
+  }
+
+  public shellescapeArgumentForWindowsCmd(a: string) {
+    const trimSpaces = (str: string) => {
+      return str.replace(/^[ ]+|[ ]+$/g, '');
+    };
+    a = trimSpaces(a);
+    if (/[^A-Za-z0-9_/\\.$:=-]/.test(a)) {
+      a = '"' + a.replace(/"/g, '""') + '"';
+      a = a
         .replace('\n', '\\n') // handle new lines
         .replace('\t', '\\t'); // handle tabs
     }
