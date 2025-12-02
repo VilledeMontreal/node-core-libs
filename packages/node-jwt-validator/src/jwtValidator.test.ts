@@ -455,7 +455,8 @@ it('JWT Validator - unable to get public key', async () => {
   assert.isUndefined(response);
 });
 
-it('JWT Validator - network error - should accept good token if cached', async () => {
+it('JWT Validator - network error - should accept good token if cached', async function () {
+  this.timeout(70000); // Timeout should be longer on Windows
   // Invalidate cache
   const currentNextUpdate = (cachedPublicKeyRepository as any)._nextUpdate;
   (cachedPublicKeyRepository as any)._nextUpdate = undefined;

@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
+import { execa } from 'execa';
 const notifier = require('node-notifier');
 
 export interface Options {
@@ -38,7 +39,7 @@ that point since the incremental compilation is already done by this script.`;
         `Starting incremental compilation...\n` +
         `==========================================\n`,
     );
-    const projectName = require(configs.projectRoot + '/package.json').namae;
+    const projectName = require(configs.projectRoot + '/package.json').name;
     let ignoreNextCompilationComplete = false;
     const compilationCompletetRegEx = /(Compilation complete)|(Found 0 errors)/;
     // eslint-disable-next-line no-control-regex
@@ -47,7 +48,6 @@ that point since the incremental compilation is already done by this script.`;
     const outputHandler = (stdoutData: string, stderrData: string): void => {
       if (stdoutData) {
         const stdoutDataClean = stdoutData.toString();
-        this.logger.info(stdoutDataClean);
 
         if (this.options.dn) {
           return;
@@ -83,19 +83,13 @@ that point since the incremental compilation is already done by this script.`;
     // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
-        await this.invokeShellCommand(
-          'node',
-          [
-            `${configs.projectRoot}/node_modules/typescript/lib/tsc.js`,
-            '--project',
-            configs.projectRoot,
-            '--watch',
-            '--pretty',
-          ],
-          {
-            outputHandler,
-          },
-        );
+        for await (const line of execa({
+          preferLocal: true,
+        })`npx tsc --project ${configs.projectRoot} --watch --pretty`) {
+          const lineStr = line.toString();
+          console.log(lineStr);
+          outputHandler(lineStr, '');
+        }
       } catch (err) {
         // ==========================================
         // @see https://stackoverflow.com/a/25444766/843699

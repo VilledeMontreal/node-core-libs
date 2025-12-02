@@ -2,6 +2,9 @@ import { Command, program } from '@villedemontreal/caporal';
 import * as _ from 'lodash';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
+import { execa } from 'execa';
+import * as path from 'path';
+import { globalConstants } from '@villedemontreal/general-utils';
 
 const TESTS_LOCATIONS = [`${configs.libRoot}/dist/src/**/*.test.js`];
 
@@ -41,30 +44,18 @@ export class TestUnitsScript extends ScriptBase<Options> {
     return deps;
   }
 
-  private addQuotes(tokens: string[]): string[] {
-    if (_.isNil(tokens) || tokens.length === 0) {
-      return [];
-    }
-
-    return tokens.map((token) => {
-      return _.isNil(token) ? token : `"${_.trim(token, '"')}"`;
-    });
-  }
-
   protected async main() {
     const cmdArgs = [];
 
     if (await this.isProjectDirectDependency(`nyc`)) {
-      const cmdNyc = configs.findModulePath('node_modules/nyc/bin/nyc.js');
-      cmdArgs.push(cmdNyc);
+      cmdArgs.push(`nyc`);
     } else {
       this.logger.warn(
         `The "nyc" direct dependency was not found in your project. The tests will be run using Mocha only!`,
       );
     }
 
-    const cmdMocha = configs.findModulePath('node_modules/mocha/bin/_mocha');
-    cmdArgs.push(cmdMocha);
+    cmdArgs.push(`mocha`);
 
     // ==========================================
     // The test locations need to be quoted because
@@ -73,7 +64,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
     //
     // @see https://mochajs.org/#the-test-directory
     // ==========================================
-    cmdArgs.push(...this.addQuotes(TESTS_LOCATIONS));
+    cmdArgs.push(...TESTS_LOCATIONS);
 
     cmdArgs.push(`--exit`);
 
@@ -97,7 +88,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
       if (this.options.report) {
         process.env.JUNIT_REPORT_PATH = this.options.report;
       } else if (!process.env.JUNIT_REPORT_PATH) {
-        process.env.JUNIT_REPORT_PATH = 'output/test-results/report.xml';
+        process.env.JUNIT_REPORT_PATH = path.join('output', 'test-results', 'report.xml');
       }
 
       this.logger.info('Exporting tests to junit file ' + process.env.JUNIT_REPORT_PATH);
@@ -105,15 +96,23 @@ export class TestUnitsScript extends ScriptBase<Options> {
       cmdArgs.push('@villedemontreal/mocha-jenkins-reporter');
     }
 
+    const env: Record<string, string> = {};
+    env[globalConstants.envVariables.NODE_APP_INSTANCE] = globalConstants.appInstances.TESTS;
+
     try {
-      await this.invokeShellCommand('node', cmdArgs, {
-        useTestsNodeAppInstance: true,
-      });
+      await execa({
+        preferLocal: true,
+        stdout: 'inherit',
+        stderr: 'inherit',
+        env,
+        extendEnv: true,
+      })`${cmdArgs}`;
 
       this.logger.info(
         "   \u21b3  type 'run show-coverage' (or './run show-coverage' on Linux/Mac) to display the HTML report",
       );
     } catch (err) {
+      this.logger.error(err.shortMessage);
       throw new Error('Some unit tests failed');
     }
   }
