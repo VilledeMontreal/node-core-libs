@@ -39,7 +39,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/fs-extra": "11.0.4",
-    "@types/lodash": "4.17.20",
+    "@types/lodash": "4.17.21",
     "@villedemontreal/caporal": "3.1.9",
     "@villedemontreal/general-utils": "5.20.3",
     "fs-extra": "11.3.2",
@@ -73,7 +73,7 @@
     "mock-spawn": "0.2.6",
     "nock": "14.0.10",
     "nyc": "17.1.0",
-    "prettier": "3.6.2",
+    "prettier": "3.7.3",
     "sinon": "21.0.0",
     "sinon-chai": "3.7.0",
     "source-map-support": "0.5.21",
