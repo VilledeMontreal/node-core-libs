@@ -128,7 +128,7 @@ async function getCompOptNames(ctx: CompletionContext): Promise<CompletionItem[]
   const matchOptionName = (o: Option): boolean => {
     return Boolean(
       (o.shortNotation != lastPartial && o.shortNotation?.startsWith(lastPartial)) ||
-        (o.longNotation != lastPartial && o.longNotation?.startsWith(lastPartial)),
+      (o.longNotation != lastPartial && o.longNotation?.startsWith(lastPartial)),
     )
   }
 

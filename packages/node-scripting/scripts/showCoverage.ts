@@ -2,6 +2,7 @@ import { Command, program } from '@villedemontreal/caporal';
 import * as path from 'path';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
+import { execa } from 'execa';
 
 export interface Options {
   report?: string;
@@ -28,12 +29,17 @@ export class ShowCoverageScript extends ScriptBase<Options> {
   }
 
   protected async main() {
-    if (configs.isWindows) {
-      await this.invokeShellCommand('start', ['', this.getReportDir()], {
-        useShellOption: true,
-      });
+    if (process.platform === 'win32') {
+      await execa({
+        stdout: 'inherit',
+        stderr: 'inherit',
+        shell: true,
+      })`start ${this.getReportDir()}`;
     } else {
-      await this.invokeShellCommand('open', [this.getReportDir()]);
+      await execa({
+        stdout: 'inherit',
+        stderr: 'inherit',
+      })`open ${this.getReportDir()}`;
     }
   }
 
@@ -41,7 +47,8 @@ export class ShowCoverageScript extends ScriptBase<Options> {
     const reportDir = path.resolve(
       configs.projectRoot,
       this.options.report,
-      'lcov-report/index.html',
+      'lcov-report',
+      'index.html',
     );
     return reportDir;
   }

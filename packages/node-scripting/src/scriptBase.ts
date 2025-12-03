@@ -193,7 +193,7 @@ export abstract class ScriptBase<
    *   Defaults to `true`.
    *
    * @param options.escapeArgs will automatically escape the submitted args.
-   *   Defaults to `true` to avoid any breaking changes.
+   *   Defaults to `false`.
    *
    * @param options.useTestsNodeAppInstance Execute the specified command with the
    *   "NODE_APP_INSTANCE" env var set to "tests". This makes the testing configurations
@@ -224,9 +224,6 @@ export abstract class ScriptBase<
     const useTestsNodeAppInstance = options?.useTestsNodeAppInstance ?? false;
     const execOptions = { ...options };
     delete execOptions?.useTestsNodeAppInstance;
-    if (execOptions.escapeArgs === undefined) {
-      execOptions.escapeArgs = true;
-    }
 
     this.logger.info(`Executing: ${bin} ${args}`);
 

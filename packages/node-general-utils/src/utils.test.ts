@@ -1443,70 +1443,44 @@ describe("App's utilities functions", function () {
       }
     });
   });
+
   describe('shellescape()', () => {
     it('should not escape valid chars', () => {
-      assert.strictEqual(utils.shellescape(['arg1']), 'arg1');
-      assert.strictEqual(utils.shellescape(['123']), '123');
-      assert.strictEqual(utils.shellescape(['12.33']), '12.33');
-      assert.strictEqual(utils.shellescape(['abc-def']), 'abc-def');
-      assert.strictEqual(utils.shellescape(['arg1']), 'arg1');
-      assert.strictEqual(utils.shellescape(['arg_1']), 'arg_1');
-      assert.strictEqual(utils.shellescape(['c:/foo.bat']), 'c:/foo.bat');
-      assert.strictEqual(utils.shellescape(['c:\\foo.bat']), `'c:\\foo.bat'`);
-      assert.strictEqual(utils.shellescape(['/foo/bar/foo.txt']), '/foo/bar/foo.txt');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['arg1']), 'arg1');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['123']), '123');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['12.33']), '12.33');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['abc-def']), 'abc-def');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['arg1']), 'arg1');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['arg_1']), 'arg_1');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['c:/foo.bat']), 'c:/foo.bat');
+      assert.strictEqual(utils.shellescapeForLinuxShell(['c:\\foo.bat']), `'c:\\\\foo.bat'`);
+      assert.strictEqual(utils.shellescapeForLinuxShell(['/foo/bar/foo.txt']), '/foo/bar/foo.txt');
     });
 
     it('escapes multiple arguments', () => {
-      const result = utils.shellescape(['arg1', 'arg2']);
+      const result = utils.shellescapeForLinuxShell(['arg1', 'arg2']);
       assert.strictEqual(result, 'arg1 arg2');
     });
 
-    it('handles already quoted arguments', () => {
-      assert.strictEqual(utils.shellescape(['"arg1"', "'arg2'"]), `"arg1" 'arg2'`);
-      assert.strictEqual(utils.shellescape([' "arg1"', " 'arg2'"]), `"arg1" 'arg2'`);
-      assert.strictEqual(utils.shellescape(['"arg1" ', "'arg2' "]), `"arg1" 'arg2'`);
-      assert.strictEqual(utils.shellescape([' "arg1" ', " 'arg2' "]), `"arg1" 'arg2'`);
-      assert.strictEqual(utils.shellescape(['"ar"g1"', "'ar'g2'"]), `"ar"\\""g1" 'ar'\\''g2'`);
-    });
-
-    it('handles already escaped arguments', () => {
-      assert.strictEqual(
-        utils.shellescape([`"arg"\\""?"\\""1"`, `'arg'\\''2'`]),
-        `"arg"\\""?"\\""1" 'arg'\\''2'`,
-      );
-      assert.strictEqual(
-        utils.shellescape(['""\\""arg1"\\"""', "''\\''arg2'\\'''"]),
-        `""\\""arg1"\\""" ''\\''arg2'\\'''`,
-      );
-    });
-
-    it('do not escape arg containing an env var', () => {
-      const result = utils.shellescape(['echo', '$HOME']);
-      assert.strictEqual(result, 'echo $HOME');
+    it('escape arg containing an env var', () => {
+      const result = utils.shellescapeForLinuxShell(['echo', '$HOME']);
+      assert.strictEqual(result, `echo '$HOME'`);
     });
     it('mixed', () => {
-      const result = utils.shellescape([
-        'echo',
-        'hello!',
-        'how are you doing $USER',
-        '"double"',
-        "'single'",
-      ]);
-      assert.strictEqual(result, `echo 'hello!' 'how are you doing $USER' "double" 'single'`);
+      const result = utils.shellescapeForLinuxShell(['echo', 'hello!', 'how are you doing $USER']);
+      assert.strictEqual(result, `echo 'hello!' 'how are you doing $USER'`);
     });
     it('more complex', () => {
       const samples: [string, string[]][] = [
-        ["echo 'hello\\nworld'", ['echo', 'hello\\nworld']],
+        ["echo 'hello\\nworld'", ['echo', 'hello\nworld']],
         ['echo hello:world', ['echo', 'hello:world']],
         ['echo --hello=world', ['echo', '--hello=world']],
-        ["echo 'hello\\tworld'", ['echo', 'hello\\tworld']],
+        ["echo 'hello\\tworld'", ['echo', 'hello\tworld']],
         ["echo '\\thello\\nworld'\\'", ['echo', `\thello\nworld'`]],
-        ["echo '\\thello\\nworld'", ['echo', `'\thello\nworld'`]],
-        [`echo "\\thello\\nworld"`, ['echo', `"\thello\nworld"`]],
         ["echo 'hello  world'", ['echo', 'hello  world']],
         ['echo hello world', ['echo', 'hello', 'world']],
         ["echo 'hello\\\\'\\' \\''\\\\'\\''world'", ['echo', "hello\\\\'", "'\\\\'world"]],
-        ["echo hello 'world\\'", ['echo', 'hello', 'world\\']],
+        ["echo hello 'world\\\\'", ['echo', 'hello', 'world\\']],
         [
           "curl -v -H 'Location;' -H 'User-Agent: dave#10' 'http://www.daveeddy.com/?name=dave&age=24'",
           [
@@ -1521,10 +1495,25 @@ describe("App's utilities functions", function () {
         ],
       ];
       for (const [output, input] of samples) {
-        const result = utils.shellescape(input);
+        const result = utils.shellescapeForLinuxShell(input);
         // console.log(`input: ${input} => expected: ${output} => result: ${result}`);
         assert.strictEqual(result, output);
       }
+    });
+    it('windows', () => {
+      assert.strictEqual(utils.shellescapeArgumentForWindowsCmd('abc'), `abc`);
+      assert.strictEqual(utils.shellescapeArgumentForWindowsCmd('abc def'), `"abc def"`);
+      assert.strictEqual(
+        utils.shellescapeArgumentForWindowsCmd('c:\\foo\\bar.bat'),
+        `c:\\foo\\bar.bat`,
+      );
+      assert.strictEqual(utils.shellescapeArgumentForWindowsCmd(`abc's def`), `"abc's def"`);
+      assert.strictEqual(
+        utils.shellescapeArgumentForWindowsCmd(`abc "def" ghi`),
+        `"abc ""def"" ghi"`,
+      );
+      assert.strictEqual(utils.shellescapeArgumentForWindowsCmd(`abc\ndef`), `"abc\\ndef"`);
+      assert.strictEqual(utils.shellescapeArgumentForWindowsCmd(`abc\tdef`), `"abc\\tdef"`);
     });
   });
 });

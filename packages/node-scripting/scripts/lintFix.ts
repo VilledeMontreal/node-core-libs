@@ -1,3 +1,4 @@
+import { execa } from 'execa';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
 
@@ -11,7 +12,10 @@ export class LintFixScript extends ScriptBase {
   }
 
   protected async main() {
-    const cmd = configs.findModulePath('node_modules/.bin/eslint');
-    await this.invokeShellCommand(cmd, ['--fix', configs.libRoot]);
+    await execa({
+      preferLocal: true,
+      stdout: 'inherit',
+      stderr: 'inherit',
+    })`eslint --fix ${configs.libRoot}`;
   }
 }
