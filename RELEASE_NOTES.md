@@ -5,6 +5,7 @@
 - upgrade mongoose from 8.19.3 to 8.20.0
 - upgrade express from 5.1.0 to 5.2.1
 - enhance utils.shellescape to handle both linux and windows shells
+- revert utils.shellescape to escaping only, without trying to detect if it is already escaped.
 - in ScriptBase.invokeShellCommand, disable escapeArgs option by default, to avoid any breaking change
 - replace invokeShellCommand with execa, which better deals with args and local nodejs tools.
 

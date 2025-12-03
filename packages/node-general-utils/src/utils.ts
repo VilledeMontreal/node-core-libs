@@ -448,11 +448,6 @@ export class Utils {
   public shellescapeArgumentForLinuxShell(a: string) {
     // Function inspired from: https://github.com/xxorax/node-shell-escape/blob/master/shell-escape.js
 
-    const trimSpaces = (str: string) => {
-      return str.replace(/^[ ]+|[ ]+$/g, '');
-    };
-
-    a = trimSpaces(a);
     if (/[^A-Za-z0-9_/.:=-]/.test(a)) {
       a = a.replace(/\\\\/g, '\\');
       a = a.replace(/\\/g, '\\\\');
@@ -467,10 +462,6 @@ export class Utils {
   }
 
   public shellescapeArgumentForWindowsCmd(a: string) {
-    const trimSpaces = (str: string) => {
-      return str.replace(/^[ ]+|[ ]+$/g, '');
-    };
-    a = trimSpaces(a);
     if (/[^A-Za-z0-9_/\\.$:=-]/.test(a)) {
       a = '"' + a.replace(/"/g, '""') + '"';
       a = a
