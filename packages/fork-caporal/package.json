@@ -56,7 +56,7 @@
     "eslint-config-prettier": "8.10.2",
     "eslint-plugin-prettier": "5.5.4",
     "json": "^11.0.0",
-    "prettier": "3.7.3",
+    "prettier": "3.7.4",
     "strip-ansi": "^7.1.2",
     "typescript": "5.9.3",
     "vitest": "^3.2.4"
@@ -68,6 +68,6 @@
     "lodash.truncate": "^4.4.2",
     "table": "^6.9.0",
     "tabtab": "^3.0.2",
-    "winston": "^3.18.3"
+    "winston": "^3.19.0"
   }
 }
