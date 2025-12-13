@@ -5,6 +5,7 @@ import * as MongoDb from 'mongodb';
 import * as semver from 'semver';
 import { constants as mongodbConstants } from './config/constants';
 import { createLogger } from './utils/logger';
+import * as path from 'path';
 
 const logger = createLogger('MongoUpdater');
 
@@ -213,7 +214,7 @@ export class MongoUpdater implements IMongoUpdater {
         logger.info(' > Pending app schema update: ' + updateFileName);
 
         // tslint:disable-next-line: prefer-template
-        const updateFilePath = this.getAppSchemaFilesDirPath() + '/' + updateFileName;
+        const updateFilePath = path.join(this.getAppSchemaFilesDirPath(), updateFileName);
         let updateFunction: (db: MongoDb.Db) => Promise<void>;
         try {
           updateFunction = require(updateFilePath).default;
@@ -415,7 +416,7 @@ export class MongoUpdater implements IMongoUpdater {
   };
 
   protected getAppSchemaFilesDirPath(): string {
-    return mongodbConstants.appRoot + this.mongoSchemaUpdatesDirPath;
+    return path.join(mongodbConstants.appRoot, this.mongoSchemaUpdatesDirPath);
   }
 
   /**

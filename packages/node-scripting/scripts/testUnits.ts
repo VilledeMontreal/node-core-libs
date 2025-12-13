@@ -112,7 +112,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
         "   \u21b3  type 'run show-coverage' (or './run show-coverage' on Linux/Mac) to display the HTML report",
       );
     } catch (err) {
-      this.logger.error(err.shortMessage);
+      this.logger.error(err.shortMessage ?? err.message ?? err);
       throw new Error('Some unit tests failed');
     }
   }

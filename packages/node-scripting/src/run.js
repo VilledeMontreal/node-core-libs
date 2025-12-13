@@ -89,7 +89,7 @@ function cleanParams(params) {
   // If the "tsconfig.json" file specifies an
   // "outDir", we use it.
   // ==========================================
-  const tsConfigPath = `${projectRoot}/tsconfig.json`;
+  const tsConfigPath = path.join(projectRoot, 'tsconfig.json');
   if (fs.existsSync(tsConfigPath)) {
     const tsConfigObj = require(tsConfigPath);
     const outDirRel = tsConfigObj?.compilerOptions?.outDir;

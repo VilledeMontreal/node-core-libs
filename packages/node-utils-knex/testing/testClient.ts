@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import knex, { Knex } from 'knex';
 import { constants } from '../src/config/constants';
 import { KnexTransactionManager } from '../src/transactionManager';
+import * as path from 'path';
 
 let knexClient: Knex;
 let txManager: KnexTransactionManager;
@@ -36,11 +37,11 @@ export async function destroyTestKnexClient() {
 }
 
 async function createKnexClient() {
-  const tempDirPath = `${constants.libRoot}/temp`;
+  const tempDirPath = path.join(constants.libRoot, 'temp');
   if (!fs.existsSync(tempDirPath)) {
     fs.mkdirSync(tempDirPath);
   }
-  const bdFilePath = `${tempDirPath}/testing.sqlite`;
+  const bdFilePath = path.join(tempDirPath, 'testing.sqlite');
   if (fs.existsSync(bdFilePath)) {
     fs.unlinkSync(bdFilePath);
   }

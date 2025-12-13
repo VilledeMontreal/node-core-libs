@@ -19,6 +19,7 @@ import * as mocha from 'mocha';
 import { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server-core';
 import * as mongoose from 'mongoose';
 import { constants } from './config/constants';
+import * as path from 'path';
 
 /**
  * Mongo utilities
@@ -67,7 +68,7 @@ export class MongoUtils {
       // container, the server will not be downloaded
       // over and over.
       // ==========================================
-      const downloadDirPath = constants.appRoot + '/temp/mockServer';
+      const downloadDirPath = path.join(constants.appRoot, 'temp', 'mockServer');
       if (!fs.existsSync(downloadDirPath)) {
         fs.mkdirsSync(downloadDirPath);
       }
@@ -75,13 +76,13 @@ export class MongoUtils {
       // ==========================================
       // Data directory
       // ==========================================
-      const dataRootPath = downloadDirPath + '/data';
+      const dataRootPath = path.join(downloadDirPath, 'data');
       if (!fs.existsSync(dataRootPath)) {
         fs.mkdirsSync(dataRootPath);
       } else {
         await utils.clearDir(dataRootPath);
       }
-      const dataPath = `${dataRootPath}/${Date.now()}`;
+      const dataPath = path.join(dataRootPath, Date.now().toString());
       fs.mkdirsSync(dataPath);
 
       // ==========================================

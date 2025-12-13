@@ -90,12 +90,12 @@ export async function withCustomRunFile(
   replacement: string,
   ...runArgs: string[]
 ): Promise<{ output: string; isSuccess: boolean }> {
-  const runTestingFilePath = `${configs.libRoot}/runTesting`;
-  let runContent = fs.readFileSync(`${configs.libRoot}/run`, 'utf-8');
+  const runTestingFilePath = path.join(configs.libRoot, 'runTesting');
+  let runContent = fs.readFileSync(path.join(configs.libRoot, 'run'), 'utf-8');
   runContent = runContent.replace(toReplaceInRunFile, replacement);
 
-  const runCmdTestingFilePath = `${configs.libRoot}/runTesting.cmd`;
-  let runCmdContent = fs.readFileSync(`${configs.libRoot}/run.cmd`, 'utf-8');
+  const runCmdTestingFilePath = path.join(configs.libRoot, 'runTesting.cmd');
+  let runCmdContent = fs.readFileSync(path.join(configs.libRoot, 'run.cmd'), 'utf-8');
   runCmdContent = runCmdContent.replace(`"%~dp0\\run"`, `"%~dp0\\runTesting"`);
 
   try {
@@ -123,7 +123,7 @@ export async function withCustomRunFile(
 export async function withLogNodeInstance(
   ...runArgs: string[]
 ): Promise<{ output: string; isSuccess: boolean }> {
-  const mainJsPath = `${configs.libRoot}/dist/src/main.js`;
+  const mainJsPath = path.join(configs.libRoot, 'dist', 'src', 'main.js');
   const mainJsCodeOriginal = fs.readFileSync(mainJsPath, 'utf8');
 
   try {
