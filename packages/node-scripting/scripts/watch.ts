@@ -85,20 +85,12 @@ that point since the incremental compilation is already done by this script.`;
       try {
         for await (const line of execa({
           preferLocal: true,
-        })`npx tsc --project ${configs.projectRoot} --watch --pretty`) {
+        })`tsc --project ${configs.projectRoot} --watch --pretty`) {
           const lineStr = line.toString();
           console.log(lineStr);
           outputHandler(lineStr, '');
         }
       } catch (err) {
-        // ==========================================
-        // @see https://stackoverflow.com/a/25444766/843699
-        // ==========================================
-        if (_.isString(err) && err.indexOf('3221225786') >= 0) {
-          this.logger.error('Exiting...');
-          process.exit(0);
-        }
-
         this.logger.error('Error, restarting incremental compilation in a second : ' + String(err));
         await utils.sleep(1000);
       }
