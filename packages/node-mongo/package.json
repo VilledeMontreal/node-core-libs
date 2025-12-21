@@ -67,5 +67,12 @@
   },
   "override": {
     "mongodb": "$mongodb"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "resumeDownload": true,
+      "maxRetries": 5,
+      "debug": false
+    }
   }
 }
