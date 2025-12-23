@@ -98,6 +98,7 @@ export async function initMongoose(mongooseConfig: IMongooseConfigs): Promise<mo
 
   return new Promise<mongoose.Connection>((resolve, reject) => {
     doInitMongoose(mongooseConfigClean, resolve, reject).catch((err) => {
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       reject(`Error initializing Mongo: ${err}`);
     });
   });

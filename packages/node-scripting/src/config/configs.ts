@@ -18,7 +18,7 @@ export class Configs {
 
   constructor() {
     // From the "dist/src/config" folder
-    this.libRoot = path.normalize(__dirname + '/../../..');
+    this.libRoot = path.normalize(path.join(__dirname, '../../..'));
     this.isWindows = os.platform() === 'win32';
   }
 

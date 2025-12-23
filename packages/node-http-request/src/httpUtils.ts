@@ -151,6 +151,7 @@ export class HttpUtils {
           msg: `Http Client - End request ERROR request to ${request.method} ${request.url}`,
         });
 
+        // eslint-disable-next-line @typescript-eslint/only-throw-error
         throw {
           msg: `An error occured while making the HTTP request to ${request.method} ${request.url}`,
           originalError: err,

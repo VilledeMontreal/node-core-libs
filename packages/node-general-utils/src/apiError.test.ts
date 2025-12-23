@@ -1,5 +1,3 @@
-// Disabling the "function length" rule is OK for the test files.
-// tslint:disable:max-func-body-length
 import { assert } from 'chai';
 
 import { IApiError, isApiError } from './apiError';

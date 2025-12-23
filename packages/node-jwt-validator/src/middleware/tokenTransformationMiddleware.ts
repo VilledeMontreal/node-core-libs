@@ -8,7 +8,7 @@ import { ITokenTtransformationMiddlewareConfig } from '../config/tokenTransforma
 import { IInputAccessToken, IInputAccessTokenSource } from '../models/accessToken';
 import { createInvalidJwtError } from '../models/customError';
 import { createLogger } from '../utils/logger';
-import superagent = require('superagent');
+import superagent from 'superagent';
 
 const logger = createLogger('Token transformation middleware');
 

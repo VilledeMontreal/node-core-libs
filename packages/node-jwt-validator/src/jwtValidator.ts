@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/only-throw-error */
+
 import { utils } from '@villedemontreal/general-utils';
 import * as jwt from 'jsonwebtoken';
 import * as moment from 'moment';

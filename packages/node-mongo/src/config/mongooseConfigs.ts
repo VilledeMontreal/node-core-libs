@@ -103,7 +103,6 @@ export class MongooseConfigs implements IMongooseConfigs {
    * Overrides default configurations using the ones passed
    * as parameters.
    */
-  // tslint:disable-next-line:cyclomatic-complexity
   constructor(overridingConfigs: IMongooseConfigs) {
     // ==========================================
     // Required configs

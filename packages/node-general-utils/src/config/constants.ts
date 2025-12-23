@@ -23,7 +23,7 @@ export class Constants {
 
   constructor() {
     // From the "dist/src/config" folder
-    this.libRoot = path.normalize(__dirname + '/../..');
+    this.libRoot = path.normalize(path.join(__dirname, '../..'));
     this.appRoot = appRoot;
   }
 
@@ -31,7 +31,7 @@ export class Constants {
   // Directory path for test data
   // ==========================================
   get testDataDirPath() {
-    return this.libRoot + '/test-data';
+    return path.join(this.libRoot, 'test-data');
   }
 
   public findModulePath(subPath: string): string {

@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2025-12-23
+
+- Upgrade eslint to the latest version. 
+- Fix eslint issues.
+- Discovered that project node-jwt-validator was not properly running all the available unit tests!
+  This is because the src/**/*.test.ts pattern will ignore test files that right inside the src folder!
+  
+
 ## 2025-12-13
 
 - upgrade mongoose from 8.20.1 to 8.20.2

@@ -1,5 +1,6 @@
 import { ChildProcess, spawn, StdioOptions } from 'child_process';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as getPort from 'get-port';
 import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 import * as pathUtils from 'path';
@@ -19,7 +20,7 @@ export class Utils {
    * @param ms The number of milliseconds to sleep for.
    */
   public async sleep(ms: number): Promise<void> {
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve) => {
       setTimeout(resolve, ms);
     });
   }
@@ -108,6 +109,7 @@ export class Utils {
     // If there were decimals but "0" only, it is
     // still considered as an Integer, and Number(value)
     // still have stripped those decimals....
+    // eslint-disable-next-line @/prefer-template
     if ((asNumber + '').indexOf('.') > -1) {
       return false;
     }
@@ -131,6 +133,7 @@ export class Utils {
     let strClean = str;
 
     if (typeof strClean === 'number') {
+      // eslint-disable-next-line @/prefer-template
       strClean = str + '';
     } else if (typeof strClean !== 'string') {
       return false;
@@ -223,7 +226,7 @@ export class Utils {
 
     try {
       return rimraf(dirPath);
-    } catch (err) {
+    } catch {
       // ==========================================
       // Try recursively as rimraf may sometimes
       // fail in infrequent situations...
@@ -239,35 +242,29 @@ export class Utils {
    *
    * You can't clear a root directory using this function.
    */
-  public async clearDir(dirPath: string) {
+  public async clearDir(dirPath: string): Promise<void> {
     if (!this.isSafeToDelete(dirPath)) {
       throw new Error("Unsafe dir to clear. A dir to clear can't be at the root.");
     }
     // NOTE: I had to replace the globby module with fs.readdir, because globby was not
     // listing the folders any more!
-    return new Promise<void>((resolve, reject) => {
-      fs.readdir(dirPath, async (err, paths: string[]) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        for (const path of paths) {
-          const filePath = pathUtils.join(dirPath, path);
-          if (fs.lstatSync(filePath).isDirectory()) {
-            await this.deleteDir(filePath);
-          } else {
-            await this.deleteFile(filePath);
-          }
-        }
-        resolve();
-      });
-    });
+    const paths = await fs.promises.readdir(dirPath);
+    for (const path of paths) {
+      const filePath = pathUtils.join(dirPath, path);
+      if (fs.lstatSync(filePath).isDirectory()) {
+        await this.deleteDir(filePath);
+      } else {
+        await this.deleteFile(filePath);
+      }
+    }
   }
 
   protected get tscCompilerOptions(): string[] {
     if (!this.tscCompilerOptionsParams) {
       this.tscCompilerOptionsParams = [];
-      const compilerOptions = tsconfig.load_file_sync(constants.appRoot + '/tsconfig.json');
+      const compilerOptions = tsconfig.load_file_sync(
+        path.join(constants.appRoot, 'tsconfig.json'),
+      );
 
       for (const key of Object.keys(compilerOptions)) {
         // ==========================================
@@ -286,7 +283,7 @@ export class Utils {
           compilerOptions[key] = false;
         }
 
-        this.tscCompilerOptionsParams.push('--' + key);
+        this.tscCompilerOptionsParams.push(`--${key}`);
         this.tscCompilerOptionsParams.push(compilerOptions[key]);
       }
     }
@@ -451,7 +448,7 @@ export class Utils {
     if (/[^A-Za-z0-9_/.:=-]/.test(a)) {
       a = a.replace(/\\\\/g, '\\');
       a = a.replace(/\\/g, '\\\\');
-      a = "'" + a.replace(/'/g, "'\\''") + "'";
+      a = `'${a.replace(/'/g, "'\\''")}'`;
       a = a
         .replace(/^(?:'')+/g, '') // unduplicate single-quote at the beginning
         .replace(/\\'''/g, "\\'") // remove non-escaped single-quote if there are enclosed between 2 escaped
@@ -463,7 +460,7 @@ export class Utils {
 
   public shellescapeArgumentForWindowsCmd(a: string) {
     if (/[^A-Za-z0-9_/\\.$:=-]/.test(a)) {
-      a = '"' + a.replace(/"/g, '""') + '"';
+      a = `"${a.replace(/"/g, '""')}"`;
       a = a
         .replace('\n', '\\n') // handle new lines
         .replace('\t', '\\t'); // handle tabs
@@ -484,7 +481,7 @@ export class Utils {
       outputHandler: dataHandler,
       useShellOption,
       disableConsoleOutputs: !dataHandler,
-    }).then((_val: number) => {
+    }).then(() => {
       // nothing, returns void
     });
   }
@@ -622,7 +619,6 @@ export class Utils {
 /**
  * Error thrown when a process launched with `exec()` fails.
  */
-// tslint:disable-next-line: max-classes-per-file
 export class ExecError extends Error {
   constructor(
     message: string,
@@ -638,7 +634,7 @@ export function getValueDescription(value: any): string {
 
 export function getValueDescriptionWithType(value: any): string {
   const valueType = isObject(value) ? value.constructor.name : typeof value;
-  return getValueDescription(value) + ` (${valueType})`;
+  return `${getValueDescription(value)} (${valueType})`;
 }
 
 export const utils: Utils = new Utils();

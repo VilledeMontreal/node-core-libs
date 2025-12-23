@@ -22,7 +22,6 @@ import {
 const VALID_DATE_UTC_REPRESENTATION = '2018-07-31T12:34:56.789Z';
 const VALID_DATE = new Date(VALID_DATE_UTC_REPRESENTATION);
 
-// tslint:disable:max-func-body-length
 describe('Date Utility', () => {
   describe('#isDateBetween', () => {
     it('should support open ranges', () => {
@@ -158,7 +157,7 @@ describe('Date Utility', () => {
         let failed = false;
         try {
           getSafeDate(value);
-        } catch (error) {
+        } catch {
           failed = true;
         }
         assert.isTrue(failed);

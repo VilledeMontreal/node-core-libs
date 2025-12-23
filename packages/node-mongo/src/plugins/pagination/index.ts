@@ -93,6 +93,7 @@ export class PaginateBuilder {
           if (typeof callback === 'function') {
             return callback(error, null);
           }
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error);
         },
       );

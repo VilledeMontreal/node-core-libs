@@ -96,8 +96,7 @@ export class MongoUpdater implements IMongoUpdater {
   public async installAppSchemaCollection(): Promise<any> {
     try {
       // Installing the "appSchema" collection.
-      // tslint:disable-next-line: prefer-template
-      logger.info(' > Installing the "' + this.appSchemaCollectionName + '" collection.');
+      logger.info(` > Installing the "${this.appSchemaCollectionName}" collection.`);
       const collection: MongoDb.Collection = await this.mongoDb.createCollection(
         this.appSchemaCollectionName,
       );
@@ -161,9 +160,8 @@ export class MongoUpdater implements IMongoUpdater {
     const appSchemaCollection: MongoDb.Collection = await this.getAppSchemaCollection();
 
     await appSchemaCollection.updateOne({}, { $set: { version: newVersion } });
-    // tslint:disable-next-line: prefer-template
     logger.info(
-      ' > MongoDB App Schema updagred from version ' + currentVersion + ' to version ' + newVersion,
+      ` > MongoDB App Schema updagred from version ${currentVersion} to version ${newVersion}`,
     );
   }
 
@@ -197,6 +195,7 @@ export class MongoUpdater implements IMongoUpdater {
               return false;
             });
         } catch (err2) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           return reject(err2);
         }
         return resolve(filesClean.sort(semver.compare));
@@ -211,21 +210,22 @@ export class MongoUpdater implements IMongoUpdater {
     );
     if (updateFileNames.length > 0) {
       for (const updateFileName of updateFileNames) {
-        logger.info(' > Pending app schema update: ' + updateFileName);
+        logger.info(` > Pending app schema update: ${updateFileName}`);
 
-        // tslint:disable-next-line: prefer-template
         const updateFilePath = path.join(this.getAppSchemaFilesDirPath(), updateFileName);
         let updateFunction: (db: MongoDb.Db) => Promise<void>;
         try {
-          updateFunction = require(updateFilePath).default;
+          const pkg = await import(updateFilePath);
+          updateFunction = pkg.default;
         } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           return Promise.reject(e);
         }
 
         if (!isFunction(updateFunction)) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           return Promise.reject(
-            'The default export for an app schema update file must be a function! Was not for file : ' +
-              updateFilePath,
+            `The default export for an app schema update file must be a function! Was not for file : '${updateFilePath}'`,
           );
         }
 
@@ -378,9 +378,8 @@ export class MongoUpdater implements IMongoUpdater {
         // ==========================================
         currentAppSchemaVersion = await this.getAppSchemaVersion();
         if (semver.gte(currentAppSchemaVersion, targetVersion)) {
-          // tslint:disable-next-line: prefer-template
           logger.info(
-            ' > Current database app schema is up to date : ' + currentAppSchemaVersion + ').',
+            ` > Current database app schema is up to date : ${currentAppSchemaVersion}).`,
           );
           return;
         }

@@ -2,17 +2,10 @@ import { assert } from 'chai';
 import * as express from 'express';
 import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as request from 'supertest';
+import { setTimeout as delay } from 'timers/promises';
 import { correlationIdService } from '../services/correlationIdService';
 import { setTestingConfigurations } from '../utils/testingConfigurations';
 import { createCorrelationIdMiddleware } from './correlationIdMiddleware';
-
-function delay(millis: number): Promise<void> {
-  return new Promise<void>((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, millis),
-  );
-}
 
 // ==========================================
 // Set Testing configurations
@@ -24,7 +17,6 @@ const uuidMatcher = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{1
 // ==========================================
 // Correlation ID service
 // ==========================================
-// tslint:disable-next-line: max-func-body-length
 describe('Correlation ID Middleware', () => {
   it('should generate correlation id if it doesnt exists', async () => {
     const app: express.Application = express();
@@ -63,7 +55,7 @@ describe('Correlation ID Middleware', () => {
     let actual2 = '';
     const app: express.Application = express();
     app.use(createCorrelationIdMiddleware());
-    app.get('/', async (req, res, next) => {
+    app.get('/', async (req, res) => {
       actual = correlationIdService.getId();
       setTimeout(() => {
         actual2 = correlationIdService.getId();
@@ -189,7 +181,6 @@ describe('Correlation ID Middleware', () => {
     );
   });
 
-  // tslint:disable: no-console
   it('should keep correlation ids separated in parallel requests', async function () {
     this.timeout(5000);
     const testId = 'correlation-id-123';
@@ -200,7 +191,7 @@ describe('Correlation ID Middleware', () => {
     let actual4 = '';
     let actual5 = '';
     let unlock: any;
-    const lock = new Promise(async (resolve, reject) => {
+    const lock = new Promise<void>((resolve) => {
       unlock = resolve;
     });
     const app: express.Application = express();
@@ -223,7 +214,7 @@ describe('Correlation ID Middleware', () => {
         actual4 = correlationIdService.getId();
         console.log('start of req2', actual4);
         unlock();
-        await this.timeout(200);
+        await delay(200);
         actual5 = correlationIdService.getId();
         console.log('end of req2', actual5);
       } catch (e) {
@@ -272,7 +263,7 @@ describe('Correlation ID Middleware', () => {
     let actual = '';
     const app: express.Application = express();
     app.use(createCorrelationIdMiddleware());
-    app.get('/', (req, res, next) => {
+    app.get('/', () => {
       actual = correlationIdService.getId();
       throw new Error('some error');
     });

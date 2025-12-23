@@ -1,10 +1,4 @@
-// ==========================================
-// Utils functions unit tests
-//
-// Disabling the "function length" rule is OK for the test files.
-// tslint:disable:max-func-body-length
-// tslint:disable: prefer-template
-// ==========================================
+/* eslint-disable @/prefer-template */
 
 import { assert } from 'chai';
 import * as fs from 'fs-extra';
@@ -14,7 +8,6 @@ import { ExecError, utils, Utils } from './utils';
 
 // A regular "function" is required here for the call to "this.timeout(...)"
 // @see https://github.com/mochajs/mocha/issues/2018
-// tslint:disable-next-line:only-arrow-functions ter-prefer-arrow-callback
 describe("App's utilities functions", function () {
   this.beforeAll(() => {
     constants.appRoot = constants.libRoot; // because our lib is within a monorepo
@@ -728,7 +721,7 @@ describe("App's utilities functions", function () {
   // ==========================================
   // deleteFile()
   // ==========================================
-  describe('deleteFile()', async () => {
+  describe('deleteFile()', () => {
     it('Safe file', async () => {
       const tempFilePath = constants.testDataDirPath + '/tmp' + new Date().getTime();
       assert.isFalse(fs.existsSync(tempFilePath));
@@ -749,7 +742,7 @@ describe("App's utilities functions", function () {
       let error = false;
       try {
         await utils.deleteFile(tempFilePath);
-      } catch (err) {
+      } catch {
         error = true;
       }
       assert.isTrue(error);
@@ -759,7 +752,7 @@ describe("App's utilities functions", function () {
   // ==========================================
   // deleteDir()
   // ==========================================
-  describe('deleteDir()', async () => {
+  describe('deleteDir()', () => {
     it('Safe dir', async () => {
       const tempFilePath = constants.testDataDirPath + '/tmp' + new Date().getTime();
       assert.isFalse(fs.existsSync(tempFilePath));
@@ -783,7 +776,7 @@ describe("App's utilities functions", function () {
       let error = false;
       try {
         await utils.deleteDir(tempFilePath);
-      } catch (err) {
+      } catch {
         error = true;
       }
       assert.isTrue(error);
@@ -793,7 +786,7 @@ describe("App's utilities functions", function () {
   // ==========================================
   // clearDir()
   // ==========================================
-  describe('clearDir()', async () => {
+  describe('clearDir()', () => {
     it('Safe dir', async () => {
       if (!fs.existsSync(constants.testDataDirPath)) {
         fs.mkdirSync(constants.testDataDirPath);
@@ -832,7 +825,7 @@ describe("App's utilities functions", function () {
       let error = false;
       try {
         await utils.clearDir(tempFilePath);
-      } catch (err) {
+      } catch {
         error = true;
       }
       assert.isTrue(error);
@@ -842,7 +835,7 @@ describe("App's utilities functions", function () {
   // ==========================================
   // getDefinedOrNull()
   // ==========================================
-  describe('getDefinedOrNull()', async () => {
+  describe('getDefinedOrNull()', () => {
     it('Defined stays untouches', async () => {
       let res = utils.getDefinedOrNull('abc');
       assert.strictEqual(res, 'abc');
@@ -995,7 +988,7 @@ describe("App's utilities functions", function () {
       try {
         await utils.tsc([tsFilePath]);
         assert.fail();
-      } catch (err) {
+      } catch {
         // ok
       }
     });
@@ -1004,7 +997,7 @@ describe("App's utilities functions", function () {
       try {
         utils.throwNotManaged('my message', 'oups' as never);
         assert.fail();
-      } catch (err) {
+      } catch {
         /* ok */
       }
     });
@@ -1020,22 +1013,21 @@ describe("App's utilities functions", function () {
       }
     });
     it('is not object', () => {
-      for (const value of [
+      const values = [
         [],
         [123],
-        // tslint:disable-next-line:prefer-array-literal
         [],
         null,
         undefined,
         '',
         ' ',
         123,
-        ,
         new Date(),
         () => {
           /* ok */
         },
-      ] as any) {
+      ] as any[];
+      for (const value of values) {
         assert.isFalse(utils.isObjectStrict(value));
       }
     });

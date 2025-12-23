@@ -9,6 +9,9 @@ import { cachedPublicKeyRepository } from './repositories/cachedPublicKeyReposit
 import { UserValidator } from './userValidator';
 import { setTestingConfigurations } from './utils/testingConfigurations';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const mockRequest = require('mock-express-request');
+
 // ==========================================
 // Set Testing configurations
 // ==========================================
@@ -186,8 +189,6 @@ it('User Validator - init app & get jwt public key', async () => {
   assert.isTrue(validator.default.isBase64(key));
 });
 
-const mockRequest = require('mock-express-request');
-
 it('should consider mtlIdentityId field when verifying user', async () => {
   let hasThrown = false;
 
@@ -201,7 +202,7 @@ it('should consider mtlIdentityId field when verifying user', async () => {
 
     const userValidator: UserValidator = new UserValidator(request);
     userValidator.verifyUser(userId);
-  } catch (err) {
+  } catch {
     hasThrown = true;
   }
 
@@ -222,7 +223,7 @@ it('should throw when either fields are matching', async () => {
 
     const userValidator: UserValidator = new UserValidator(request);
     userValidator.verifyUser(userId);
-  } catch (err) {
+  } catch {
     hasThrown = true;
   }
 

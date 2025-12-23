@@ -1,5 +1,3 @@
-// tslint:disable:no-console
-
 (async () => {
   const args = process.argv.slice(2);
 

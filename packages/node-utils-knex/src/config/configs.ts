@@ -8,7 +8,7 @@ export class Configs {
   public root: string;
 
   constructor() {
-    this.root = path.normalize(`${__dirname}/../../..`);
+    this.root = path.normalize(path.join(__dirname, '../../..'));
   }
 
   private _loggerCreator: (name: string) => ILogger;

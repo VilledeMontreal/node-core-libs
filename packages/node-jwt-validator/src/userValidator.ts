@@ -33,7 +33,7 @@ export class UserValidator implements IUserValidator {
    */
   public constructor(req: express.Request) {
     if (!isRequestWithJwt(req)) {
-      throw new Error(`Expecting a request with a '.jwt' here! : ${req}`);
+      throw new Error(`Expecting a request with a '.jwt' here! : ${req.method} ${req.url}`);
     }
     this._request = req;
   }
@@ -44,6 +44,7 @@ export class UserValidator implements IUserValidator {
 
   public verifyUser(userId: string) {
     if (this._request.jwt.sub !== userId && this._request.jwt.mtlIdentityId !== userId) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw createInvalidJwtError({
         code: constants.errors.codes.UNAUTHORIZED_ACCESS,
         target: 'jwt',

@@ -190,7 +190,7 @@ export class JwtMock {
       // Note that we lazy-load the nock module
       // until we really need it, to avoid patching
       // the http module for nothing.
-      nock = require('nock');
+      nock = await import('nock');
     }
     nock(configs.getHost(), options).get(pathRegex).once().reply(200, nockListPublicKeys);
 

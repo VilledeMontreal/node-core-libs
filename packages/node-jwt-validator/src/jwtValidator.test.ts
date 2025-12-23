@@ -16,6 +16,7 @@ import { IPublicKeys } from './models/publicKey';
 import { cachedPublicKeyRepository } from './repositories/cachedPublicKeyRepository';
 import { jwtMock } from './utils/jwtMock';
 import { setTestingConfigurations } from './utils/testingConfigurations';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const httpMocks = require('node-mocks-http');
 
 // ==========================================
@@ -127,7 +128,7 @@ it('JWT Validator - verifyHeader - should accept good token', async () => {
     algorithm: 'RS256',
   });
 
-  const response = await jwtValidator.verifyAuthorizationHeader('Bearer ' + token);
+  const response = await jwtValidator.verifyAuthorizationHeader(`Bearer ${token}`);
 
   assert.deepEqual(response, payload);
 });
@@ -147,9 +148,9 @@ it('JWT Validator - verify - should reject bad token', async () => {
 
 it('JWT Validator - verify - should reject invalid token: missing signature', async () => {
   let token = '';
-  token += Buffer.from('{}', 'base64');
+  token += Buffer.from('{}', 'base64').toString();
   token += '.';
-  token += Buffer.from('{}', 'base64');
+  token += Buffer.from('{}', 'base64').toString();
   token += '.';
 
   const response = await jwtValidator.verifyToken(token).catch((err) => {
@@ -166,9 +167,9 @@ it('JWT Validator - verify - should reject invalid token: missing signature', as
 
 it('JWT Validator - verify - should reject invalid token: empty JSON', async () => {
   let token = '';
-  token += Buffer.from('{}', 'base64');
+  token += Buffer.from('{}', 'base64').toString();
   token += '.';
-  token += Buffer.from('{}', 'base64');
+  token += Buffer.from('{}', 'base64').toString();
   token += '.';
   token += 'TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 
@@ -236,9 +237,9 @@ it('JWT Validator - verify - should reject invalid token: keyId not found', asyn
 
 it('JWT Validator - verify - should reject invalid algorithm: bad signature', async () => {
   let token = '';
-  token += Buffer.from('{"alg":"HS256","typ":"JWT"}', 'base64');
+  token += Buffer.from('{"alg":"HS256","typ":"JWT"}', 'base64').toString();
   token += '.';
-  token += Buffer.from('{"a":"a", "keyId": 5}', 'base64');
+  token += Buffer.from('{"a":"a", "keyId": 5}', 'base64').toString();
   token += '.';
   token += 'TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 

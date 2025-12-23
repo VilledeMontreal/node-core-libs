@@ -15,8 +15,8 @@ class Configs {
   public dataDirPath: string;
 
   constructor() {
-    this.root = path.normalize(`${__dirname}/..`);
-    this.dataDirPath = `${this.root}/test-data`;
+    this.root = path.normalize(path.join(__dirname, '..'));
+    this.dataDirPath = path.join(this.root, 'test-data');
   }
 }
 

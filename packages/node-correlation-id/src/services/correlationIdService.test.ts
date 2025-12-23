@@ -1,5 +1,3 @@
-// tslint:disable max-func-body-length
-
 import { assert } from 'chai';
 import { EventEmitter } from 'events';
 import { setTestingConfigurations } from '../utils/testingConfigurations';
@@ -226,7 +224,6 @@ describe('Correlation Id Service', () => {
       try {
         await correlationIdService.withIdAsync(async () => {
           assert.equal(correlationIdService.getId(), 'foo');
-          // tslint:disable-next-line: no-empty
           await timeout(() => {}, duration);
           throw new Error('some error...');
         }, 'foo');

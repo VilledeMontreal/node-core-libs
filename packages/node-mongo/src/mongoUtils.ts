@@ -2,7 +2,6 @@
 // Mongo utilities
 // ==========================================
 import {
-  ApiErrorAndInfo,
   createError,
   createInvalidParameterError,
   createNotFoundError,
@@ -215,10 +214,7 @@ export class MongoUtils {
    * @param publicMessage a public message to be used in the
    * generated error. Fopr example : "The user is invalid".
    */
-  public convertMongoOrMongooseErrorToApiError(
-    err: any,
-    publicMessage: string,
-  ): ApiErrorAndInfo | any {
+  public convertMongoOrMongooseErrorToApiError(err: any, publicMessage: string): any {
     if (!err) {
       return createServerError('Empty error object');
     }
@@ -309,15 +305,12 @@ export class MongoUtils {
     // ==========================================
     // Converts the "_id" property to "id"
     // ==========================================
-    // tslint:disable-next-line:no-string-literal
     pojoObj['id'] = pojoObj['_id'].toString();
-    // tslint:disable-next-line:no-string-literal
     delete pojoObj['_id'];
 
     // ==========================================
     // Removes the "__v"
     // ==========================================
-    // tslint:disable-next-line:no-string-literal
     delete pojoObj['__v'];
 
     return pojo;

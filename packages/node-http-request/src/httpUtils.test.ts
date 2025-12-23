@@ -1,7 +1,3 @@
-// Ok in test files :
-// tslint:disable:no-string-literal
-// tslint:disable: max-func-body-length
-
 import { IOrderBy, OrderByDirection, utils } from '@villedemontreal/general-utils/dist/src';
 import { assert } from 'chai';
 import * as express from 'express';
@@ -14,6 +10,8 @@ import { configs } from './config/configs';
 import { constants } from './config/constants';
 import { httpUtils } from './httpUtils';
 import { setTestingConfigurations } from './utils/testingConfigurations';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const superagentMocker = require('superagent-mocker');
 
 // ==========================================
@@ -161,7 +159,7 @@ describe('httpUtils', () => {
 
       it('Regular response response', async () => {
         for (const status of [200, 201, 301, 400, 404, 500, 501]) {
-          mock.get('http://localhost/test', (req: any) => {
+          mock.get('http://localhost/test', () => {
             return {
               status,
               body: {
@@ -259,7 +257,7 @@ describe('httpUtils', () => {
       it('Network/Server error', async () => {
         const mock: any = superagentMocker(superagent);
 
-        mock.get('http://localhost/test', (req: any) => {
+        mock.get('http://localhost/test', () => {
           throw new Error('Network error');
         });
 
@@ -268,7 +266,7 @@ describe('httpUtils', () => {
           const response = await httpUtils.send(request);
           assert.isNotOk(response);
           assert.fail();
-        } catch (err) {
+        } catch {
           /* ok */
         }
       });
@@ -298,17 +296,10 @@ describe('httpUtils', () => {
     async function startServer(caseSensitive: boolean) {
       app = express();
       app.set('case sensitive routing', caseSensitive);
-      app.get(
-        '/',
-        async (
-          req: express.Request,
-          res: express.Response,
-          next: express.NextFunction,
-        ): Promise<void> => {
-          expressRequest = req;
-          res.sendStatus(HttpStatusCodes.OK);
-        },
-      );
+      app.get('/', async (req: express.Request, res: express.Response): Promise<void> => {
+        expressRequest = req;
+        res.sendStatus(HttpStatusCodes.OK);
+      });
       port = await utils.findFreePort();
       server = app.listen(port);
     }
@@ -443,7 +434,7 @@ describe('httpUtils', () => {
         assert.isTrue(_.isDate(value));
         assert.deepEqual(value, new Date(dateStr));
 
-        value = httpUtils.getQueryParamOneAsDate(expressRequest, 'k', (_errMsg: string) => {
+        value = httpUtils.getQueryParamOneAsDate(expressRequest, 'k', () => {
           assert.fail();
         });
         assert.deepEqual(value, new Date(dateStr));
@@ -459,7 +450,7 @@ describe('httpUtils', () => {
         }
 
         try {
-          value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k', (_errMsg: string) => {
+          value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k', () => {
             throw new Error(`Custom Error`);
           });
         } catch (err) {
@@ -480,7 +471,7 @@ describe('httpUtils', () => {
         }
 
         try {
-          value = httpUtils.getQueryParamOneAsBoolean(expressRequest, 'k', (_errMsg: string) => {
+          value = httpUtils.getQueryParamOneAsBoolean(expressRequest, 'k', () => {
             throw new Error(`Custom Error`);
           });
         } catch (err) {
@@ -498,22 +489,22 @@ describe('httpUtils', () => {
         await send(`/?k=${testNumber}`);
 
         const values = httpUtils.getQueryParamAll(expressRequest, 'k');
-        assert.deepEqual(values, [testNumber + '']);
+        assert.deepEqual(values, [`${testNumber}`]);
 
         let value: any = httpUtils.getQueryParamOne(expressRequest, 'k');
-        assert.deepEqual(value, testNumber + '');
+        assert.deepEqual(value, `${testNumber}`);
 
         // ==========================================
         // Well, it seems '123' can actually be parsed
         // to a valid date. What can you do?
         // ==========================================
         value = httpUtils.getQueryParamOneAsDate(expressRequest, 'k');
-        assert.deepEqual(value, new Date(testNumber + ''));
+        assert.deepEqual(value, new Date(`${testNumber}`));
 
         value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k');
         assert.deepEqual(value, testNumber);
 
-        value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k', (_errMsg: string) => {
+        value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k', () => {
           assert.fail();
         });
         assert.deepEqual(value, testNumber);
@@ -603,7 +594,7 @@ describe('httpUtils', () => {
         await send(`/?k=${testNumber}&k=${encodeURIComponent(dateStr)}`);
 
         const values = httpUtils.getQueryParamAll(expressRequest, 'k');
-        assert.deepEqual(values, [testNumber + '', dateStr]);
+        assert.deepEqual(values, [`${testNumber}`, dateStr]);
 
         let value: any = httpUtils.getQueryParamOne(expressRequest, 'k');
         assert.deepEqual(value, dateStr); // last value wins
@@ -631,15 +622,15 @@ describe('httpUtils', () => {
         await send(`/?k=${encodeURIComponent(dateStr)}&k=${testNumber}`);
 
         const values = httpUtils.getQueryParamAll(expressRequest, 'k');
-        assert.deepEqual(values, [dateStr, testNumber + '']);
+        assert.deepEqual(values, [dateStr, `${testNumber}`]);
 
         let value: any = httpUtils.getQueryParamOne(expressRequest, 'k');
-        assert.deepEqual(value, testNumber + ''); // last value wins
+        assert.deepEqual(value, `${testNumber}`); // last value wins
 
         // last value wins and CAN be parsed to a Date...
         // Yep, '123' can be parsed as date.
         value = httpUtils.getQueryParamOneAsDate(expressRequest, 'k');
-        assert.deepEqual(value, new Date(testNumber + ''));
+        assert.deepEqual(value, new Date(`${testNumber}`));
 
         // last value wins and can be parsed to a number
         value = httpUtils.getQueryParamOneAsNumber(expressRequest, 'k');

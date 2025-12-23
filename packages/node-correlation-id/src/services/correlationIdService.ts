@@ -113,6 +113,7 @@ class CorrelationIdServiceWithClsHooked implements ICorrelationIdService {
         try {
           work().then(resolve).catch(reject);
         } catch (err) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(err);
         }
       }, cid);
@@ -166,6 +167,7 @@ class CorrelationIdServiceWithClsHooked implements ICorrelationIdService {
     return emitter;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   private bindFunction<T extends Function>(target: T): T {
     return this.store.bind(target);
   }
@@ -237,6 +239,7 @@ class CorrelationIdServiceWithAsyncLocalStorage implements ICorrelationIdService
     return emitter;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   private bindFunction<T extends Function>(target: T): T {
     const storage = this.storage;
     const store = this.storage.getStore();

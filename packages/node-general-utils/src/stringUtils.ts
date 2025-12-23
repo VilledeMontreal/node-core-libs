@@ -6,7 +6,6 @@ import * as _ from 'lodash';
  * @param value Value which to add the prefix before.
  * @param prefix Prefix to add before the value.
  */
-// tslint:disable-next-line:no-shadowed-variable
 export function prefix(value: string, prefix: string): string {
   let result: string = value;
 
@@ -25,7 +24,6 @@ export function prefix(value: string, prefix: string): string {
  * @param value Value which to add the suffix after.
  * @param suffix Suffix to add after the value.
  */
-// tslint:disable-next-line:no-shadowed-variable
 export function suffix(value: string, suffix: string): string {
   let result: string = value;
 
@@ -80,8 +78,10 @@ export function deDuplicateChars(
 
   let regExCharsToReplace = '(';
   for (const char of continuousCharsToReplace) {
+    // eslint-disable-next-line @/prefer-template
     regExCharsToReplace += (char !== '\\' ? char : '\\\\') + '|';
   }
+  // eslint-disable-next-line @/prefer-template
   regExCharsToReplace = regExCharsToReplace.slice(0, -1) + ')+';
 
   const regEx = new RegExp(regExCharsToReplace, 'g');

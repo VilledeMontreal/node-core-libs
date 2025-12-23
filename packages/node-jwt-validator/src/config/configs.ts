@@ -39,9 +39,10 @@ export class Configs {
   private _correlationIdProvider: () => string;
 
   constructor() {
-    this.libRoot = path.normalize(__dirname + '/../../..');
+    this.libRoot = path.normalize(path.join(__dirname, '../../..'));
     this.isWindows = os.platform() === 'win32';
-    const sourcePackageJson = require(`${constants.appRoot}/package.json`);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const sourcePackageJson = require(path.join(constants.appRoot, 'package.json'));
     this._sourceProjectName = sourcePackageJson?.name ? sourcePackageJson.name : '';
   }
 

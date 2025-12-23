@@ -40,7 +40,6 @@ export function isEmpty(value: any) {
 
   // Some types just can't be "empty":
   if (result === undefined) {
-    // tslint:disable-next-line:cyclomatic-complexity
     if (
       valueType === 'boolean' ||
       valueType === 'number' ||
@@ -78,7 +77,7 @@ export function isCollection(value: any) {
  *
  * @see #isEmpty
  */
-export function removeEmptyValues<C extends any | any[]>(collection: C): C {
+export function removeEmptyValues<C>(collection: C): C {
   return filter(collection, (value) => !isEmpty(value));
 }
 
@@ -90,7 +89,7 @@ export function removeEmptyValues<C extends any | any[]>(collection: C): C {
  *
  * @param collection Collection from which to remove the missing values.
  */
-export function removeMissingValues<C extends any | any[]>(collection: C): C {
+export function removeMissingValues<C>(collection: C): C {
   return filter(collection, (value) => !_.isNil(value));
 }
 
@@ -99,10 +98,7 @@ export function removeMissingValues<C extends any | any[]>(collection: C): C {
  *
  * @param collection Collection from which to filter the values.
  */
-export function filter<C extends any | any[]>(
-  collection: C,
-  predicate: (value: any) => boolean,
-): C {
+export function filter<C>(collection: C, predicate: (value: any) => boolean): C {
   let result: any = collection;
 
   if (!_.isNil(predicate)) {
@@ -157,7 +153,6 @@ export function isMatching(model: any, expectedModel: any, keyFilter?: string[])
   return _.isMatch(model, _expectedModel);
 }
 
-// tslint:disable-next-line:interface-over-type-literal
 export type CompatibilityRuleSet = { [key: string]: (value: any) => boolean };
 
 /**
