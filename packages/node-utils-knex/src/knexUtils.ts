@@ -1,8 +1,5 @@
 // ==========================================
 // Knex utilities
-//
-// Ok in test files
-// tslint:disable:no-string-literal
 // ==========================================
 import { IPaginatedResult, utils } from '@villedemontreal/general-utils';
 import { Promise as BBPromise } from 'bluebird';

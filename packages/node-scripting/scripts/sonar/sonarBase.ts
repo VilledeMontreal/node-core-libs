@@ -1,9 +1,9 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import * as request from 'superagent';
 import { URL } from 'url';
 import { ScriptBase } from '../../src';
-
-const properties = require('java-properties');
+import * as properties from 'java-properties';
 
 export interface SonarProjectInformation {
   sonarHostUrl: string;
@@ -55,26 +55,32 @@ export abstract class SonarBaseScript<Options> extends ScriptBase<Options> {
       return false;
     }
 
+    // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw { msg: 'Unexpected response from Sonar API!', response: res };
   }
   protected getSonarProjectInformation(): SonarProjectInformation {
+    if (!fs.existsSync('sonar-project.properties')) {
+      throw new Error('"sonar-project.properties" file does not exist!');
+    }
     const sonarProperties = properties.of('sonar-project.properties');
-    const result = {
-      sonarHostUrl: sonarProperties.get('sonar.host.url'),
-      sonarProjectKey: sonarProperties.get('sonar.projectKey'),
-    };
-    if (!result.sonarHostUrl) {
+    const sonarHostUrl = sonarProperties.get('sonar.host.url');
+    const sonarProjectKey = sonarProperties.get('sonar.projectKey');
+    if (typeof sonarHostUrl !== 'string') {
       throw new Error(
         '"sonar.host.url" property must be defined in "sonar-project.properties" file!',
       );
     }
-    if (!result.sonarProjectKey) {
+    if (typeof sonarProjectKey !== 'string') {
       throw new Error(
         '"sonar.projectKey" property must be defined in "sonar-project.properties" file!',
       );
     }
-    return result;
+    return {
+      sonarHostUrl,
+      sonarProjectKey,
+    };
   }
+
   private getBranchesListSonarEndpointUrl(sonarHostUrl: string) {
     const endpointUrl = new URL(sonarHostUrl);
     endpointUrl.pathname = path.join(endpointUrl.pathname, 'api/project_branches/list');

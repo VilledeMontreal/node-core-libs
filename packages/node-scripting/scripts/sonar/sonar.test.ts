@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable no-console */
-/* eslint-disable max-lines-per-function */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import { assert, expect } from 'chai';
 import * as fs from 'fs-extra';
 import { describe, it } from 'mocha';
@@ -29,8 +28,7 @@ const sandbox = sinon.createSandbox();
 let shellCommand: sinon.SinonStub;
 let subScript: sinon.SinonStub;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-function getSonarScript(targetBranch: string, logger: {}): SonarScript {
+function getSonarScript(targetBranch: string, logger: object): SonarScript {
   let options = {};
   if (targetBranch) {
     options = {

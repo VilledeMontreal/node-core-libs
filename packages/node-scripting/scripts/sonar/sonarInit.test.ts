@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable no-console */
-/* eslint-disable max-lines-per-function */
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import { assert, expect } from 'chai';
 import * as fs from 'fs-extra';
 import { describe, it } from 'mocha';
@@ -28,7 +26,7 @@ chai.use(require('chai-string'));
 
 const sandbox = sinon.createSandbox();
 
-function getSonarInitScript(logger: {}): SonarInitScript {
+function getSonarInitScript(logger: object): SonarInitScript {
   return new SonarInitScript({
     args: {},
     options: {},
@@ -66,8 +64,8 @@ error: Script "sonar-init" failed after 0 s with: ENOENT: no such file or direct
   });
 
   validPropertyFiles.forEach((propertyFile) => {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    describe(` when using "${propertyFile}" valid property file`, async () => {
+     
+    describe(` when using "${propertyFile}" valid property file`, function() {
       before(async () => {
         await fs.copyFile(propertyFile, './sonar-project.properties');
       });

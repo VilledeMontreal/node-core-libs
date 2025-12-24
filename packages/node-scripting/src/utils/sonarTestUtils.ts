@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import nock = require('nock');
+import * as nock from 'nock';
 
 export function simulateSonarServerIsNotFound() {
   nock('https://example.com').head(RegExp('/sonar/{0,1}')).reply(404);
@@ -26,7 +25,7 @@ export function simulateSonarProjectAlreadyExists() {
 }
 
 export class LoggerRecorder {
-  logger: {};
+  logger: any;
   recordedLogs: string;
 
   constructor() {

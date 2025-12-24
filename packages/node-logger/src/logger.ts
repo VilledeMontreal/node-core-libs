@@ -161,11 +161,9 @@ export const initLogger = (loggerConfig: LoggerConfigs, name = 'default', force 
     // https://github.com/iccicci/rotating-file-stream/issues/17#issuecomment-384423230
     // ==========================================
     rotatingFilesStream.on('error', (err: any) => {
-      // tslint:disable-next-line:no-console
       console.log('Rotating File Stream error: ', err);
     });
     rotatingFilesStream.on('warning', (err: any) => {
-      // tslint:disable-next-line:no-console
       console.log('Rotating File Stream warning: ', err);
     });
 
@@ -355,7 +353,6 @@ export class Logger implements ILogger {
    * - log({"name": "an object..."}, "... and an extra text message");
    * - log(err, "a catched error and an epublic xplanation message");
    */
-  // tslint:disable-next-line:cyclomatic-complexity
   public log(level: LogLevel, messageObj: any, txtMsg?: string) {
     let messageObjClean = messageObj;
     const txtMsgClean = txtMsg;
@@ -419,7 +416,6 @@ export class Logger implements ILogger {
         // ==========================================
         messageObjClean = _.cloneDeep(messageObjClean);
         try {
-          // tslint:disable-next-line:no-unused-expression
           messageObjClean.socket.remoteAddress;
         } catch {
           messageObjClean.socket = {

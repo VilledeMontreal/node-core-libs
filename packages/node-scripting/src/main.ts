@@ -58,7 +58,7 @@ export async function main(caporal: Program, projectScriptsIndexModule: string, 
 
 function addUnhandledRejectionHandler() {
   process.on('unhandledRejection', (reason) => {
-    console.error(`Promise rejection error : ${reason}`);
+    console.error(`Promise rejection error : `, reason);
   });
 }
 
@@ -86,8 +86,7 @@ function patchHelpCommand(caporal: Program, helpCommand: Command) {
     throw new Error('Help command has already been patched');
   }
   (helpCommand as any)._action = (actionParams: ActionParameters) => {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // ==========================================
       // The "help" output seems to be done asynchronously,
       // even with "await". So we use a listener.
@@ -98,12 +97,15 @@ function patchHelpCommand(caporal: Program, helpCommand: Command) {
         resolve(result);
       }
       caporal.addListener('help', onHelp);
-      try {
-        result = await oldAction(actionParams);
-      } catch (err) {
-        caporal.removeListener('help', onHelp);
-        reject(err);
-      }
+      (oldAction(actionParams) as any)
+        .then((res: any) => {
+          result = res;
+        })
+        .catch((err: any) => {
+          caporal.removeListener('help', onHelp);
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+          reject(err);
+        });
     });
   };
   (helpCommand as any)._action.__hooked = true;
@@ -160,7 +162,7 @@ async function addProjectScripts(
   const scriptsNames: Set<string> = new Set();
 
   if (scriptsIndexModule) {
-    const scriptsModule = require(scriptsIndexModule);
+    const scriptsModule = await import(scriptsIndexModule);
     for (const scriptClass of Object.values(scriptsModule)) {
       const script: ScriptBase = new (scriptClass as IScriptConstructor)(null);
       if (await registerScript(caporal, script)) {

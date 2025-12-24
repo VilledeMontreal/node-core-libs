@@ -65,7 +65,6 @@ describe('Logger tests', () => {
 
       // A stadard "function" is required here, because
       // of the use of "arguments".
-      // tslint:disable-next-line:only-arrow-functions
       process.stdout.write = function (...args: string[]) {
         if (!expectTwoCalls) {
           output += args[0];

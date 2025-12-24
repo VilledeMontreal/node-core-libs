@@ -53,32 +53,14 @@ module.exports = defineConfig([{
         "@/prefer-template": "error",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/require-await": "off",
-        // "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
-        "@typescript-eslint/no-ternary": "off",
 
-        "@typescript-eslint/restrict-template-expressions": ["off", {
-            "allowAny": true,
-        }],
-
-        // "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/unbound-method": "off",
-        // "@typescript-eslint/no-unnecessary-type-assertion": "off",
-
-        // "@typescript-eslint/ban-types": ["off", {
-        //     "types": {
-        //         "{}": true,
-        //     },
-
-        //     "extendDefaults": true,
-        // }],
-
-        // "no-async-promise-executor": "off",
     },
 }, globalIgnores([
     "**/.*",

@@ -54,13 +54,13 @@ export async function runCore(runFilePath: string, ...args: string[]) {
     await utils.exec(runFilePath, args, {
       escapeArgs: true,
       outputHandler: (stdoutData: string, stderrData: string) => {
-        const newOut = `${stdoutData ? ' ' + stdoutData : ''} ${
-          stderrData ? ' ' + stderrData : ''
+        const newOut = `${stdoutData ? ` ${stdoutData}` : ''} ${
+          stderrData ? ` ${stderrData}` : ''
         } `;
         output += stripVTControlCharacters(newOut);
       },
     });
-  } catch (err) {
+  } catch {
     isSuccess = false;
     // we have the output
   }

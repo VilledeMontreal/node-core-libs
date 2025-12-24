@@ -1,9 +1,3 @@
-// ==========================================
-// Disabling some linting rules is OK in test files.
-// tslint:disable:max-func-body-length
-// tslint:disable:cyclomatic-complexity
-// tslint:disable:no-string-literal
-// ==========================================
 import { assert } from 'chai';
 import { Knex } from 'knex';
 import { v4 as uuid } from 'uuid';

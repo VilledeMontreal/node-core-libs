@@ -18,7 +18,7 @@ import {
   withCustomRunFile,
   withLogNodeInstance,
 } from './utils/testingUtils';
-const nock = require('nock');
+import * as nock from 'nock';
 
 describe(`Scripts tests`, function () {
   timeout(this, 30000);
@@ -357,8 +357,8 @@ describe(`Scripts tests`, function () {
         [`run`, `lint`, `--`, `--nc`, `--help`],
         {
           outputHandler: (stdoutData: string, stderrData: string) => {
-            const newOut = `${stdoutData ? ' ' + stdoutData : ''} ${
-              stderrData ? ' ' + stderrData : ''
+            const newOut = `${stdoutData ? ` ${stdoutData}` : ''} ${
+              stderrData ? ` ${stderrData}` : ''
             } `;
             output += newOut;
           },
@@ -649,7 +649,7 @@ info: Script "testing:testingCallingScript" successful`;
 
       const expectedOutput = `info: Script "sonar-init" starting...
 
-error: Script "sonar-init" failed after 0 s with: ENOENT: no such file or directory, open 'sonar-project.properties'
+error: Script "sonar-init" failed after 0 s with: "sonar-project.properties" file does not exist!
 `;
       assert.isTrue(containsText(output, expectedOutput));
     });

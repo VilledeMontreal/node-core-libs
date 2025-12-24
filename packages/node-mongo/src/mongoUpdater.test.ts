@@ -1,7 +1,3 @@
-// Ok for test files :
-// tslint:disable:max-func-body-length
-// tslint:disable:no-string-literal
-
 import { Timer } from '@villedemontreal/general-utils';
 import { assert } from 'chai';
 import * as MongoDb from 'mongodb';

@@ -1,6 +1,3 @@
-// Some way of using chai requires disabling this rule:
-// tslint:disable:no-unused-expression
-
 import { IPaginatedResult } from '@villedemontreal/general-utils';
 import * as chai from 'chai';
 import * as mongoose from 'mongoose';

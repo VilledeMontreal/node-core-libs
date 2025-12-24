@@ -1,6 +1,3 @@
-// Ok for test files
-// tslint:disable:max-func-body-length
-
 import { isPaginatedResult } from '@villedemontreal/general-utils';
 import { assert } from 'chai';
 import { Knex } from 'knex';

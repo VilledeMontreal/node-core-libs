@@ -1,5 +1,4 @@
 import { Command, program } from '@villedemontreal/caporal';
-import * as _ from 'lodash';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
 import { execa } from 'execa';
@@ -91,7 +90,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
         process.env.JUNIT_REPORT_PATH = path.join('output', 'test-results', 'report.xml');
       }
 
-      this.logger.info('Exporting tests to junit file ' + process.env.JUNIT_REPORT_PATH);
+      this.logger.info(`Exporting tests to junit file ${process.env.JUNIT_REPORT_PATH}`);
       cmdArgs.push('--reporter');
       cmdArgs.push('@villedemontreal/mocha-jenkins-reporter');
     }

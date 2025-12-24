@@ -1,11 +1,10 @@
 import { Command } from '@villedemontreal/caporal';
 import { utils } from '@villedemontreal/general-utils';
-import * as _ from 'lodash';
 import * as path from 'path';
 import { ScriptBase } from '../src';
 import { configs } from '../src/config/configs';
 import { execa } from 'execa';
-const notifier = require('node-notifier');
+import { notify } from 'node-notifier';
 
 export interface Options {
   /**
@@ -39,7 +38,8 @@ that point since the incremental compilation is already done by this script.`;
         `Starting incremental compilation...\n` +
         `==========================================\n`,
     );
-    const projectName = require(configs.projectRoot + '/package.json').name;
+    const pkg = await import(path.join(configs.projectRoot, 'package.json'));
+    const projectName = pkg.name;
     let ignoreNextCompilationComplete = false;
     const compilationCompletetRegEx = /(Compilation complete)|(Found 0 errors)/;
     // eslint-disable-next-line no-control-regex
@@ -56,7 +56,7 @@ that point since the incremental compilation is already done by this script.`;
         let error = false;
         if (errorRegEx.test(stdoutDataClean)) {
           error = true;
-          notifier.notify({
+          notify({
             title: projectName,
             message: 'incremental compilation error',
             icon: path.normalize(`${__dirname}/../../../assets/notifications/error.png`),
@@ -64,7 +64,7 @@ that point since the incremental compilation is already done by this script.`;
           });
         } else if (compilationCompletetRegEx.test(stdoutDataClean)) {
           if (!ignoreNextCompilationComplete) {
-            notifier.notify({
+            notify({
               title: projectName,
               message: 'incremental compilation done',
               icon: path.normalize(`${__dirname}/../../../assets/notifications/success.png`),
@@ -80,7 +80,6 @@ that point since the incremental compilation is already done by this script.`;
       }
     };
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
         for await (const line of execa({
@@ -91,7 +90,7 @@ that point since the incremental compilation is already done by this script.`;
           outputHandler(lineStr, '');
         }
       } catch (err) {
-        this.logger.error('Error, restarting incremental compilation in a second : ' + String(err));
+        this.logger.error(`Error, restarting incremental compilation in a second : ${String(err)}`);
         await utils.sleep(1000);
       }
     }

@@ -11,8 +11,11 @@ import {
 import { globalConstants, utils } from '@villedemontreal/general-utils';
 import { StdioOptions } from 'child_process';
 import * as _ from 'lodash';
+import * as path from 'path';
 import { configs } from './config/configs';
 import { IGlobalOptions } from './globalOptions';
+
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
 /**
  * A script with a name starting with this prefix
@@ -90,7 +93,7 @@ export abstract class ScriptBase<
    * Register the script on Caporal
    */
   public async registerScript(caporal: Program): Promise<void> {
-    const command = caporal.command(this.name, this.description + '\n', this.commandConfig);
+    const command = caporal.command(this.name, `${this.description}\n`, this.commandConfig);
     await this.addAction(command);
     await this.addHelpBody(command);
     await this.configure(command);
@@ -309,7 +312,7 @@ export abstract class ScriptBase<
    */
   protected async getProjectDirectDependencies() {
     if (!projectDirectDependencies) {
-      const packageJsonObj = require(`${configs.projectRoot}/package.json`);
+      const packageJsonObj = await import(path.join(configs.projectRoot, 'package.json'));
 
       projectDirectDependencies = [
         ...Object.keys(packageJsonObj.dependencies || {}),
