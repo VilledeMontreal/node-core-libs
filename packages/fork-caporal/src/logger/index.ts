@@ -11,7 +11,8 @@ import { EOL } from "os"
 
 const caporalFormat = format.printf((data) => {
   const { level, ...meta } = data
-  let { message } = data
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  let message = data.message?.toString() ?? ""
   let prefix = ""
 
   const levelStr = getLevelString(level)

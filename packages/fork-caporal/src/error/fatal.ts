@@ -14,7 +14,7 @@ export function fatalError(error: BaseError): void {
     logger.log({
       level: "error",
       ...error,
-      message: error.message + "\n\n" + error.stack,
+      message: `${error.message}\n\n${error.stack}`,
       stack: error.stack,
       name: error.name,
     })

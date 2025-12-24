@@ -4,9 +4,7 @@
  * @packageDocumentation
  * @internal
  */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable no-console */
+
 export const version = process.version
 export const argv = ["node", "play.ts"]
 export const execArgv = [] as any[]

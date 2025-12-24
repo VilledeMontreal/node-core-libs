@@ -147,7 +147,7 @@ async function getCompOptValues(ctx: CompletionContext): Promise<CompletionItem[
   if (currentOpt.choices.length) {
     return currentOpt.choices.map((choice) => ({
       name: choice.toString(),
-      description: "Value for option " + currentOpt.synopsis,
+      description: `Value for option ${currentOpt.synopsis}`,
     }))
   }
 
@@ -188,7 +188,7 @@ async function getCompArgValues(ctx: CompletionContext): Promise<CompletionItem[
     return arg.choices
       .map((choice) => ({
         name: choice.toString(),
-        description: "Value for argument " + arg.synopsis,
+        description: `Value for argument ${arg.synopsis}`,
       }))
       .filter((choice) => !lastPartial || choice.name.toString().startsWith(lastPartial))
   }
@@ -214,7 +214,7 @@ async function hanldleCompleter(
       return item
     }
     return {
-      name: "" + item,
+      name: `${item}`,
       description: `Value for ${type} ${argOrOpt.synopsis}`,
     }
   })

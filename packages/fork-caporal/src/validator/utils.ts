@@ -15,6 +15,7 @@ export function isCaporalValidator(
     return false
   }
   const mask = getCaporalValidatorsMask()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const exist = (mask & validator) === validator
   return exist
 }
@@ -77,7 +78,7 @@ export function getTypeHint(obj: Argument | Option): string | undefined {
   } else if (Array.isArray(obj.validator)) {
     const stringified = JSON.stringify(obj.validator)
     if (stringified.length < 300) {
-      hint = "one of " + stringified.substr(1, stringified.length - 2)
+      hint = `one of ${stringified.substr(1, stringified.length - 2)}`
     }
   }
   return hint

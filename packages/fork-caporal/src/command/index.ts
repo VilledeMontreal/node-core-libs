@@ -267,16 +267,11 @@ export class Command {
         ? "<OPTIONS...>"
         : "[OPTIONS...]"
       : ""
-    const name = this._name !== PROG_CMD ? " " + this._name : ""
+    const name = this._name !== PROG_CMD ? ` ${this._name}` : ""
 
-    return (
-      this.program.getBin() +
-      name +
-      " " +
-      this.args.map((a) => a.synopsis).join(" ") +
-      " " +
-      opts
-    ).trim()
+    return `${this.program.getBin() + name} ${this.args
+      .map((a) => a.synopsis)
+      .join(" ")} ${opts}`.trim()
   }
 
   /**

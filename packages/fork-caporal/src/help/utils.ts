@@ -36,7 +36,7 @@ export function buildTable(data: string[][], options = {}): string {
 export function getDefaultValueHint(obj: Argument | Option): string | undefined {
   return obj.default !== undefined &&
     !("boolean" in obj && obj.boolean && obj.default === false)
-    ? "default: " + JSON.stringify(obj.default)
+    ? `default: ${JSON.stringify(obj.default)}`
     : undefined
 }
 
@@ -97,8 +97,7 @@ export function getCommandsTable(
 ): string {
   const { chalk, prog, eol2, table, spaces } = ctx
   const cmdHint = `Type '${prog.getBin()} help <command>' to get some help about a command`
-  const help =
-    spaces + chalk.bold(title) + ` ${chalk.dim("\u2014")} ` + chalk.dim(cmdHint) + eol2
+  const help = `${spaces + chalk.bold(title)} ${chalk.dim("\u2014")} ${chalk.dim(cmdHint)}${eol2}`
   const rows = commands
     .filter((c) => c.visible)
     .map((cmd) => {

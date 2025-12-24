@@ -85,7 +85,7 @@ export function getContext(program: Program, command?: Command): TemplateContext
     table: buildTable,
     spaces,
     indent(str: string, sp = spaces) {
-      return sp + replace(str.trim(), /(\r\n|\r|\n)/g, "\n" + sp)
+      return sp + replace(str.trim(), /(\r\n|\r|\n)/g, `\n${sp}`)
     },
     eol: "\n",
     eol2: "\n\n",

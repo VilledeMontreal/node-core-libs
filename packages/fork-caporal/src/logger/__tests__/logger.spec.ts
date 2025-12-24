@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { program } from "../../index"
 import { Program } from "../../program"
 import { logger } from ".."

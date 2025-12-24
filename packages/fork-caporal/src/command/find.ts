@@ -52,6 +52,6 @@ async function discoverCommand(
     }
     return cmdBuilder(options)
     // eslint-disable-next-line no-empty
-  } catch (e) {}
+  } catch {}
   return undefined
 }

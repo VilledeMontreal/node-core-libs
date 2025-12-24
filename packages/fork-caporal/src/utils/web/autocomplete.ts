@@ -6,8 +6,7 @@
  */
 import type { Program } from "../../program"
 import type { Argument, Option } from "../../types"
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-empty-function */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export function registerCompletion(
   argOrOpt: Argument | Option,

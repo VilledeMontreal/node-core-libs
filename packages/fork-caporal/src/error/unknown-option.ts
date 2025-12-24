@@ -28,12 +28,9 @@ export class UnknownOptionError extends BaseError {
 
     let msg = `Unknown option ${c.bold.redBright(getDashedOpt(flag))}. `
     if (suggestions.length) {
-      msg +=
-        "Did you mean " +
-        suggestions
-          .map((s) => boldDiffString(getDashedOpt(flag), getDashedOpt(s)))
-          .join(" or maybe ") +
-        " ?"
+      msg += `Did you mean ${suggestions
+        .map((s) => boldDiffString(getDashedOpt(flag), getDashedOpt(s)))
+        .join(" or maybe ")} ?`
     }
     super(msg, { flag, command })
   }

@@ -169,6 +169,7 @@ describe("Command", () => {
 
   it(".run() should throw an ActionError when action throws a message", async () => {
     const action = vi.fn(() => {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw "User Error"
     })
     const cmd = prog.command("order", "Order something").action(action)

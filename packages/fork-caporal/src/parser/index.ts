@@ -34,7 +34,7 @@ function castAsBool(value: string | boolean): boolean {
 }
 
 function castAsString(val: string | boolean): string {
-  return val + ""
+  return `${val}`
 }
 
 function autoCast(val: string): ParserTypes {
@@ -330,7 +330,7 @@ class OptionParser {
     multi.forEach((o, index) => {
       const alias = this.config.alias[o]
       this.options[o] = index + 1 === n ? cast(o, val as string, this.config) : true
-      this.rawOptions["-" + o] = this.options[o]
+      this.rawOptions[`-${o}`] = this.options[o]
       if (alias) {
         this.options[alias] = this.options[o]
       }

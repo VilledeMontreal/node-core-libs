@@ -15,7 +15,7 @@ export const usage: Template = async (ctx: TemplateContext) => {
   }
 
   // usage
-  const usage = `${spaces + c.bold("USAGE")} ${cmd?.name ? "— " + c.dim(cmd.name) : ""}
+  const usage = `${spaces + c.bold("USAGE")} ${cmd?.name ? `— ${c.dim(cmd.name)}` : ""}
   ${eol + spaces + spaces + c.dim("\u25B8")} `
 
   const next = cmd ? await tpl("command", ctx) : await tpl("program", ctx)

@@ -63,7 +63,7 @@ export class ValidationError extends BaseError {
         'Invalid value for %s %s.\nExpected one of %s, but got "%s".',
         varName,
         c.redBright(name),
-        "'" + validator.join("', '") + "'",
+        `'${validator.join("', '")}'`,
         c.redBright(value),
       )
     } else if (validator instanceof RegExp) {
@@ -75,6 +75,6 @@ export class ValidationError extends BaseError {
         c.redBright(value),
       )
     }
-    super(message + "")
+    super(`${message}`)
   }
 }

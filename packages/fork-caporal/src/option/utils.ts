@@ -132,8 +132,8 @@ export function parseOptionSynopsis(synopsis: string): OptionSynopsis {
     throw new OptionSynopsisSyntaxError(synopsis)
   }
 
-  infos.name = infos.longName || (infos.shortName as string)
-  infos.notation = infos.longNotation || (infos.shortNotation as string)
+  infos.name = infos.longName || infos.shortName
+  infos.notation = infos.longNotation || infos.shortNotation
 
   const fullSynopsis = { ...infos } as OptionSynopsis
 

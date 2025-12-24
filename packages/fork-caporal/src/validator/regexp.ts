@@ -23,7 +23,7 @@ export function validateWithRegExp(
       return validateWithRegExp(validator, v, context) as ParserTypes
     })
   }
-  if (!validator.test(value + "")) {
+  if (!validator.test(`${value}`)) {
     throw new ValidationError({
       validator: validator,
       value,

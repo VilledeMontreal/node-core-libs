@@ -72,7 +72,7 @@ export function validateNumericFlag(
   value: ParserTypes,
   context: Argument | Option,
 ): number {
-  const str = value + ""
+  const str = `${value}`
   if (Array.isArray(value) || !isNumeric(str)) {
     throw new ValidationError({
       value,
@@ -100,5 +100,5 @@ export function validateArrayFlag(
  * @ignore
  */
 export function validateStringFlag(value: ParserTypes | ParserTypes[]): string {
-  return value + ""
+  return `${value}`
 }

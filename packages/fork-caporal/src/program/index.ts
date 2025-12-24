@@ -148,7 +148,7 @@ export class Program extends EventEmitter {
         const command = args.command
           ? await findCommand(this, [args.command as string])
           : undefined
-        // eslint-disable-next-line no-console
+
         showHelp({ ...actionParams, command })
         return -1
       })
@@ -207,12 +207,9 @@ export class Program extends EventEmitter {
    * @internal
    */
   async getSynopsis(): Promise<string> {
-    return (
-      this.getBin() +
-      " " +
-      ((await this.hasCommands()) ? "<command> " : "") +
-      "[ARGUMENTS...] [OPTIONS...]"
-    ).trim()
+    return `${this.getBin()} ${
+      (await this.hasCommands()) ? "<command> " : ""
+    }[ARGUMENTS...] [OPTIONS...]`.trim()
   }
 
   /**
@@ -487,7 +484,7 @@ export class Program extends EventEmitter {
     try {
       stat = fs.statSync(dirPath)
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch {}
     if (!stat || !stat.isDirectory()) {
       throw new Error(
         "Caporal setup error: parameter `dirPath` of discover() should be a directory",
@@ -576,7 +573,7 @@ export class Program extends EventEmitter {
       We are forced to catch a potential error to prevent the rejected
       promise to propagate un in the stack. 
     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     return this._run(result, cmd) /*
     .catch((e) => e) */
   }

@@ -73,7 +73,7 @@ export { showHelp }
  */
 const showHelp: Action = async ({ program, command }: ActionParameters) => {
     const help = await getHelp(program, command)
-    // eslint-disable-next-line no-console
+
     console.log(help)
     program.emit("help", help)
     return false
@@ -84,7 +84,6 @@ const showHelp: Action = async ({ program, command }: ActionParameters) => {
    * @internal
    */
   showVersion: Action = ({ program }: ActionParameters) => {
-    // eslint-disable-next-line no-console
     console.log(program.getVersion())
     program.emit("version", program.getVersion())
     return false

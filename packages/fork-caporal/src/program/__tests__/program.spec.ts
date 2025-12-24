@@ -134,7 +134,7 @@ describe("Program", () => {
   })
 
   it("should be able to call discovered commands", async () => {
-    prog.discover(__dirname + "/../../command/__fixtures__")
+    prog.discover(`${__dirname}/../../command/__fixtures__`)
     await expect(prog.run(["example-cmd"])).resolves.toBe("hey")
   })
 
