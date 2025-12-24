@@ -1,4 +1,5 @@
 import { Stream } from 'stream';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const prettyStream = require('bunyan-prettystream-circularsafe');
 
 export class ConsoleStream extends Stream {

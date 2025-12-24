@@ -15,8 +15,8 @@ import {
 import { PinoPretty } from 'pino-pretty';
 import { LoggerConfigs } from './config/configs';
 import { constants } from './config/constants';
-
-const createRotatingFileStream = require('rotating-file-stream').createStream;
+import { createStream as createRotatingFileStream } from 'rotating-file-stream';
+import { install as installSourceMap } from 'source-map-support';
 
 // ==========================================
 // We export the LogLevel
@@ -28,14 +28,15 @@ export { LogLevel } from '@villedemontreal/general-utils';
 // informations instead of the ones from the
 // transpiled Javascript file.
 // ==========================================
-require('source-map-support').install({
+installSourceMap({
   environment: 'node',
 });
 
 // ==========================================
 // App infos
 // ==========================================
-const packageJson = require(`${constants.appRoot}/package.json`);
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const packageJson = require(path.join(constants.appRoot, 'package.json'));
 const appName = packageJson.name;
 const appVersion = packageJson.version;
 
@@ -367,7 +368,7 @@ export class Logger implements ILogger {
           `The message object to log can't be an array. An object will be used instead and` +
             `the content of the array will be moved to an "_arrayMsg" property on it : ${messageObjClean}`,
         );
-      } catch (err) {
+      } catch {
         // too bad
       }
       messageObjClean = {
@@ -420,7 +421,7 @@ export class Logger implements ILogger {
         try {
           // tslint:disable-next-line:no-unused-expression
           messageObjClean.socket.remoteAddress;
-        } catch (err) {
+        } catch {
           messageObjClean.socket = {
             ...messageObjClean.socket,
             remoteAddress: '[not available]',
@@ -459,7 +460,7 @@ export class Logger implements ILogger {
     } else {
       try {
         loggerInstance.error(`UNMANAGED LEVEL "${level}"`);
-      } catch (err) {
+      } catch {
         // too bad
       }
 

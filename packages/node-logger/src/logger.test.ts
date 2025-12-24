@@ -369,7 +369,7 @@ describe('Logger tests', () => {
     describe('Error controller log messages', () => {
       it('app and version properties', async () => {
         const packagePath = `${constants.libRoot}/../../package.json`;
-        const packageJson = require(packagePath);
+        const packageJson = await import(packagePath);
         const appName = packageJson.name;
         const appVersion = packageJson.version;
 
@@ -391,7 +391,7 @@ describe('Logger tests', () => {
       let lazyLogger: LazyLogger;
 
       beforeEach(async () => {
-        lazyLogger = new LazyLogger('titi', (name: string): ILogger => {
+        lazyLogger = new LazyLogger('titi', (): ILogger => {
           const logger2 = new Logger('titi');
           return logger2;
         });
@@ -475,7 +475,7 @@ describe('Logger tests', () => {
           const lazyLogger2 = new LazyLogger('titi', null);
           assert.fail();
           assert.isNotOk(lazyLogger2);
-        } catch (err) {
+        } catch {
           /* ok */
         }
 
@@ -483,7 +483,7 @@ describe('Logger tests', () => {
           const lazyLogger3 = new LazyLogger('titi', undefined);
           assert.fail();
           assert.isNotOk(lazyLogger3);
-        } catch (err) {
+        } catch {
           /* ok */
         }
       });
