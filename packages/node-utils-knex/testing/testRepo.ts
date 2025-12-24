@@ -9,7 +9,7 @@ export class TestRepo {
   public async changeFirstName(
     context: ITestContext,
     userId: number,
-    newFirstName: string
+    newFirstName: string,
   ): Promise<void> {
     await this.txManager.withClient(context, async (client: Knex.Transaction) => {
       await client(`users`)

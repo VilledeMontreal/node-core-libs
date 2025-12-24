@@ -477,7 +477,7 @@ describe('Knex Utilities', () => {
             0,
             1,
           );
-        } catch (err) {
+        } catch {
           error = true;
         }
         assert.isTrue(error);
@@ -497,7 +497,7 @@ describe('Knex Utilities', () => {
             0,
             1,
           );
-        } catch (err) {
+        } catch {
           error = true;
         }
         assert.isTrue(error);
@@ -507,7 +507,7 @@ describe('Knex Utilities', () => {
         let error = false;
         try {
           await knexUtils.paginate(mockedClient, mockedClient.delete().from('books'), 0, 1);
-        } catch (err) {
+        } catch {
           error = true;
         }
         assert.isTrue(error);

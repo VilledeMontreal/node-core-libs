@@ -127,7 +127,7 @@ export class KnexUtils {
       // this is what Knex is expecting and some functions
       // specific to BlueBird promises are called.
       // ==========================================
-      const promiseLike = new BBPromise((resolve: any, reject: any) => {
+      const promiseLike = new BBPromise((resolve: any) => {
         resolve({
           // The "__knexUid" property is required by Knex
           __knexUid: uuid(),
@@ -170,7 +170,7 @@ export class KnexUtils {
     // Called by Knex to transform the result returned
     // by the DB. We return our mocked result as is...
     // ==========================================
-    knexMockedClient.client.processResponse = (obj: any, runner: any) => {
+    knexMockedClient.client.processResponse = (obj: any) => {
       return obj;
     };
 
@@ -178,7 +178,7 @@ export class KnexUtils {
     // When using a transaction, a new "client"
     // is created. We replace it by our mocked client.
     // ==========================================
-    (knexMockedClient as any)['context'].transaction = (transactionScope?: null, config?: any) => {
+    (knexMockedClient as any)['context'].transaction = (transactionScope?: null) => {
       return transactionScope !== null ? (transactionScope as any)(knexMockedClient) : undefined;
     };
 
