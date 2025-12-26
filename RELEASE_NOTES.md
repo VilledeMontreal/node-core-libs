@@ -9,6 +9,7 @@
 - Upgrade all other dependencies to their latest version.
   It means that our libs might start using some ESM only libs, but thanks to NodeJS 24 and more,
   this should be transparent.
+- replace MomentJS with Luxon in node-jwt-validator
 
 ### BREAKING
 

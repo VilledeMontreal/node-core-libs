@@ -2,7 +2,7 @@
 
 import { utils } from '@villedemontreal/general-utils';
 import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { constants } from './config/constants';
 import { createInvalidAuthHeaderError, createInvalidJwtError } from './models/customError';
 import { IJWTPayload, isJWTPayload } from './models/jwtPayload';
@@ -125,9 +125,9 @@ class JwtValidator implements IJwtValidator {
 
   private validateJwtCreationTimestamp(payload: IJWTPayload, key: IPublicKey) {
     // Check the jwt was not created before the creation date of the key
-    const payloadIat: moment.Moment = moment.utc(payload.iat * 1000);
-    const keyCreatedAt: moment.Moment = moment.utc(key.createdAt);
-    if (payloadIat.diff(keyCreatedAt) < 0) {
+    const payloadIat = DateTime.fromMillis(payload.iat * 1000).toUTC();
+    const keyCreatedAt = DateTime.fromISO(key.createdAt).toUTC();
+    if (payloadIat < keyCreatedAt) {
       throw createInvalidJwtError({
         code: constants.errors.codes.INVALID_VALUE,
         target: 'jwt',
@@ -139,8 +139,8 @@ class JwtValidator implements IJwtValidator {
   private validateJwtExpirationTimestamp(payload: IJWTPayload, key: IPublicKey) {
     // Check expiration date
     if (key.expiresAt) {
-      const keyexpiresAt: moment.Moment = moment.utc(key.expiresAt);
-      if (moment.utc().diff(keyexpiresAt) > 0) {
+      const keyexpiresAt = DateTime.fromISO(key.expiresAt).toUTC();
+      if (DateTime.utc() > keyexpiresAt) {
         throw createInvalidJwtError({
           code: constants.errors.codes.INVALID_VALUE,
           target: 'jwt',
@@ -149,8 +149,8 @@ class JwtValidator implements IJwtValidator {
       }
 
       // Check the jwt was not created after the expiration date of the key
-      const payloadIat: moment.Moment = moment.utc(payload.iat * 1000);
-      if (payloadIat.diff(keyexpiresAt) > 0) {
+      const payloadIat = DateTime.fromMillis(payload.iat * 1000).toUTC();
+      if (payloadIat > keyexpiresAt) {
         throw createInvalidJwtError({
           code: constants.errors.codes.INVALID_VALUE,
           target: 'jwt',

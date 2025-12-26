@@ -1,6 +1,6 @@
 import { ApiErrorAndInfo } from '@villedemontreal/general-utils/dist/src';
 import { extend } from 'lodash';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { configs } from '../config/configs';
 import { IPublicKey, IPublicKeys } from '../models/publicKey';
 import { createLogger } from '../utils/logger';
@@ -21,7 +21,7 @@ export class CachedPublicKeyRepository implements ICachedPublicKeyRepository {
   /**
    * Next update
    */
-  private _nextUpdate: moment.Moment;
+  private _nextUpdate: DateTime;
 
   /**
    * Cached public keys
@@ -33,7 +33,7 @@ export class CachedPublicKeyRepository implements ICachedPublicKeyRepository {
    */
   public clearCache(): void {
     this._cachedKeys = {};
-    this._nextUpdate = moment.utc();
+    this._nextUpdate = DateTime.utc();
   }
 
   /**
@@ -101,7 +101,7 @@ export class CachedPublicKeyRepository implements ICachedPublicKeyRepository {
    * @return {boolean}
    */
   private isValidCache(): boolean {
-    if (!this._nextUpdate || moment.utc().diff(this._nextUpdate) >= 0) {
+    if (!this._nextUpdate || DateTime.utc() >= this._nextUpdate) {
       return false;
     }
 
@@ -113,7 +113,7 @@ export class CachedPublicKeyRepository implements ICachedPublicKeyRepository {
    * @return
    */
   private updateNextCacheUpdate(): void {
-    this._nextUpdate = moment.utc().add(configs.getCacheDuration(), 'seconds');
+    this._nextUpdate = DateTime.utc().plus({ seconds: configs.getCacheDuration() });
   }
 }
 
