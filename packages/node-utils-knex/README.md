@@ -4,7 +4,7 @@ Module d'utilitaires pour la librairie Knex.
 
 ## Availabililty
 
-https://github.com/VilledeMontreal/node-core-libs/tree/main/packages/utils-knex
+https://github.com/VilledeMontreal/node-core-libs/tree/main/packages/node-utils-knex
 
 ## Installation
 

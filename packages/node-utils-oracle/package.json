@@ -1,0 +1,68 @@
+{
+  "name": "@villedemontreal/utils-oracle",
+  "version": "7.4.3",
+  "description": "Oracle utilities",
+  "main": "dist/src/index.js",
+  "typings": "dist/src",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "start": "npm run test",
+    "test": "nyc mocha --exit --require ts-node/register ./src/**/*.test.ts",
+    "compile": "tsc --build",
+    "show-tsconfig": "tsc --showConfig",
+    "show-coverage": "open output/coverage/lcov-report/index.html",
+    "lint": "eslint",
+    "lint-fix": "eslint --fix",
+    "ncu": "ncu --target minor -x @types/node",
+    "ncu-fix": "ncu -u --target minor -x @types/node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/villedemontreal/node-core-libs.git",
+    "directory": "packages/node-utils-oracle"
+  },
+  "homepage": "https://github.com/villedemontreal/node-core-libs",
+  "keywords": [
+    "montreal",
+    "oracle",
+    "utils",
+    "database"
+  ],
+  "author": "Ville de Montréal",
+  "license": "MIT",
+  "dependencies": {
+    "@villedemontreal/general-utils": "5.21.1",
+    "@villedemontreal/logger": "7.1.1",
+    "app-root-path": "3.1.0",
+    "oracledb": "6.10.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.3",
+    "@eslint/js": "9.39.2",
+    "@types/app-root-path": "3.1.0",
+    "@types/chai": "5.2.3",
+    "@types/fs-extra": "11.0.4",
+    "@types/mocha": "10.0.10",
+    "@types/oracledb": "6.10.0",
+    "@types/sinon": "21.0.0",
+    "@typescript-eslint/eslint-plugin": "8.50.1",
+    "@typescript-eslint/parser": "8.50.1",
+    "@typescript-eslint/utils": "^8.50.1",
+    "@villedemontreal/scripting": "3.1.1",
+    "chai": "6.2.2",
+    "eslint": "9.39.2",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "fs-extra": "11.3.3",
+    "globals": "16.5.0",
+    "mocha": "11.7.5",
+    "@villedemontreal/mocha-jenkins-reporter": "0.4.15",
+    "nyc": "17.1.0",
+    "prettier": "3.7.4",
+    "sinon": "21.0.1",
+    "typescript": "5.9.3"
+  }
+}

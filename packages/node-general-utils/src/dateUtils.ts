@@ -91,8 +91,12 @@ export function isDateBetween(
   const leftInclusive = inclusivity[0] === '[';
   const rightInclusive = inclusivity[1] === ']';
 
-  const afterFrom = leftInclusive ? dt.toMillis() >= fromDt.toMillis() : dt.toMillis() > fromDt.toMillis();
-  const beforeTo = rightInclusive ? dt.toMillis() <= toDt.toMillis() : dt.toMillis() < toDt.toMillis();
+  const afterFrom = leftInclusive
+    ? dt.toMillis() >= fromDt.toMillis()
+    : dt.toMillis() > fromDt.toMillis();
+  const beforeTo = rightInclusive
+    ? dt.toMillis() <= toDt.toMillis()
+    : dt.toMillis() < toDt.toMillis();
 
   return afterFrom && beforeTo;
 }

@@ -10,6 +10,9 @@
   It means that our libs might start using some ESM only libs, but thanks to NodeJS 24 and more,
   this should be transparent.
 - replace MomentJS with Luxon in node-jwt-validator
+- move utils-oracle lib from Bitbucket to this Github monorepo. 
+  You will have to replace your imports: @villemontreal/core-utils-oracle-nodejs-lib ==> @villedemontreal/utils-oracle
+  
 
 ### BREAKING
 
