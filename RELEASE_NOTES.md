@@ -27,6 +27,8 @@ The following changes might break your code:
 - upgrade mongoose from 8.20.2 to 9.0.2. See https://github.com/Automattic/mongoose/releases/tag/9.0.0
 - upgrade mongodb-memory-server-core from 10.4.1 to 11.0.1. See https://github.com/typegoose/mongodb-memory-server/releases/tag/v11.0.0
 - replace MomentJS with Luxon in node-general-utils (if you still need moment, you'll have to import it in your project or better, replace it too)
+- move @types/x imports from the dependencies to the devDependencies section. It should never have been there.
+  It might break your project but hopefully not.
 
 ### Fixes
 

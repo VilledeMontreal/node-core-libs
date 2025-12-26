@@ -38,9 +38,6 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@types/app-root-path": "3.1.0",
-    "@types/lodash": "4.17.21",
-    "@types/luxon": "3.7.1",
     "app-root-path": "3.1.0",
     "get-port": "7.1.0",
     "globby": "16.1.0",
@@ -53,8 +50,11 @@
   "devDependencies": {
     "@eslint/eslintrc": "3.3.3",
     "@eslint/js": "9.39.2",
+    "@types/app-root-path": "3.1.0",
     "@types/chai": "5.2.3",
     "@types/fs-extra": "11.0.4",
+    "@types/lodash": "4.17.21",
+    "@types/luxon": "3.7.1",
     "@types/mocha": "10.0.10",
     "@types/node": "25.x",
     "@types/sinon": "21.0.0",
