@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/http-request",
-  "version": "8.1.1",
+  "version": "9.0.0",
   "description": "HTTP utilities - send HTTP requests with proper headers, etc.",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -36,8 +36,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "5.21.1",
-    "@villedemontreal/logger": "7.1.1",
+    "@villedemontreal/general-utils": "6.0.0",
+    "@villedemontreal/logger": "8.0.0",
     "app-root-path": "3.1.0",
     "http-header-fields-typed": "1.3.0",
     "lodash": "4.17.21",

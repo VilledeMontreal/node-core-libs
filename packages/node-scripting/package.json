@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/scripting",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "Scripting core utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -38,8 +38,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/caporal": "3.1.11",
-    "@villedemontreal/general-utils": "5.21.1",
+    "@villedemontreal/caporal": "4.0.0",
+    "@villedemontreal/general-utils": "6.0.0",
     "fs-extra": "11.3.3",
     "is-class": "0.0.9",
     "java-properties": "1.0.2",
@@ -63,7 +63,7 @@
     "@typescript-eslint/eslint-plugin": "8.50.1",
     "@typescript-eslint/parser": "8.50.1",
     "@typescript-eslint/utils": "^8.50.1",
-    "@villedemontreal/mocha-jenkins-reporter": "0.4.15",
+    "@villedemontreal/mocha-jenkins-reporter": "0.4.16",
     "chai": "6.2.2",
     "chai-as-promised": "8.0.2",
     "eslint": "9.39.2",

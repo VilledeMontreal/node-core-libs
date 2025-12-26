@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/utils-oracle",
-  "version": "7.4.3",
+  "version": "8.0.0",
   "description": "Oracle utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -34,8 +34,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "5.21.1",
-    "@villedemontreal/logger": "7.1.1",
+    "@villedemontreal/general-utils": "6.0.0",
+    "@villedemontreal/logger": "8.0.0",
     "app-root-path": "3.1.0",
     "oracledb": "6.10.0"
   },
@@ -51,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "8.50.1",
     "@typescript-eslint/parser": "8.50.1",
     "@typescript-eslint/utils": "^8.50.1",
-    "@villedemontreal/scripting": "3.1.1",
+    "@villedemontreal/scripting": "4.0.0",
     "chai": "6.2.2",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
@@ -59,7 +59,7 @@
     "fs-extra": "11.3.3",
     "globals": "16.5.0",
     "mocha": "11.7.5",
-    "@villedemontreal/mocha-jenkins-reporter": "0.4.15",
+    "@villedemontreal/mocha-jenkins-reporter": "0.4.16",
     "nyc": "17.1.0",
     "prettier": "3.7.4",
     "sinon": "21.0.1",

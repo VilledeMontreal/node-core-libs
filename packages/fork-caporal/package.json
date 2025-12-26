@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/caporal",
-  "version": "3.1.11",
+  "version": "4.0.0",
   "description": "A full-featured framework for building command line applications (cli) with node.js",
   "main": "./dist/src/index.js",
   "typings": "dist/src",
