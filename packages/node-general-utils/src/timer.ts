@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 /**
  * A Timer object. Can be used to compute time elapsed
@@ -27,7 +27,7 @@ export class Timer {
    */
   public getMillisecondsElapsed(): number {
     const end = process.hrtime(this.start);
-    const millisecs = Math.round(end[0] * 1000 + this.start[1] / 1000000);
+    const millisecs = Math.round(end[0] * 1000 + end[1] / 1000000);
 
     return millisecs;
   }
@@ -38,12 +38,17 @@ export class Timer {
    * this duration.
    *
    * @param format the format to use for the resulting string. The
-   * default format is "HH:mm:ss.SSS". Have a look at the moment library
+   * default format is "HH:mm:ss.SSS". Have a look at the Luxon library
    * documentation to see how to define a custom format :
-   * https://momentjs.com/docs/#/displaying/format/
+   * https://moment.github.io/luxon/#/formatting?id=table-of-tokens
    */
   public toString(format = 'HH:mm:ss.SSS'): string {
     const millisecs = this.getMillisecondsElapsed();
-    return moment.utc(millisecs).format(format);
+    const mappedFormat = format
+      .replace(/Y/g, 'y')
+      .replace(/D/g, 'd')
+      .replace(/A/g, 'a')
+      .replace(/Z/g, 'ZZ');
+    return DateTime.fromMillis(millisecs, { zone: 'utc' }).toFormat(mappedFormat);
   }
 }

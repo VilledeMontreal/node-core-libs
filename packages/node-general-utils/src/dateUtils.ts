@@ -1,41 +1,103 @@
 import { DateTime, Zone } from 'luxon';
-import * as moment from 'moment';
-import { Moment } from 'moment';
 import { getValueDescription, utils } from '.';
 import { isDate, isNil } from 'lodash';
 
-export function isDateEqual(value: DateDefinition, expectedDate: DateDefinition) {
-  const _moment: Moment = moment(value);
-  const expectedMoment = moment(expectedDate);
-
-  return _moment.isSame(expectedMoment);
+/**
+ * Internal helper to convert a DateDefinition to a Luxon DateTime.
+ */
+function toDateTime(value: DateDefinition): DateTime {
+  if (value instanceof DateTime) {
+    return value;
+  }
+  if (isDate(value)) {
+    return DateTime.fromJSDate(value);
+  }
+  if (typeof value === 'string') {
+    const dt = DateTime.fromISO(value);
+    if (dt.isValid) {
+      return dt;
+    }
+    // Fallback for some non-standard ISO formats that moment handled
+    return DateTime.fromFormat(value, 'yyyy/MM/dd');
+  }
+  return DateTime.invalid('Unsupported date definition');
 }
 
-/** @see https://momentjs.com/docs/#/query/is-between/ */
+/**
+ * Internal helper to convert a DateDefinition to a UTC Luxon DateTime.
+ */
+function toUtcDateTime(value: DateDefinition, formats?: string | string[]): DateTime {
+  if (value instanceof DateTime) {
+    return value.toUTC();
+  }
+  if (isDate(value)) {
+    return DateTime.fromJSDate(value, { zone: 'utc' });
+  }
+  if (typeof value === 'string') {
+    if (formats) {
+      const formatList = Array.isArray(formats) ? formats : [formats];
+      for (const format of formatList) {
+        // Map moment format to luxon format if needed, but here we assume luxon compatible formats are passed or we'll handle them in parseDate
+        const dt = DateTime.fromFormat(value, format, { zone: 'utc' });
+        if (dt.isValid) {
+          return dt;
+        }
+      }
+    }
+    const dt = DateTime.fromISO(value, { zone: 'utc' });
+    if (dt.isValid) {
+      return dt;
+    }
+  }
+  return DateTime.invalid('Unsupported date definition');
+}
+
+export function isDateEqual(value: DateDefinition, expectedDate: DateDefinition) {
+  const dt = toDateTime(value);
+  const expectedDt = toDateTime(expectedDate);
+
+  return dt.toMillis() === expectedDt.toMillis();
+}
+
+/** @see https://moment.github.io/luxon/#/ */
 export function isDateBetween(
   value: DateDefinition,
   expectedDate: DateRangeDefinition,
   inclusivity: '()' | '[)' | '(]' | '[]' = '[]',
 ) {
-  const _moment: Moment = moment(value);
+  const dt = toDateTime(value);
   const from = expectedDate[0];
   const to = expectedDate[1];
-  if (from === null || from === undefined) {
+
+  const fromDt = from !== null && from !== undefined ? toDateTime(from) : null;
+  const toDt = to !== null && to !== undefined ? toDateTime(to) : null;
+
+  if (!fromDt) {
+    if (!toDt) {
+      return true;
+    }
     if (inclusivity[1] === ')') {
-      return _moment.isBefore(to);
+      return dt.toMillis() < toDt.toMillis();
     }
-    return !_moment.isAfter(to);
+    return dt.toMillis() <= toDt.toMillis();
   }
-  if (to === null || to === undefined) {
+  if (!toDt) {
     if (inclusivity[0] === '(') {
-      return _moment.isAfter(from);
+      return dt.toMillis() > fromDt.toMillis();
     }
-    return !_moment.isBefore(from);
+    return dt.toMillis() >= fromDt.toMillis();
   }
-  return _moment.isBetween(from, to, null, inclusivity);
+
+  const leftInclusive = inclusivity[0] === '[';
+  const rightInclusive = inclusivity[1] === ']';
+
+  const afterFrom = leftInclusive ? dt.toMillis() >= fromDt.toMillis() : dt.toMillis() > fromDt.toMillis();
+  const beforeTo = rightInclusive ? dt.toMillis() <= toDt.toMillis() : dt.toMillis() < toDt.toMillis();
+
+  return afterFrom && beforeTo;
 }
 
-export type DateDefinition = string | Date | Moment;
+export type DateDefinition = string | Date | DateTime;
 export type DateRangeDefinition = [DateDefinition, DateDefinition];
 export type CompatibleDateDefinition = DateDefinition | DateRangeDefinition;
 
@@ -73,14 +135,14 @@ export function isDateRange(value: any[]): boolean {
  * Returns a "safe" date from the given definition.
  *
  * - `String` values are not considered "safe" since they can contain anything, including invalid dates.
- * - `Moment` values are not considered "safe" since they tolerate exceptions and advanced
+ * - `DateTime` values are not considered "safe" since they tolerate exceptions and advanced
  * features that `Date` doesn't support.
  */
 export function getSafeDate(dateDefinition: DateDefinition): Date {
   let result: Date;
 
   if (dateDefinition !== undefined && dateDefinition !== null) {
-    result = moment.utc(dateDefinition).toDate();
+    result = toUtcDateTime(dateDefinition).toJSDate();
   }
 
   if (!result || !utils.isValidDate(result)) {
@@ -127,13 +189,23 @@ export function isDateCompatible(value: DateDefinition, expectedDate: Compatible
 
 export type TimeUnitSymbol = 'ms' | 's' | 'm' | 'h' | 'd' | 'w';
 
+const TIME_UNIT_MAPPING: Record<TimeUnitSymbol, string> = {
+  ms: 'milliseconds',
+  s: 'seconds',
+  m: 'minutes',
+  h: 'hours',
+  d: 'days',
+  w: 'weeks',
+};
+
 export function getDateRangeAround(
   value: DateDefinition,
   marginValue: number,
   marginUnit: TimeUnitSymbol,
 ): DateRangeDefinition {
-  const _moment = moment(value);
-  return [_moment.subtract(marginValue, marginUnit), _moment.add(marginValue, marginUnit)];
+  const dt = toDateTime(value);
+  const unit = TIME_UNIT_MAPPING[marginUnit];
+  return [dt.minus({ [unit]: marginValue }), dt.plus({ [unit]: marginValue })];
 }
 
 /**
@@ -159,13 +231,13 @@ export function isValidIso8601Date(representation: string): boolean {
 }
 
 /**
- * Format used to represent dates, and which is compatible with Moment.js & others.
+ * Format used to represent dates, and which is compatible with Luxon.
  * Note: It produces ISO-compatible dates, and which also works well with T-SQL.
  * @see `#parseDate`
  * @see `#formatDate`
- * @see https://momentjs.com/docs/#/displaying/format/
+ * @see https://moment.github.io/luxon/#/formatting?id=table-of-tokens
  */
-export const DEFAULT_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+export const DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
 /**
  * Parses the given date representation using the provided format (or the default ISO format).
@@ -176,7 +248,17 @@ export function parseDate(
   format: string | string[] = DEFAULT_DATE_FORMAT,
 ): Date {
   const formats: string[] = format instanceof Array ? format : [format];
-  return moment.utc(representation, formats).toDate();
+
+  // Map moment tokens to luxon tokens if they look like moment formats
+  const mappedFormats = formats.map((f) =>
+    f
+      .replace(/Y/g, 'y')
+      .replace(/D/g, 'd')
+      .replace(/A/g, 'a')
+      .replace(/(^|[^Z])Z($|[^Z])/, '$1ZZ$2'),
+  );
+
+  return toUtcDateTime(representation, mappedFormats).toJSDate();
 }
 
 /**
@@ -185,9 +267,16 @@ export function parseDate(
  * @see `#parseDate`
  */
 export function formatDate(date: DateDefinition, format: string = DEFAULT_DATE_FORMAT) {
+  // Map moment tokens to luxon tokens if they look like moment formats
+  const mappedFormat = format
+    .replace(/Y/g, 'y')
+    .replace(/D/g, 'd')
+    .replace(/A/g, 'a')
+    .replace(/(^|[^Z])Z($|[^Z])/, '$1ZZ$2');
+
   return (
-    moment(date)
-      .format(format)
+    toDateTime(date)
+      .toFormat(mappedFormat)
       // Ensure that 'Z' is used instead of '+00:00' at the end of UTC dates:
       .replace(/[+-]00:?00$/, 'Z')
   );
@@ -199,7 +288,8 @@ export function formatDate(date: DateDefinition, format: string = DEFAULT_DATE_F
  * @see `#formatDate`
  */
 export function formatUtcDate(date: DateDefinition, format: string = DEFAULT_DATE_FORMAT) {
-  return formatDate(moment(date).utc(), format);
+  const dt = toDateTime(date).toUTC();
+  return formatDate(dt, format);
 }
 
 /**

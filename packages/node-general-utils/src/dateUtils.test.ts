@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { getValueDescription, getValueDescriptionWithType, utils } from '.';
 import { getCartesianProduct } from './collectionUtils';
 import {
@@ -40,7 +40,7 @@ describe('Date Utility', () => {
 
   describe('#isDateCompatible', () => {
     const dateRepr = '2018-09-12T21:45:12.243Z';
-    const dateValues = [dateRepr, new Date(dateRepr), moment(dateRepr)];
+    const dateValues = [dateRepr, new Date(dateRepr), DateTime.fromISO(dateRepr)];
 
     getCartesianProduct(dateValues, dateValues).forEach((dateParameters) => {
       const parameter1 = dateParameters[0];
@@ -54,9 +54,9 @@ describe('Date Utility', () => {
     });
 
     const date1Repr = '2018-09-12T12:34:56.789Z';
-    const date1Values = [date1Repr, new Date(date1Repr), moment(date1Repr)];
+    const date1Values = [date1Repr, new Date(date1Repr), DateTime.fromISO(date1Repr)];
     const date2Repr = '2018-09-12T21:45:12.243Z';
-    const date2Values = [date2Repr, new Date(date2Repr), moment(date2Repr)];
+    const date2Values = [date2Repr, new Date(date2Repr), DateTime.fromISO(date2Repr)];
 
     getCartesianProduct(date1Values, date2Values).forEach((dateRangeParameter) => {
       const dateRangeLowBoundary = dateRangeParameter[0];

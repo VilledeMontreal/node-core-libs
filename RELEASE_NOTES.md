@@ -9,11 +9,18 @@
 - Upgrade all other dependencies to their latest version.
   It means that our libs might start using some ESM only libs, but thanks to NodeJS 24 and more,
   this should be transparent.
-- **BREAKING**:
-  - upgrade mongodb from 6.20.0 to 7.0.0. See https://github.com/mongodb/node-mongodb-native/releases/tag/v7.0.0
-  - upgrade mongoose from 8.20.2 to 9.0.2. See https://github.com/Automattic/mongoose/releases/tag/9.0.0
-  - upgrade mongodb-memory-server-core from 10.4.1 to 11.0.1. See https://github.com/typegoose/mongodb-memory-server/releases/tag/v11.0.0
 
+### BREAKING
+
+The following changes might break your code:
+- upgrade mongodb from 6.20.0 to 7.0.0. See https://github.com/mongodb/node-mongodb-native/releases/tag/v7.0.0
+- upgrade mongoose from 8.20.2 to 9.0.2. See https://github.com/Automattic/mongoose/releases/tag/9.0.0
+- upgrade mongodb-memory-server-core from 10.4.1 to 11.0.1. See https://github.com/typegoose/mongodb-memory-server/releases/tag/v11.0.0
+- replace MomentJS with Luxon in node-general-utils (if you need moment, you'll have to import in your project now)
+
+### Fixes
+
+- Fix bug in node-general-utils/timer/getMillisecondsElapsed where the conversion mixed start and end segments, leading to wrong nanoseconds computation.
 
 ## 2025-12-13
 
