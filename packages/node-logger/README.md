@@ -62,7 +62,7 @@ export function createLogger(name: string): ILogger {
     mais il ne fera qu'utiliser le "`Logger Creator`" que vous aurez _vous-mêmes_ reçu en configuration! :
 
 ```typescript
-import { LoggerConfigs, ILogger, Logger, LazyLogger, LogLevel } from '@villemontreal/core-utils-logger-nodejs-lib';
+import { LoggerConfigs, ILogger, Logger, LazyLogger, LogLevel } from '@villedemontreal/logger';
 import { configs } from '../config/configs';
 
 export function createLogger(name: string): ILogger {
@@ -85,8 +85,8 @@ Notez que de logger dans un fichier ne devrait être fait qu'en _local_. Sur les
 ## Changer le niveau de log sans redémarrer l'application
 
 ```
-import { LogLevel } from '@villemontreal/core-utils-general-nodejs-lib';
-import { setGlobalLogLevel } from '@villemontreal/core-utils-logger-nodejs-lib';
+import { LogLevel } from '@villedemontreal/general-utils';
+import { setGlobalLogLevel } from '@villedemontreal/logger';
 
 setGlobalLogLevel(LogLevel.DEBUG);
 ```

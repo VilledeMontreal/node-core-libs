@@ -30,7 +30,7 @@ Par exemple, dans un projet d'API basé sur le générateur
 fichier "`src/init.ts`", au début de la fonction `initComponents()` :
 
 ```typescript
-import { init as initKnexUtilsLib } from '@villemontreal/core-utils-knex-nodejs-lib';
+import { init as initKnexUtilsLib } from '@villedemontreal/utils-knex';
 import { createLogger } from './utils/logger';
 
 export async function initComponents() {
@@ -44,7 +44,7 @@ Si vous configurez la librairie depuis _une autre librairie_, vous aurez à pass
 le "`Logger Creator`" que vous aurez _vous-même_ reçu comme configurations! :
 
 ```typescript
-import { init as initKnexUtilsLib } from '@villemontreal/core-utils-knex-nodejs-lib';
+import { init as initKnexUtilsLib } from '@villedemontreal/utils-knex';
 import { configs } from './configs';
 
 export async function initComponents() {

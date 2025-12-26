@@ -13,7 +13,7 @@ https://github.com/VilledeMontreal/node-core-libs/tree/main/packages/node-utils-
 Installer la bibliothèque:
 
 ```shell
-    npm install --save @villemontreal/core-utils-oracle-nodejs-lib
+    npm install --save @villedemontreal/utils-oracle
 ```
 
 ## Utilisation
@@ -32,7 +32,7 @@ Par exemple, dans un projet d'API basé sur le générateur
 fichier "`src/init.ts`", au début de la fonction `initComponents()` :
 
 ```typescript
-import { init as initXXXXX } from '@villemontreal/votre-librairie-XXXXX-nodejs-lib';
+import { init as initXXXXX } from '@villedemontreal/votre-librairie-XXXXX-nodejs-lib';
 import { createLogger } from './utils/logger';
 
 // ...
@@ -48,7 +48,7 @@ Si vous configurez la librairie depuis _une autre librairie_, vous aurez à pass
 le "`Logger Creator`" que vous aurez _vous-même_ reçu comme configurations! :
 
 ```typescript
-import { init as initXXXXX } from '@villemontreal/votre-librairie-XXXXX-nodejs-lib';
+import { init as initXXXXX } from '@villedemontreal/votre-librairie-XXXXX-nodejs-lib';
 import { configs } from './configs';
 
 // ...

@@ -6,7 +6,7 @@ import * as _ from 'lodash';
  * to type the orderBys found in its querystring.
  *
  * Note that a `httpUtils.getOrderBys(...)` utility is provided by
- * the "@villemontreal/core-http-request-nodejs-lib" library to
+ * the "@villedemontreal/http-request" library to
  * easily parse and type such orderBys from an Express request.
  *
  * @see https://confluence.montreal.ca/pages/viewpage.action?spaceKey=AES&title=REST+API#RESTAPI-Tridelarequ%C3%AAte

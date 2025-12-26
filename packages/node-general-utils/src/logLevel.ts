@@ -1,8 +1,8 @@
 // ==========================================
 // The Log levels
 //
-// We defined thos ein this library and not
-// in the "@villemontreal/core-utils-logger-nodejs-lib"
+// We defined those in this library and not
+// in the "@villee3montreal/logger"
 // library because they are used here, and we
 // want to prevent circular dependencies as much as
 // possible.
