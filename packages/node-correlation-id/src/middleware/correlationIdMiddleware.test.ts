@@ -1,6 +1,5 @@
 import { assert } from 'chai';
 import * as express from 'express';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as request from 'supertest';
 import { setTimeout as delay } from 'timers/promises';
 import { correlationIdService } from '../services/correlationIdService';
@@ -45,7 +44,7 @@ describe('Correlation ID Middleware', () => {
       res.end();
     });
 
-    await request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/').set('X-Correlation-ID', testId).send();
   });
 
   it('should maintain correlation id with async callbacks', async () => {
@@ -64,7 +63,7 @@ describe('Correlation ID Middleware', () => {
     });
 
     assert.isUndefined(correlationIdService.getId());
-    await request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/').set('X-Correlation-ID', testId).send();
 
     assert.isUndefined(correlationIdService.getId());
     assert.strictEqual(
@@ -99,7 +98,7 @@ describe('Correlation ID Middleware', () => {
     });
 
     assert.isUndefined(correlationIdService.getId());
-    await request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/').set('X-Correlation-ID', testId).send();
 
     assert.isUndefined(correlationIdService.getId());
     assert.strictEqual(
@@ -130,7 +129,7 @@ describe('Correlation ID Middleware', () => {
         actual = correlationIdService.getId();
         await delay(250);
         actual2 = correlationIdService.getId();
-        await request(app).get('/foo').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId2).send();
+        await request(app).get('/foo').set('X-Correlation-ID', testId2).send();
         actual3 = correlationIdService.getId();
       } catch (e) {
         next(e);
@@ -151,7 +150,7 @@ describe('Correlation ID Middleware', () => {
     });
 
     assert.isUndefined(correlationIdService.getId());
-    await request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/').set('X-Correlation-ID', testId).send();
 
     assert.isUndefined(correlationIdService.getId());
     assert.strictEqual(
@@ -226,12 +225,12 @@ describe('Correlation ID Middleware', () => {
 
     console.log('send req1');
     assert.isUndefined(correlationIdService.getId());
-    const req1 = request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    const req1 = request(app).get('/').set('X-Correlation-ID', testId).send();
     console.log('send req2');
     assert.isUndefined(correlationIdService.getId());
     const req2 = request(app)
       .get('/foo')
-      .set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId2)
+      .set('X-Correlation-ID', testId2)
       .send();
     await Promise.all([req1, req2]);
     assert.isUndefined(correlationIdService.getId());
@@ -271,7 +270,7 @@ describe('Correlation ID Middleware', () => {
     assert.isUndefined(correlationIdService.getId());
     const result = await request(app)
       .get('/')
-      .set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId)
+      .set('X-Correlation-ID', testId)
       .send();
     assert.strictEqual(result.status, 500);
     assert.isUndefined(correlationIdService.getId());
@@ -319,11 +318,11 @@ describe('Correlation ID Middleware', () => {
       res.end();
     });
 
-    await request(app).get('/ok/1').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/ok/1').set('X-Correlation-ID', testId).send();
 
-    await request(app).get('/ok/2').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/ok/2').set('X-Correlation-ID', testId).send();
 
-    await request(app).get('/notok/1').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/notok/1').set('X-Correlation-ID', testId).send();
   });
 
   it('getCidInfo() cid received', async () => {
@@ -340,7 +339,7 @@ describe('Correlation ID Middleware', () => {
       res.end();
     });
 
-    await request(app).get('/').set(httpHeaderFieldsTyped.X_CORRELATION_ID, testId).send();
+    await request(app).get('/').set('X-Correlation-ID', testId).send();
   });
 
   it('getCidInfo() cid generated', async () => {

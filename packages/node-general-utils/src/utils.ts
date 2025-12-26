@@ -4,7 +4,6 @@ import * as path from 'path';
 import getPort from 'get-port';
 import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 import * as pathUtils from 'path';
-import { rimraf } from 'rimraf';
 import * as tsconfig from 'tsconfig-extends';
 import { constants } from './config/constants';
 
@@ -205,12 +204,12 @@ export class Utils {
    *
    * You can't delete a root file using this function.
    */
-  public deleteFile(filePath: string) {
+  public async deleteFile(filePath: string): Promise<void> {
     if (!this.isSafeToDelete(filePath)) {
       throw new Error("Unsafe file to delete. A file to delete can't be at the root.");
     }
 
-    return rimraf(filePath);
+    await fs.promises.rm(filePath, { force: true });
   }
 
   /**
@@ -219,20 +218,20 @@ export class Utils {
    *
    * You can't delete a root directory using this function.
    */
-  public async deleteDir(dirPath: string) {
+  public async deleteDir(dirPath: string): Promise<void> {
     if (!this.isSafeToDelete(dirPath)) {
       throw new Error("Unsafe dir to delete. A dir to delete can't be at the root.");
     }
 
     try {
-      return rimraf(dirPath);
+      await fs.promises.rm(dirPath, { recursive: true, force: true });
     } catch {
       // ==========================================
-      // Try recursively as rimraf may sometimes
+      // Try recursively as fs.promises.rm may sometimes
       // fail in infrequent situations...
       // ==========================================
       await this.clearDir(dirPath);
-      return rimraf(dirPath);
+      await fs.promises.rm(dirPath, { recursive: true, force: true });
     }
   }
 

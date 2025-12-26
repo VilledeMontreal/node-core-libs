@@ -1,5 +1,4 @@
 import * as express from 'express';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import { jwtValidator } from '../jwtValidator';
 import { IRequestWithJwt } from '../models/expressRequest';
 
@@ -16,7 +15,7 @@ export const jwtValidationMiddleware =
     next: express.NextFunction,
   ): Promise<void> => {
     try {
-      const authHeader: string = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
+      const authHeader: string = req.get('Authorization');
       if (mandatoryValidation || authHeader) {
         return jwtValidator
           .verifyAuthorizationHeader(authHeader)

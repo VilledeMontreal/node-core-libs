@@ -1,6 +1,5 @@
 import { IOrderBy, OrderByDirection, Timer, utils } from '@villedemontreal/general-utils';
 import { Request } from 'express';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as _ from 'lodash';
 import * as superagent from 'superagent';
 import { configs } from './config/configs';
@@ -93,10 +92,10 @@ export class HttpUtils {
       );
     }
 
-    if (utils.isBlank(request.get(httpHeaderFieldsTyped.X_CORRELATION_ID))) {
+    if (utils.isBlank(request.get('X-Correlation-ID'))) {
       const cid = configs.correlationId;
       if (!utils.isBlank(cid)) {
-        request.set(httpHeaderFieldsTyped.X_CORRELATION_ID, cid);
+        request.set('X-Correlation-ID', cid);
       }
     }
 
@@ -117,7 +116,7 @@ export class HttpUtils {
     });
 
     logger.debug({
-      sendingCorrelationIdHeader: request.get(httpHeaderFieldsTyped.X_CORRELATION_ID) || null,
+      sendingCorrelationIdHeader: request.get('X-Correlation-ID') || null,
       url: request.url,
       method: request.method,
       msg: `Http Client - Start request to ${request.method} ${request.url}`,

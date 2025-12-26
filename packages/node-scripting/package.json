@@ -9,6 +9,9 @@
     "dist",
     "assets"
   ],
+  "engines": {
+    "node": ">= 24"
+  },
   "scripts": {
     "start": "node run test",
     "compile": "node run compile",

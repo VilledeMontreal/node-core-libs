@@ -2,7 +2,6 @@ import { IOrderBy, OrderByDirection, utils } from '@villedemontreal/general-util
 import { assert } from 'chai';
 import * as express from 'express';
 import * as http from 'http';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as HttpStatusCodes from 'http-status-codes';
 import * as _ from 'lodash';
 import * as superagent from 'superagent';
@@ -152,7 +151,7 @@ describe('httpUtils', () => {
         const headers = response.body.headers;
         assert.strictEqual(headers.titi, '123');
         assert.strictEqual(
-          headers[httpHeaderFieldsTyped.X_CORRELATION_ID.toLowerCase()],
+          headers['x-correlation-id'],
           currentCid,
         );
       });

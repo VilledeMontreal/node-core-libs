@@ -1,6 +1,5 @@
 import { utils } from '@villedemontreal/general-utils';
 import * as express from 'express';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import * as _ from 'lodash';
 import { configs } from '../config/configs';
 import { constants } from '../config/constants';
@@ -55,7 +54,7 @@ export const tokenTransformationMiddleware: (
   return (req: express.Request, res: express.Response, next: express.NextFunction): void => {
     try {
       // Validate the authorization header
-      const authHeader = req.get(httpHeaderFieldsTyped.AUTHORIZATION);
+      const authHeader = req.get('Authorization');
       if (utils.isBlank(authHeader)) {
         logger.warning('The authorization header is empty.');
         next();
@@ -99,7 +98,7 @@ export const tokenTransformationMiddleware: (
           if (jwt) {
             // Warning: Headers are all in lowercase. To be sure to replace
             // the authorization header instead of duplicate it, must use lower case property name.
-            req.headers[httpHeaderFieldsTyped.AUTHORIZATION.toLowerCase()] = `Bearer ${jwt}`;
+            req.headers['authorization'] = `Bearer ${jwt}`;
             logger.debug(req.headers, 'Request headers');
             next();
           } else {

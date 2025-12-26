@@ -19,7 +19,7 @@
     "ncu-fix": "ncu -u --target minor -x @types/node"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 24"
   },
   "homepage": "https://github.com/villedemontreal/node-core-libs",
   "keywords": [

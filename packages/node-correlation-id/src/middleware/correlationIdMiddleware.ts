@@ -1,5 +1,4 @@
 import * as express from 'express';
-import httpHeaderFieldsTyped from 'http-header-fields-typed';
 import { constants } from '../config/constants';
 import { correlationIdService } from '../services/correlationIdService';
 
@@ -26,7 +25,7 @@ export const createCorrelationIdMiddleware = (
       //
       // We add the cid to the response!
       // ==========================================
-      let correlationId = req.get(httpHeaderFieldsTyped.X_CORRELATION_ID);
+      let correlationId = req.get('X-Correlation-ID');
       if (!correlationId) {
         correlationId = correlationIdService.createNewId();
         (req as any)[constants.requestExtraVariables.cidNew] = correlationId;
@@ -34,7 +33,7 @@ export const createCorrelationIdMiddleware = (
         (req as any)[constants.requestExtraVariables.cidReceivedInRequest] = correlationId;
       }
       if (!res.headersSent) {
-        res.set(httpHeaderFieldsTyped.X_CORRELATION_ID, correlationId);
+        res.set('X-Correlation-ID', correlationId);
       }
       correlationIdService.withId(next, correlationId);
     }

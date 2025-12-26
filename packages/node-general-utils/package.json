@@ -4,7 +4,7 @@
   "description": "General utilities library",
   "main": "dist/src/index.js",
   "engines": {
-    "node": ">=16"
+    "node": ">=24"
   },
   "typings": "dist/src",
   "files": [
@@ -44,13 +44,11 @@
     "http-status-codes": "2.3.0",
     "lodash": "4.17.21",
     "luxon": "3.7.2",
-    "rimraf": "6.1.2",
     "tsconfig-extends": "1.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.3",
     "@eslint/js": "9.39.2",
-    "@types/app-root-path": "3.1.0",
     "@types/chai": "5.2.3",
     "@types/fs-extra": "11.0.4",
     "@types/lodash": "4.17.21",
@@ -58,7 +56,6 @@
     "@types/mocha": "10.0.10",
     "@types/node": "25.x",
     "@types/sinon": "21.0.0",
-    "@types/uuid": "11.0.0",
     "@typescript-eslint/eslint-plugin": "8.50.1",
     "@typescript-eslint/parser": "8.50.1",
     "@typescript-eslint/utils": "^8.50.1",

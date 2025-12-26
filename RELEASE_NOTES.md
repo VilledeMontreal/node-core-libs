@@ -1,5 +1,17 @@
 # Release Notes
 
+## 2025-12-27
+
+### Changes
+
+- remove unnecessary type definitions: @types/uuid, @types/nock, @types/http-status-codes, @types/app-root-path, 
+- remove deprecated package http-header-fields-typed
+- remove rimraf package and use modern NodeJS APIs.
+
+### BREAKING
+
+- add constraint for NodeJS to be greater than or equal to 24 (current LTS version), for all libs
+
 ## 2025-12-26
 
 Please note that this release was mostly performed thanks to gemini-cli (gemini-3-flash-preview).

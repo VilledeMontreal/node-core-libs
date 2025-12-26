@@ -8,6 +8,9 @@
     "src",
     "dist"
   ],
+  "engines": {
+    "node": ">= 24"
+  },
   "scripts": {
     "start": "npm run test",
     "test": "nyc mocha --require ts-node/register ./src/**/*.test.ts",
@@ -39,20 +42,17 @@
     "@villedemontreal/general-utils": "6.0.0",
     "@villedemontreal/logger": "8.0.0",
     "app-root-path": "3.1.0",
-    "http-header-fields-typed": "1.3.0",
     "lodash": "4.17.21",
     "superagent": "10.2.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.3",
     "@eslint/js": "9.39.2",
-    "@types/app-root-path": "3.1.0",
     "@types/chai": "5.2.3",
     "@types/express": "5.0.6",
     "@types/fs-extra": "11.0.4",
     "@types/lodash": "4.17.21",
     "@types/mocha": "10.0.10",
-    "@types/nock": "11.1.0",
     "@types/sinon": "21.0.0",
     "@types/superagent": "8.1.9",
     "@typescript-eslint/eslint-plugin": "8.50.1",
