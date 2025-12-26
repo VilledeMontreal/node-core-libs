@@ -1,4 +1,5 @@
 import * as nock from 'nock';
+import { stripVTControlCharacters } from 'node:util';
 
 export function simulateSonarServerIsNotFound() {
   nock('https://example.com').head(RegExp('/sonar/{0,1}')).reply(404);
@@ -38,7 +39,7 @@ export class LoggerRecorder {
         get: (target, prop) => {
           return function () {
             // eslint-disable-next-line prefer-rest-params
-            that.recordedLogs += `${prop.toString()}: ${arguments[0]}\n`;
+            that.recordedLogs += stripVTControlCharacters(`${prop.toString()}: ${arguments[0]}\n`);
           };
         },
       },

@@ -5,7 +5,10 @@ import { execa } from 'execa';
 import * as path from 'path';
 import { globalConstants } from '@villedemontreal/general-utils';
 
-const TESTS_LOCATIONS = [`${configs.libRoot}/dist/src/**/*.test.js`];
+const TESTS_LOCATIONS = [
+  `${configs.libRoot}/dist/src/**/*.test.js`,
+  `${configs.libRoot}/dist/scripts/**/*.test.js`,
+];
 
 export interface Options {
   bail?: boolean;

@@ -1,7 +1,7 @@
 import { ChildProcess, spawn, StdioOptions } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as getPort from 'get-port';
+import getPort from 'get-port';
 import { isArray, isDate, isEqual, isFunction, isNil, isObject, isString, trimEnd } from 'lodash';
 import * as pathUtils from 'path';
 import { rimraf } from 'rimraf';

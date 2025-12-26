@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import { expect } from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 import { Request, Response } from 'express';
 import { createRequest as createRequestMock } from 'node-mocks-http';
 import { SinonSpy, SinonStub, spy, stub } from 'sinon';

@@ -50,7 +50,7 @@
     "@eslint/js": "9.39.2",
     "@tsconfig/node22": "22.0.5",
     "@types/lodash": "^4.17.21",
-    "@types/node": "20.5.6",
+    "@types/node": "25.0.3",
     "@types/tabtab": "^3.0.4",
     "@typescript-eslint/eslint-plugin": "8.50.1",
     "@typescript-eslint/parser": "8.50.1",
@@ -63,11 +63,11 @@
     "prettier": "3.7.4",
     "strip-ansi": "^7.1.2",
     "typescript": "5.9.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.16"
   },
   "dependencies": {
-    "chalk": "4.1.2",
-    "glob": "^11.1.0",
+    "chalk": "5.6.2",
+    "glob": "^13.0.0",
     "lodash": "^4.17.21",
     "lodash.truncate": "^4.4.2",
     "table": "^6.9.0",

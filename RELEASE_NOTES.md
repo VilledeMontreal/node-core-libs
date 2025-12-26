@@ -1,12 +1,19 @@
 # Release Notes
 
-## 2025-12-23
+## 2025-12-26
 
 - Upgrade eslint to the latest version. 
 - Fix eslint issues.
 - Discovered that project node-jwt-validator was not properly running all the available unit tests!
   This is because the src/**/*.test.ts pattern will ignore test files that right inside the src folder!
-  
+- Upgrade all other dependencies to their latest version.
+  It means that our libs might start using some ESM only libs, but thanks to NodeJS 24 and more,
+  this should be transparent.
+- **BREAKING**:
+  - upgrade mongodb from 6.20.0 to 7.0.0. See https://github.com/mongodb/node-mongodb-native/releases/tag/v7.0.0
+  - upgrade mongoose from 8.20.2 to 9.0.2. See https://github.com/Automattic/mongoose/releases/tag/9.0.0
+  - upgrade mongodb-memory-server-core from 10.4.1 to 11.0.1. See https://github.com/typegoose/mongodb-memory-server/releases/tag/v11.0.0
+
 
 ## 2025-12-13
 
