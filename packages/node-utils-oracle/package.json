@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/utils-oracle",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Oracle utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -37,8 +37,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "6.0.0",
-    "@villedemontreal/logger": "8.0.0",
+    "@villedemontreal/general-utils": "6.0.1",
+    "@villedemontreal/logger": "8.0.1",
     "app-root-path": "3.1.0",
     "oracledb": "6.10.0"
   },
@@ -53,7 +53,7 @@
     "@typescript-eslint/eslint-plugin": "8.50.1",
     "@typescript-eslint/parser": "8.50.1",
     "@typescript-eslint/utils": "^8.50.1",
-    "@villedemontreal/scripting": "4.0.0",
+    "@villedemontreal/scripting": "4.0.1",
     "c8": "10.1.3",
     "chai": "6.2.2",
     "eslint": "9.39.2",

@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/correlation-id",
-  "version": "5.8.0",
+  "version": "5.8.1",
   "description": "Express middleware to set a correlation in Express. The correlation id will be consistent across async calls within the handling of a request.",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -38,7 +38,7 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/logger": "8.0.0",
+    "@villedemontreal/logger": "8.0.1",
     "app-root-path": "3.1.0",
     "cls-hooked": "4.2.2",
     "lodash": "4.17.21",
