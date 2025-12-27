@@ -7,6 +7,7 @@
 - remove unnecessary type definitions: @types/uuid, @types/nock, @types/http-status-codes, @types/app-root-path, 
 - remove deprecated package http-header-fields-typed
 - remove rimraf package and use modern NodeJS APIs.
+- replace package nyc with c8, because it is more modern and it relies on NodeJS native profiling.
 
 ### BREAKING
 

@@ -150,10 +150,7 @@ describe('httpUtils', () => {
 
         const headers = response.body.headers;
         assert.strictEqual(headers.titi, '123');
-        assert.strictEqual(
-          headers['x-correlation-id'],
-          currentCid,
-        );
+        assert.strictEqual(headers['x-correlation-id'], currentCid);
       });
 
       it('Regular response response', async () => {

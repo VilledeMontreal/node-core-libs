@@ -20,5 +20,5 @@
   ],
   "report-dir": "./output/coverage",
   "cache": true,
-  "temp-directory": "./temp/nycrc"
+  "temp-directory": "./temp/c8"
 }

@@ -8,7 +8,12 @@ pnpm test
 ```
 
 ```bash
-# Watch mode (also generate code coverage into /coverage/ directory)
+# Run tests with coverage (generate code coverage into /output/coverage/ directory)
+npm run test:coverage
+```
+
+```bash
+# Watch mode
 npm run test:watch
 ```
 

@@ -228,10 +228,7 @@ describe('Correlation ID Middleware', () => {
     const req1 = request(app).get('/').set('X-Correlation-ID', testId).send();
     console.log('send req2');
     assert.isUndefined(correlationIdService.getId());
-    const req2 = request(app)
-      .get('/foo')
-      .set('X-Correlation-ID', testId2)
-      .send();
+    const req2 = request(app).get('/foo').set('X-Correlation-ID', testId2).send();
     await Promise.all([req1, req2]);
     assert.isUndefined(correlationIdService.getId());
     assert.strictEqual(
@@ -268,10 +265,7 @@ describe('Correlation ID Middleware', () => {
     });
 
     assert.isUndefined(correlationIdService.getId());
-    const result = await request(app)
-      .get('/')
-      .set('X-Correlation-ID', testId)
-      .send();
+    const result = await request(app).get('/').set('X-Correlation-ID', testId).send();
     assert.strictEqual(result.status, 500);
     assert.isUndefined(correlationIdService.getId());
     assert.strictEqual(
