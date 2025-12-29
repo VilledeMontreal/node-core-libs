@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2025-12-27
+## 2025-12-29
 
 ### Changes
 
@@ -8,6 +8,8 @@
 - remove deprecated package http-header-fields-typed
 - remove rimraf package and use modern NodeJS APIs.
 - replace package nyc with c8, because it is more modern and it relies on NodeJS native profiling.
+- Replace sqlite3 with better-sqlite3 because sqlite depended on old package versions,
+  which generated warnings during installation.
 
 ### BREAKING
 

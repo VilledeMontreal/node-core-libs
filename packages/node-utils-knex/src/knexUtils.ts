@@ -96,7 +96,7 @@ export class KnexUtils {
    */
   public createKnexMockedClient = async (): Promise<IKnexMockedClient> => {
     const knexMockedClient: IKnexMockedClient = knex({
-      client: 'sqlite',
+      client: 'better-sqlite3',
       connection: {
         filename: './mydb.sqlite',
       },

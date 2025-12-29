@@ -41,13 +41,13 @@ async function createKnexClient() {
   if (!fs.existsSync(tempDirPath)) {
     fs.mkdirSync(tempDirPath);
   }
-  const bdFilePath = path.join(tempDirPath, 'testing.sqlite');
+  const bdFilePath = path.join(tempDirPath, 'testing.better-sqlite3');
   if (fs.existsSync(bdFilePath)) {
     fs.unlinkSync(bdFilePath);
   }
 
   return knex({
-    client: 'sqlite',
+    client: 'better-sqlite3',
     connection: {
       filename: bdFilePath,
     },

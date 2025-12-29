@@ -213,6 +213,11 @@ du `KnexTransactionManager`.
 
 # Versions et compatibilité
 
+### 8.2
+
+Remplacement de sqlite3 par better-sqlite3 car sqlite dépendait de vielles version de packages,
+qui génèraient des warnings à l'installation.
+
 ### 5.0.0
 
 Utilise la version 5.0.0 de sqlite3
