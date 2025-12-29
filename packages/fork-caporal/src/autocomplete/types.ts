@@ -3,7 +3,7 @@
  * @module caporal/types
  */
 import type { Argument, Option, Promisable, ParserResult } from "../types"
-import type tabtab from "tabtab"
+import type * as tabtab from "@pnpm/tabtab"
 import type { Command } from "../command"
 import type { Program } from "../program"
 
@@ -19,7 +19,7 @@ export interface Completer {
 export interface CompletionContext {
   program: Program
   currentCmd?: Command
-  compEnv: tabtab.TabtabEnv
+  compEnv: tabtab.ParseEnvResult
   parserResult: ParserResult
   lastPartIsOpt: boolean
   lastPartIsKnownOpt: boolean

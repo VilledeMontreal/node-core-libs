@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module caporal/autocomplete
  */
-import tabtab from "tabtab"
+import * as tabtab from "@pnpm/tabtab"
 import { parseArgv } from "../parser"
 import { Program } from "../program"
 import { removeCommandFromArgs } from "../argument/validate"
@@ -64,14 +64,15 @@ export async function complete(
   ]
 
   const comps = flatMap(await Promise.all(compPromises))
-  tabtab.log(comps)
+  const shell = tabtab.getShellFromEnv(env)
+  tabtab.log(comps, shell)
 
   return comps
 }
 
 async function getContext(
   program: Program,
-  compEnv: tabtab.TabtabEnv,
+  compEnv: tabtab.ParseEnvResult,
   argv: string[],
 ): Promise<CompletionContext> {
   const { lastPartial } = compEnv

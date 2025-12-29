@@ -2,14 +2,20 @@
 
 ## 2025-12-29
 
+As of today, there is no warning produced by npm when installing all packages!
+And there is no known security vulnerability reported by npm audit!
+
 ### Changes
 
 - remove unnecessary type definitions: @types/uuid, @types/nock, @types/http-status-codes, @types/app-root-path, 
 - remove deprecated package http-header-fields-typed
 - remove rimraf package and use modern NodeJS APIs.
 - replace package nyc with c8, because it is more modern and it relies on NodeJS native profiling.
-- Replace sqlite3 with better-sqlite3 because sqlite depended on old package versions,
+- Replace sqlite3 by better-sqlite3 because sqlite depended on old package versions,
   which generated warnings during installation.
+- Replace tabtab package by @pnpm/tabtab, a modern version maintained by the pnpm team. 
+  This change resolves critical vulnerabilities related to the tmp dependency present in 
+  the older version of tabtab. This change was proposed and done by gemini-cli.
 
 ### BREAKING
 
