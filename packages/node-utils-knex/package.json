@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/utils-knex",
-  "version": "8.1.2",
+  "version": "8.1.3",
   "description": "Knex utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -38,8 +38,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "6.0.2",
-    "@villedemontreal/logger": "8.0.2",
+    "@villedemontreal/general-utils": "6.0.3",
+    "@villedemontreal/logger": "8.1.0",
     "app-root-path": "3.1.0",
     "bluebird": "3.7.2",
     "config": "4.2.0",
