@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2026-01-24
+
+### Changes
+
+- Upgrade superagent from 10.2.3 to 10.3.0
+- Upgrade Pino from 10.1.0 to 10.3.0
+- Upgrade Mongoose from 9.0.2 to 9.1.5
+
 ## 2025-12-29
 
 As of today, there is no warning produced by npm when installing all packages!

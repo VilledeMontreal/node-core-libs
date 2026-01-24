@@ -38,7 +38,7 @@ npm test
 - `npm run lint`
 - `npm test`
 - Check that the lint and tests pass before committing
-- `git commit -am "upgrade deps to minor versions"`
+- `git commit -am "upgrade deps"`
 
 ### Releasing
 
