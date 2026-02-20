@@ -16,9 +16,9 @@ import * as HttpStatusCodes from 'http-status-codes';
 import * as _ from 'lodash';
 import * as mocha from 'mocha';
 import { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server-core';
-import * as mongoose from 'mongoose';
-import { constants } from './config/constants';
+import mongoose from 'mongoose';
 import * as path from 'path';
+import { constants } from './config/constants';
 
 /**
  * Mongo utilities

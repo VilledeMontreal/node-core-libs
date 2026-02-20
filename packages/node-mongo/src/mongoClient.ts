@@ -1,5 +1,5 @@
 import { defaultsDeep } from 'lodash';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { constants } from './config/constants';
 import { IMongooseConfigs, MongooseConfigs } from './config/mongooseConfigs';
 import { IMongoUpdater, MongoUpdater } from './mongoUpdater';

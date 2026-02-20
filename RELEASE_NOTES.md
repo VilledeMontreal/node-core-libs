@@ -1,5 +1,11 @@
 # Release Notes
 
+## 2026-02-20
+
+### Changes
+
+- Upgrade Mongoose from 9.1.5 to 9.2.1
+
 ## 2026-01-24
 
 ### Changes
