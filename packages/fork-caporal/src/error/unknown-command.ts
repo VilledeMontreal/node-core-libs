@@ -18,7 +18,7 @@ export class UnknownOrUnspecifiedCommandError extends BaseError {
     const possibilities = filter(
       flatMap(program.getCommands(), (c) => [c.name, ...c.getAliases()]),
     )
-    let msg = ""
+    let msg: string
     if (command) {
       msg = `Unknown command ${chalk.bold(command)}.`
       const suggestions = getSuggestions(command, possibilities)

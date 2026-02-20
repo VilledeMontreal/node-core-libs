@@ -115,6 +115,7 @@ export class TestUnitsScript extends ScriptBase<Options> {
       );
     } catch (err) {
       this.logger.error(err.shortMessage ?? err.message ?? err);
+      // eslint-disable-next-line preserve-caught-error
       throw new Error('Some unit tests failed');
     }
   }

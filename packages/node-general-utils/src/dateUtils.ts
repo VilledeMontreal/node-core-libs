@@ -180,15 +180,11 @@ export function getSafeDateRange(dateRangeDefinition: DateRangeDefinition): [Dat
  * - `value`: `Date` & `expectedDate`: `DateRange` → whether `value` is within `expectedDate`.
  */
 export function isDateCompatible(value: DateDefinition, expectedDate: CompatibleDateDefinition) {
-  let compatible = false;
-
   if (expectedDate instanceof Array) {
-    compatible = isDateBetween(value, expectedDate);
+    return isDateBetween(value, expectedDate);
   } else {
-    compatible = isDateEqual(value, expectedDate);
+    return isDateEqual(value, expectedDate);
   }
-
-  return compatible;
 }
 
 export type TimeUnitSymbol = 'ms' | 's' | 'm' | 'h' | 'd' | 'w';

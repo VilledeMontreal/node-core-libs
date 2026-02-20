@@ -5,6 +5,7 @@
 ### Changes
 
 - Upgrade Mongoose from 9.1.5 to 9.2.1
+- Upgrade to eslint 10
 
 ## 2026-01-24
 

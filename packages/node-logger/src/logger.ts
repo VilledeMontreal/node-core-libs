@@ -537,7 +537,7 @@ export class Logger implements ILogger {
       return messageObj;
     }
 
-    let callerLine = '';
+    let callerLine: string;
     if (stackLine.indexOf(')') >= 0) {
       callerLine = stackLine.slice(stackLine.lastIndexOf('/'), stackLine.lastIndexOf(')'));
       if (callerLine.length === 0) {
