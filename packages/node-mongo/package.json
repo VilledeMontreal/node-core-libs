@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/mongo",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "description": "Utilities for Mongo / Mongoose",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -36,8 +36,8 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "6.0.3",
-    "@villedemontreal/logger": "8.1.0",
+    "@villedemontreal/general-utils": "6.0.4",
+    "@villedemontreal/logger": "8.1.1",
     "app-root-path": "3.1.0",
     "fs-extra": "11.3.3",
     "http-status-codes": "2.3.0",
