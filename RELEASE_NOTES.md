@@ -1,5 +1,14 @@
 # Release Notes
 
+## 2026-03-22
+
+### Changes
+
+- Upgrade everything to minor versions
+- Upgrade Mongodb from 7.0.0 to 7.1.0
+- Upgrade Mongoose from 9.2.1 to 9.3.1
+- Upgrade Knex from 3.1.0 to 3.2.0
+
 ## 2026-02-20
 
 ### Changes
