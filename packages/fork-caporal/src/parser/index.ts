@@ -210,7 +210,8 @@ class ArgumentParser {
     const until = getNextOptPosition(args)
     this.variadicId = this.variadicId || 0
     const variadic = (this[this.key][this.variadicId] =
-      this[this.key][this.variadicId] || [])
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- without this assertion, tsc widens the inferred type to include string | number | true, breaking the .push() call below
+      (this[this.key][this.variadicId] as ParserTypes[]) || [])
 
     variadic.push(
       ...args
