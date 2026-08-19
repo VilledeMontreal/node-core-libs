@@ -43,10 +43,10 @@
     "packages/*"
   ],
   "allowScripts": {
-    "better-sqlite3@12.11.1": true,
     "nx@22.7.8": true,
     "oracledb@6.10.0": true,
     "sonar-scanner@3.1.0": true,
-    "@swc/core@1.16.1": true
+    "@swc/core@1.16.1": true,
+    "better-sqlite3@13.0.3": true
   }
 }

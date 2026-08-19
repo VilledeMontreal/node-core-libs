@@ -4,10 +4,12 @@
 
 ### Changes
 
-- Upgrade everything to latest versions
+- Upgrade everything to the latest versions, except for Typescript and oracledb (minor updates only for the moment)
 - Upgrade Mongodb from 7.1.0 to 7.5.0
 - Upgrade Mongoose from 9.3.1 to 9.9.3
 - Upgrade Knex from 3.2.0 to 3.3.0
+- Upgrade C8 from 11.0.0 to 12.0.0
+- Upgrade Sinon from 21.0.1 to 22.0.0
 - Approve install scripts for packages: better-sqlite3 nx oracledb sonar-scanner @swc/core
 
 ## 2026-03-22
