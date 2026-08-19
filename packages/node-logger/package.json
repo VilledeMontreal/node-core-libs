@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/logger",
-  "version": "8.1.2",
+  "version": "8.1.3",
   "description": "Logger and logging utilities",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -39,7 +39,7 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "6.0.5",
+    "@villedemontreal/general-utils": "6.0.6",
     "app-root-path": "3.1.0",
     "lodash": "4.18.1",
     "pino": "10.3.1",
