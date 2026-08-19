@@ -122,7 +122,7 @@ export class MongoUpdater implements IMongoUpdater {
         version: '0.0.0',
         lock: false,
         lockTimestamp: 0,
-      } as ISchemeInfo);
+      });
     } catch (err) {
       // ==========================================
       // Maybe the error occured because another app

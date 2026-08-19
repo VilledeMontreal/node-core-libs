@@ -395,8 +395,7 @@ export type UserServiceAccountAttributes = {
  * The different sets of service account attributes based on the account subtype.
  */
 export type ServiceAccountAttributes =
-  | ClientServiceAccountAttributes
-  | UserServiceAccountAttributes;
+  ClientServiceAccountAttributes | UserServiceAccountAttributes;
 
 /***********************************************************************************************************************
  * Identities:

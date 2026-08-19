@@ -13,5 +13,5 @@ export function getOptsMapping(cmd: Command): Record<string, string> {
   const names = map(cmd.options, "name")
   const aliases = map(cmd.options, (o) => o.shortName || o.longName)
   const result = zipObject(names, aliases)
-  return pickBy({ ...result, ...invert(result) }) as Record<string, string>
+  return pickBy({ ...result, ...invert(result) })
 }

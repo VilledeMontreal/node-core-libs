@@ -210,7 +210,7 @@ class ArgumentParser {
     const until = getNextOptPosition(args)
     this.variadicId = this.variadicId || 0
     const variadic = (this[this.key][this.variadicId] =
-      (this[this.key][this.variadicId] as ParserTypes[]) || [])
+      this[this.key][this.variadicId] || [])
 
     variadic.push(
       ...args
@@ -255,10 +255,7 @@ class OptionParser {
   handleOptWithoutValue(name: string, tree: Tree): void {
     const next = tree.next()
     const nextIsOptOrUndef = isOptionStr(next) || isDdash(next) || next === undefined
-    this.compute(
-      name,
-      cast(name, nextIsOptOrUndef ? true : (next as string), this.config),
-    )
+    this.compute(name, cast(name, nextIsOptOrUndef ? true : next, this.config))
     if (!nextIsOptOrUndef) {
       tree.forward()
     }
@@ -274,7 +271,7 @@ class OptionParser {
         next && !isOptionStr(next) && !isDdash(next) && !this.isBoolean(last, alias)
       if (shouldTakeNextAsVal) {
         tree.forward()
-        val = next as string
+        val = next
       }
     }
     this.computeMulti(names, val)

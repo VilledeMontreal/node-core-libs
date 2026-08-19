@@ -87,7 +87,7 @@ describe(`Transactions Manager tests`, () => {
       const res = await client(`users`).insert({
         firstName: 'Stromgol',
         lastName: 'LaRoche',
-      } as ITestUser);
+      });
       userId = res[0];
     });
 
