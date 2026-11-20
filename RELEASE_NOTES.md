@@ -1,5 +1,20 @@
 # Release Notes
 
+## 2026-11-20
+
+### Changes
+
+- Upgrade MongoDB from 7.7.0 to 7.8.0
+- Upgrade Mongoose from 9.11.4 to 9.12.3
+- Upgrade better-sqlite3 from 13.0.3 to 13.2.0
+- Upgrade Superagent from 10.4.1 to 10.4.2
+- Upgrade ESLint from 10.13.0 to 10.15.0
+- Upgrade Prettier from 3.9.10 to 3.10.1
+
+### Fixes
+
+- Fix mocha-jenkins-reporter compatibility with Mocha 12
+
 ## 2026-08-19
 
 ### Changes
