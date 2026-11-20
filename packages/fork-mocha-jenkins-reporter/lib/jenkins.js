@@ -24,20 +24,15 @@ var Date = global.Date;
 var log = console.log.bind(console);
 
 /**
- * Expose `Jenkins`.
- */
-
-exports = module.exports = Jenkins;
-
-/**
  * Initialize a new `Jenkins` test reporter.
  *
  * @param {Runner} runner
  * @api public
  */
 
-function Jenkins(runner, options) {
-  Base.call(this, runner);
+class Jenkins extends Base {
+  constructor(runner, options) {
+    super(runner, options);
   var self = this;
   var fd, currentSuite;
   var jsonResults = {};
@@ -400,6 +395,7 @@ function Jenkins(runner, options) {
     log(fmt, n, test.title);
     addTestToSuite(test);
   });
+  }
 }
 
-Jenkins.prototype.__proto__ = Base.prototype;
+exports = module.exports = Jenkins;
