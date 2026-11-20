@@ -1,6 +1,6 @@
 {
   "name": "@villedemontreal/jwt-validator",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "Module to validate JWT (JSON Web Tokens)",
   "main": "dist/src/index.js",
   "typings": "dist/src",
@@ -38,9 +38,9 @@
   "author": "Ville de Montréal",
   "license": "MIT",
   "dependencies": {
-    "@villedemontreal/general-utils": "6.1.0",
-    "@villedemontreal/http-request": "9.2.0",
-    "@villedemontreal/logger": "8.2.0",
+    "@villedemontreal/general-utils": "6.2.0",
+    "@villedemontreal/http-request": "9.3.0",
+    "@villedemontreal/logger": "8.2.1",
     "app-root-path": "3.1.0",
     "http-status-codes": "2.3.0",
     "jsonwebtoken": "9.0.3",
